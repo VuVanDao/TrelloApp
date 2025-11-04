@@ -22,9 +22,10 @@ const Header = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          p: "10px 15px",
+          p: "10px 10px",
           backgroundColor: "primary.main",
-          gap: "10px",
+          gap: "15px",
+          height: (theme) => theme.trelloCustom.header_height,
         }}
       >
         {/* left side */}
@@ -39,7 +40,10 @@ const Header = () => {
           <AiOutlineAppstore
             style={{ fontSize: "20px", color: "secondary.main" }}
           />
-          <Box sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <Box
+            sx={{ display: "flex", alignItems: "center", gap: "5px" }}
+            className="cursor_pointer"
+          >
             <FaTrello style={{ fontSize: "25px", color: "secondary.main" }} />
             <Typography>Trello</Typography>
           </Box>
@@ -81,10 +85,10 @@ const Header = () => {
               "& .MuiInputBase-root": {
                 height: "30px", // custom height
                 color: "white", // text mặc định
-                backgroundColor: "#396cb1",
+                backgroundColor: "background_input_header.main",
               },
               "&:hover .MuiInputBase-root": {
-                backgroundColor: "#6b91c5",
+                backgroundColor: "background_input_header.second",
               },
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
@@ -110,12 +114,12 @@ const Header = () => {
           />
           <Button
             sx={{
-              backgroundColor: "#396cb1",
+              backgroundColor: "background_input_header.main",
               height: "30px",
               color: "secondary.main",
               textTransform: "lowercase",
               "&:hover": {
-                backgroundColor: "#6b91c5",
+                backgroundColor: "background_input_header.second",
               },
             }}
           >
@@ -128,20 +132,27 @@ const Header = () => {
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: "10px",
+            gap: "15px",
             color: "secondary.main",
           }}
         >
           <AiFillNotification
             style={{ fontSize: "20px", color: "secondary.main" }}
+            className="cursor_pointer"
           />
           <IoIosNotifications
             style={{ fontSize: "20px", color: "secondary.main" }}
+            className="cursor_pointer"
           />
           <IoIosHelpCircleOutline
             style={{ fontSize: "20px", color: "secondary.main" }}
+            className="cursor_pointer"
           />
-          <Avatar alt="User" sx={{ width: "20px", height: "20px" }} />
+          <Avatar
+            alt="User"
+            sx={{ width: "25px", height: "25px" }}
+            className="cursor_pointer"
+          />
         </Box>
       </Box>
     </>

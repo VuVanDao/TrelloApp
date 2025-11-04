@@ -8,6 +8,8 @@ import {
   InputLabel,
 } from "@mui/material";
 import Header from "./Components/Header";
+import BoardBar from "./Components/Boards/BoardBar";
+import BoardContent from "./Components/Boards/BoardContent";
 function App() {
   const { mode, setMode } = useColorScheme();
 
@@ -20,11 +22,12 @@ function App() {
   return (
     <>
       <Header />
-      <Box sx={{ display: "flex", gap: "10px" }}>
-        <Button onClick={() => setMode(mode === "light" ? "dark" : "light")}>
-          {mode === "light" ? "Turn dark" : "Turn light"}
-        </Button>
-        <Box sx={{ maxWidth: "150px" }}>
+      <BoardBar />
+
+      {/* <Button onClick={() => setMode(mode === "light" ? "dark" : "light")}>
+        {mode === "light" ? "Turn dark" : "Turn light"}
+      </Button> */}
+      {/* <Box sx={{ maxWidth: "150px" }}>
           <FormControl fullWidth>
             <InputLabel id="mode-select-label">Theme Mode</InputLabel>
             <Select
@@ -40,8 +43,9 @@ function App() {
               <MenuItem value="dark">Dark</MenuItem>
             </Select>
           </FormControl>
-        </Box>
-      </Box>
+        </Box> */}
+
+      <BoardContent />
     </>
   );
 }
