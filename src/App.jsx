@@ -7,7 +7,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import Header from "~/Components/Header";
+import Header from "~/Components/Header/Header";
 import BoardBar from "~/Components/Boards/BoardBar";
 import BoardContent from "~/Components/Boards/BoardContent";
 function App() {
