@@ -7,9 +7,9 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import Header from "./Components/Header";
-import BoardBar from "./Components/Boards/BoardBar";
-import BoardContent from "./Components/Boards/BoardContent";
+import Header from "~/Components/Header";
+import BoardBar from "~/Components/Boards/BoardBar";
+import BoardContent from "~/Components/Boards/BoardContent";
 function App() {
   const { mode, setMode } = useColorScheme();
 
