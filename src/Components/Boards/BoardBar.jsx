@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Typography } from "@mui/material";
+import { Avatar, Box, Button, Tooltip, Typography } from "@mui/material";
 import { HiOutlineChartBar } from "react-icons/hi";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { CgUserAdd } from "react-icons/cg";
@@ -8,20 +8,9 @@ import { MdFilterList } from "react-icons/md";
 import { TbSettingsAutomation } from "react-icons/tb";
 import { GoRocket } from "react-icons/go";
 import React from "react";
+import BoxIconCover from "../BoxIconCover";
 
 const BoardBar = () => {
-  const common_box_style = {
-    width: "33px",
-    height: "33px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: "5px",
-    fontSize: "20px",
-    "&:hover": {
-      backgroundColor: "#4788b4",
-    },
-  };
   return (
     <>
       <Box
@@ -37,31 +26,94 @@ const BoardBar = () => {
           height: (theme) => theme.trelloCustom.board_bar_height,
         }}
       >
+        {/* left */}
         <Box sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <Typography>Board name</Typography>
-          <HiOutlineChartBar style={{ fontSize: "20px" }} />
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center", gap: "13px" }}>
-          <Avatar
-            alt="User"
-            sx={{ width: "30px", height: "30px" }}
+          <Typography
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: "5px",
+              p: "7px 13px",
+              "&:hover": {
+                backgroundColor: "#4788b4",
+              },
+            }}
+            className="cursor_pointer"
+          >
+            Board name
+          </Typography>
+          <HiOutlineChartBar
+            style={{ fontSize: "20px" }}
             className="cursor_pointer"
           />
-          <Box className="cursor_pointer" sx={common_box_style}>
-            <GoRocket />
+        </Box>
+
+        {/* right */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: "13px" }}>
+          <Tooltip title="điền tên tài khoản vào đây">
+            <Avatar
+              alt="User"
+              sx={{
+                width: "30px",
+                height: "30px",
+                display: {
+                  xs: "none",
+                  sm: "flex",
+                },
+              }}
+              className="cursor_pointer"
+            />
+          </Tooltip>
+          <Box
+            sx={{
+              display: {
+                xs: "none",
+                sm: "flex",
+              },
+              alignItems: "center",
+              gap: "15px",
+            }}
+          >
+            <BoxIconCover>
+              <Tooltip title="Power-Ups">
+                <GoRocket />
+              </Tooltip>
+            </BoxIconCover>
+            <BoxIconCover>
+              <Tooltip title="Automation">
+                <TbSettingsAutomation />
+              </Tooltip>
+            </BoxIconCover>
           </Box>
-          <Box className="cursor_pointer" sx={common_box_style}>
-            <TbSettingsAutomation />
+          <BoxIconCover>
+            <Tooltip title="Filter">
+              <MdFilterList />
+            </Tooltip>
+          </BoxIconCover>
+
+          <Box
+            sx={{
+              display: {
+                xs: "none",
+                sm: "flex",
+              },
+              alignItems: "center",
+              gap: "15px",
+            }}
+          >
+            <BoxIconCover>
+              <Tooltip title="Click to star or unstar this board. Starred boards show up at the top of your boards list.">
+                <FaRegStar />
+              </Tooltip>
+            </BoxIconCover>
+            <BoxIconCover>
+              <Tooltip title="Change visibility">
+                <HiOutlineUserGroup />
+              </Tooltip>
+            </BoxIconCover>
           </Box>
-          <Box className="cursor_pointer" sx={common_box_style}>
-            <MdFilterList />
-          </Box>
-          <Box className="cursor_pointer" sx={common_box_style}>
-            <FaRegStar />
-          </Box>
-          <Box className="cursor_pointer" sx={common_box_style}>
-            <HiOutlineUserGroup />
-          </Box>
+
           <Button
             sx={{
               backgroundColor: "#dcdfe4",
@@ -71,7 +123,10 @@ const BoardBar = () => {
               "&:hover": {
                 backgroundColor: "white",
               },
-              display: "flex",
+              display: {
+                xs: "none",
+                sm: "flex",
+              },
               alignItems: "center",
               gap: "5px",
               pr: "12px",
@@ -82,9 +137,9 @@ const BoardBar = () => {
             <CgUserAdd style={{ fontSize: "20px" }} />
             Share
           </Button>
-          <Box className="cursor_pointer" sx={common_box_style}>
+          <BoxIconCover>
             <HiDotsHorizontal />
-          </Box>
+          </BoxIconCover>
         </Box>
       </Box>
     </>
