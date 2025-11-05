@@ -40,6 +40,7 @@ const Header = () => {
           backgroundColor: "primary.main",
           gap: "15px",
           height: (theme) => theme.trelloCustom.header_height,
+          width: "100vw",
         }}
       >
         {/* left side */}

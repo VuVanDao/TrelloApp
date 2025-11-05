@@ -24,6 +24,7 @@ const BoardBar = () => {
           borderTop: "0.5px solid white",
           color: "white",
           height: (theme) => theme.trelloCustom.board_bar_height,
+          width: "100vw",
         }}
       >
         {/* left */}

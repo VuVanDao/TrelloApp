@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Divider,
+  ListSubheader,
   Menu,
   MenuItem,
   Typography,
@@ -29,10 +30,10 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
           },
         }}
       >
-        <MenuItem sx={{ width: "300px" }} onClick={handleClose}>
+        <ListSubheader sx={{ width: "300px" }} onClick={handleClose}>
           <Typography color="#92959a">Account </Typography>
-        </MenuItem>
-        <MenuItem sx={{ width: "300px" }} onClick={handleClose}>
+        </ListSubheader>
+        <MenuItem onClick={handleClose}>
           <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
             <Avatar sx={{ width: "40px", height: "40px" }} alt="user"></Avatar>
             <Box sx={{ height: "46px" }}>

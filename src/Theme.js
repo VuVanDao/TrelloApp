@@ -1,6 +1,9 @@
 import { createTheme } from "@mui/material/styles";
 const header_height = "50px";
 const board_bar_height = "52px";
+const boardContentHeight = `${header_height} - ${board_bar_height}`;
+const ColumnWidth = "285px";
+const CardWidth = "252px";
 const theme = createTheme({
   colorSchemes: {
     light: {
@@ -17,6 +20,12 @@ const theme = createTheme({
         },
         board_bar: {
           main: "#115ba7",
+        },
+        board_content: {
+          main: "#2a9bce",
+        },
+        list_background: {
+          main: "#f1f2f4",
         },
       },
     },
@@ -35,6 +44,12 @@ const theme = createTheme({
         board_bar: {
           main: "#2e2e31",
         },
+        board_content: {
+          main: "#1f1f21",
+        },
+        list_background: {
+          main: "#f1f2f4",
+        },
       },
     },
   },
@@ -49,8 +64,30 @@ const theme = createTheme({
     },
   },
   trelloCustom: {
-    header_height: header_height,
+    header_height,
     board_bar_height,
+    boardContentHeight,
+    ColumnWidth,
+    CardWidth,
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          "*::-webkit-scrollbar": {
+            width: "8px",
+            height: "3px",
+          },
+          "*::-webkit-scrollbar-thumb": {
+            backgroundColor: "#bdc3c7",
+            borderRadius: "8px",
+          },
+          "*::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "#00b894",
+          },
+        },
+      },
+    },
   },
 });
 export default theme;
