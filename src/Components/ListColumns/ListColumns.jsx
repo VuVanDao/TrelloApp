@@ -1,12 +1,21 @@
 import React from "react";
 import Column from "../Column/Column";
+import {
+  SortableContext,
+  horizontalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 const ListColumns = ({ columns }) => {
   return (
     <>
-      {columns.map((column) => (
-        <Column key={column?._id} column={column}></Column>
-      ))}
+      <SortableContext
+        items={columns.map((column) => column._id)}
+        strategy={horizontalListSortingStrategy}
+      >
+        {columns.map((column) => (
+          <Column key={column?._id} column={column}></Column>
+        ))}
+      </SortableContext>
     </>
   );
 };
