@@ -12,14 +12,14 @@ const FooterColumn = () => {
           alignItems: "center",
           justifyContent: "space-between",
           gap: "5px",
-          p: "0px 10px 10px 10px",
+          p: "0px 10px 10px 7px",
         }}
       >
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
-            p: "7px",
+            p: "7px 10px",
             borderRadius: "5px",
             width: "90%",
             gap: "5px",
@@ -29,7 +29,7 @@ const FooterColumn = () => {
           }}
           className="cursor_pointer"
         >
-          <IoAddSharp style={{ fontSize: "15px" }} />
+          <IoAddSharp />
           <Typography fontSize={"15px"}>Add a card</Typography>
         </Box>
         <BoxIconCover hoverColor={"#d1d3d4"}>

@@ -4,7 +4,7 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import BoxIconCover from "../BoxIconCover";
 const MenuHeaderColumn = lazy(() => import("./MenuHeaderColumn"));
 
-const HeaderColumn = () => {
+const HeaderColumn = ({ title }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -23,7 +23,7 @@ const HeaderColumn = () => {
         }}
       >
         <Typography fontWeight={700} fontSize={"15px"}>
-          Header
+          {title}
         </Typography>
 
         <BoxIconCover hoverColor={"#d1d3d4"}>

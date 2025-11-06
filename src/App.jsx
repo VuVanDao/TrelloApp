@@ -7,9 +7,8 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import Header from "~/Components/Header/Header";
-import BoardBar from "~/Components/Boards/BoardBar";
-import BoardContent from "~/Components/Boards/BoardContent";
+import { mockData } from "./data/mock-data";
+import Board from "./Components/Boards/Board";
 function App() {
   const { mode, setMode } = useColorScheme();
 
@@ -21,8 +20,7 @@ function App() {
   };
   return (
     <>
-      <Header />
-      <BoardBar />
+      <Board board={mockData.board}></Board>
 
       {/* <Button onClick={() => setMode(mode === "light" ? "dark" : "light")}>
         {mode === "light" ? "Turn dark" : "Turn light"}
@@ -44,8 +42,6 @@ function App() {
             </Select>
           </FormControl>
         </Box> */}
-
-      <BoardContent />
     </>
   );
 }

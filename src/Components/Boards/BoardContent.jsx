@@ -1,9 +1,11 @@
 import { Box } from "@mui/material";
 import React from "react";
-import Column from "../Column/Column";
 import ButtonAddCol from "../ButtonAddCol/ButtonAddCol";
+import ListColumns from "../ListColumns/ListColumns";
+import { mapOrder } from "~/utils/sort";
 
-const BoardContent = () => {
+const BoardContent = ({ board }) => {
+  const orderedColumns = mapOrder(board?.columns, board.columnOrderIds, "_id");
   return (
     <>
       <Box
@@ -18,9 +20,7 @@ const BoardContent = () => {
           overflowX: "scroll",
         }}
       >
-        <Column></Column>
-        <Column></Column>
-        <Column></Column>
+        <ListColumns columns={orderedColumns}></ListColumns>
         <ButtonAddCol></ButtonAddCol>
       </Box>
     </>
