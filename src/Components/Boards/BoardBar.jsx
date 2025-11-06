@@ -10,7 +10,7 @@ import { GoRocket } from "react-icons/go";
 import React from "react";
 import BoxIconCover from "../BoxIconCover";
 
-const BoardBar = () => {
+const BoardBar = ({ boardTitle }) => {
   return (
     <>
       <Box
@@ -42,7 +42,7 @@ const BoardBar = () => {
             }}
             className="cursor_pointer"
           >
-            Board name
+            {boardTitle}
           </Typography>
           <HiOutlineChartBar
             style={{ fontSize: "20px" }}

@@ -2,9 +2,11 @@ import { Box } from "@mui/material";
 import React from "react";
 import HeaderColumn from "./HeaderColumn";
 import FooterColumn from "./FooterColumn";
-import TrelloCard from "../TrelloCard/TrelloCard";
+import ListTrelloCards from "../ListTrelloCards/ListTrelloCards";
+import { mapOrder } from "~/utils/sort";
 
-const Column = () => {
+const Column = ({ column }) => {
+  const orderedCard = mapOrder(column?.cards, column?.cardOrderIds, "_id");
   return (
     <>
       <Box
@@ -17,7 +19,7 @@ const Column = () => {
           borderRadius: "15px",
           minWidth: (theme) => theme.trelloCustom.ColumnWidth,
           maxWidth: (theme) => theme.trelloCustom.ColumnWidth,
-          gap: "10px",
+          gap: "7px",
           height: "fit-content",
           maxHeight: (theme) =>
             `calc(100vh - ${
@@ -25,7 +27,7 @@ const Column = () => {
             }  - ${theme.spacing(5)})`,
         }}
       >
-        <HeaderColumn></HeaderColumn>
+        <HeaderColumn title={column.title}></HeaderColumn>
         <Box
           sx={{
             display: "flex",
@@ -36,7 +38,7 @@ const Column = () => {
             maxHeight: (theme) =>
               `calc(100vh - ${
                 theme.trelloCustom.boardContentHeight
-              }  - ${theme.spacing(5)} -  ${
+              } - ${theme.spacing(5)} - ${
                 theme.trelloCustom.boardContentHeight
               })`,
             "&::-webkit-scrollbar": {
@@ -50,10 +52,10 @@ const Column = () => {
             "&::-webkit-scrollbar-thumb:hover": {
               backgroundColor: "#bfc2cf",
             },
-            p: "0px 7px",
+            p: "3px 7px",
           }}
         >
-          <TrelloCard></TrelloCard>
+          <ListTrelloCards cards={orderedCard}></ListTrelloCards>
         </Box>
 
         <FooterColumn></FooterColumn>
