@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import React from "react";
 import Column from "../Column/Column";
+import ButtonAddCol from "../ButtonAddCol/ButtonAddCol";
 
 const BoardContent = () => {
   return (
@@ -20,6 +21,7 @@ const BoardContent = () => {
         <Column></Column>
         <Column></Column>
         <Column></Column>
+        <ButtonAddCol></ButtonAddCol>
       </Box>
     </>
   );
