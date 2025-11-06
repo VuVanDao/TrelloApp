@@ -4,11 +4,28 @@ import HeaderColumn from "./HeaderColumn";
 import FooterColumn from "./FooterColumn";
 import ListTrelloCards from "../ListTrelloCards/ListTrelloCards";
 import { mapOrder } from "~/utils/sort";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const Column = ({ column }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: column._id,
+    data: { ...column },
+  });
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+  };
   const orderedCard = mapOrder(column?.cards, column?.cardOrderIds, "_id");
   return (
-    <>
+    <div ref={setNodeRef} {...attributes} {...listeners} style={style}>
       <Box
         sx={{
           display: "flex",
@@ -60,7 +77,7 @@ const Column = ({ column }) => {
 
         <FooterColumn></FooterColumn>
       </Box>
-    </>
+    </div>
   );
 };
 
