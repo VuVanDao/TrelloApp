@@ -13,8 +13,8 @@ export const mockData = {
         boardId: "board-id-01",
         title: "To Do Column 01",
         cardOrderIds: [
-          "card-id-02",
           "card-id-01",
+          "card-id-02",
           "card-id-03",
           "card-id-04",
           "card-id-05",
@@ -131,8 +131,7 @@ export const mockData = {
             columnId: "column-id-02",
             title: "Title of card 09",
             description: null,
-            cover:
-              "https://i.pinimg.com/originals/06/6a/fe/066afe9b1a5f91c5a53f2ee9727db846.gif",
+            cover: null,
             memberIds: [],
             comments: [],
             attachments: [],
