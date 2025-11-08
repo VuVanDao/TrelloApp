@@ -6,18 +6,24 @@ import {
   Box,
   FormControl,
   InputLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
 import { mockData } from "./data/mock-data";
 import Board from "./Components/Boards/Board";
-function App() {
-  const { mode, setMode } = useColorScheme();
+import { useState } from "react";
 
-  if (!mode) {
-    return null;
-  }
-  const handleChange = (event) => {
-    setMode(event.target.value);
-  };
+function App() {
+  // const { mode, setMode } = useColorScheme();
+
+  // if (!mode) {
+  //   return null;
+  // }
+  // const handleChange = (event) => {
+  //   setMode(event.target.value);
+  // };
+
   return (
     <>
       <Board board={mockData.board}></Board>

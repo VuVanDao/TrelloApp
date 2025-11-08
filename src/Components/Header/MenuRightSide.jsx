@@ -5,17 +5,33 @@ import {
   ListSubheader,
   Menu,
   MenuItem,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { BiGroup } from "react-icons/bi";
 import { CiShare1 } from "react-icons/ci";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import React from "react";
+import React, { lazy, useState } from "react";
+const MenuThemeHeader = lazy(() => import("./MenuThemeHeader"));
 
 const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
   const open = Boolean(anchorEl);
+  const [anchorElChild, setAnchorElChild] = useState(null);
+  const openChild = Boolean(anchorElChild);
+
   const handleClose = () => {
     setAnchorEl(null);
+    handleCloseChild();
+  };
+
+  const handleOpenChild = (event) => {
+    setAnchorElChild(event.currentTarget);
+  };
+
+  const handleCloseChild = () => {
+    setAnchorElChild((perv) => {
+      return null;
+    });
   };
   return (
     <>
@@ -76,9 +92,18 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
             alignItems: "center",
             justifyContent: "space-between",
           }}
+          onMouseDown={handleOpenChild}
         >
           <Typography>Theme</Typography>
           <MdKeyboardArrowRight />
+
+          <Tooltip placement="left" title="theme">
+            <MenuThemeHeader
+              anchorElChild={anchorElChild}
+              handleCloseChild={handleCloseChild}
+              openChild={openChild}
+            ></MenuThemeHeader>
+          </Tooltip>
         </MenuItem>
         <Divider></Divider>
         <MenuItem onClick={handleClose}>
