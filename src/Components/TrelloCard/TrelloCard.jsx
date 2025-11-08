@@ -9,10 +9,30 @@ import {
 import { FaUserFriends, FaCommentAlt } from "react-icons/fa";
 import { GrAttachment } from "react-icons/gr";
 import React from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 const TrelloCard = ({ card }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: card._id,
+    data: { ...card },
+  });
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    border: isDragging ? "1px solid black" : undefined,
+    borderRadius: isDragging ? "4px" : undefined,
+  };
   return (
-    <>
+    <div ref={setNodeRef} {...attributes} {...listeners} style={style}>
       <Card
         sx={{
           minWidth: (theme) => theme.trelloCustom.CardWidth,
@@ -92,7 +112,7 @@ const TrelloCard = ({ card }) => {
           )}
         </CardActions>
       </Card>
-    </>
+    </div>
   );
 };
 

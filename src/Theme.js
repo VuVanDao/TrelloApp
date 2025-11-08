@@ -76,14 +76,15 @@ const theme = createTheme({
         body: {
           "*::-webkit-scrollbar": {
             width: "8px",
-            height: "3px",
+            height: "10px",
           },
           "*::-webkit-scrollbar-thumb": {
             backgroundColor: "#bdc3c7",
             borderRadius: "8px",
           },
           "*::-webkit-scrollbar-thumb:hover": {
-            backgroundColor: "#00b894",
+            backgroundColor: "#dbe1e5",
+            cursor: "pointer",
           },
         },
       },

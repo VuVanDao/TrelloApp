@@ -22,11 +22,14 @@ const Column = ({ column }) => {
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
+    height: "100%",
+    opacity: isDragging ? 0.5 : 1,
   };
   const orderedCard = mapOrder(column?.cards, column?.cardOrderIds, "_id");
   return (
-    <div ref={setNodeRef} {...attributes} {...listeners} style={style}>
+    <div ref={setNodeRef} {...attributes} style={style}>
       <Box
+        {...listeners}
         sx={{
           display: "flex",
           flexDirection: "column",
