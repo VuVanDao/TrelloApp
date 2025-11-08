@@ -19,7 +19,7 @@ import Column from "../Column/Column";
 import TrelloCard from "../TrelloCard/TrelloCard";
 import { cloneDeep } from "lodash";
 
-const BoardContent = ({ board }) => {
+const FakeBoardContent = ({ board }) => {
   const [orderedColumns, setOrderedColumns] = useState([]);
   const [activeDragItemId, setActiveDragItemId] = useState(null);
   const [activeDragItemType, setActiveDragItemType] = useState(null);
@@ -355,4 +355,4 @@ const BoardContent = ({ board }) => {
   );
 };
 
-export default BoardContent;
+export default FakeBoardContent;
