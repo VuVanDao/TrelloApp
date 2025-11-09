@@ -7,11 +7,9 @@ import theme from "./Theme.js";
 import "./index.css";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <CssVarsProvider theme={theme}>
-      <CssBaseline />
-      <GlobalStyles styles={{ a: { textDecoration: "none" } }} />
-      <App />
-    </CssVarsProvider>
-  </StrictMode>
+  <CssVarsProvider theme={theme}>
+    <CssBaseline />
+    <GlobalStyles styles={{ a: { textDecoration: "none" } }} />
+    <App />
+  </CssVarsProvider>
 );
