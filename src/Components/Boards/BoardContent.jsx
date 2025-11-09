@@ -18,10 +18,13 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { ACTIVE_DRAG_ITEM_TYPE } from "~/utils/constant";
+import {
+  ACTIVE_DRAG_ITEM_TYPE,
+  generatePlaceholderCard,
+} from "~/utils/constant";
 import Column from "../Column/Column";
 import TrelloCard from "../TrelloCard/TrelloCard";
-import { cloneDeep } from "lodash";
+import { cloneDeep, isEmpty } from "lodash";
 
 const BoardContent = ({ board }) => {
   const [orderedColumns, setOrderedColumns] = useState([]);
@@ -186,7 +189,6 @@ const BoardContent = ({ board }) => {
       const isBelowOverItem =
         active.rect.current.translated &&
         active.rect.current.translated.top > over.rect.top + over.rect.height;
-      // console.log("🚀 ~ handleDragEnd ~ isBelowOverItem:", isBelowOverItem);
       const modifier = isBelowOverItem ? 1 : 0;
       const newCardIndex =
         overCardIndex >= 0
@@ -201,25 +203,33 @@ const BoardContent = ({ board }) => {
       const nextOverColumn = nextColumn.find((column) => {
         return column._id === columnOver._id;
       });
+      // column cũ
       if (nextActiveColumn) {
         // xoá card đang active ở mảng cũ
         nextActiveColumn.cards = nextActiveColumn.cards.filter(
           (card) => card?._id !== ActiveDraggingCardId
         );
+        if (isEmpty(nextActiveColumn.cards)) {
+          nextActiveColumn.cards.push(
+            generatePlaceholderCard(nextActiveColumn)
+          );
+        }
         nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(
           (card) => card._id
         );
       }
       if (nextOverColumn) {
         // kiểm tra xem ActiveDraggingCardId đã có trong nextOverColumn.cards chưa, nếu có thì xoá
-        console.log({
-          ...ActiveDraggingCardData,
-          columnId: nextOverColumn._id,
-        });
-
         nextOverColumn.cards = nextOverColumn.cards.filter(
           (card) => card?._id !== ActiveDraggingCardId
         );
+        if (nextOverColumn.cards.find((card) => card?.FE_placeholder_card)) {
+          const index = nextOverColumn.cards.indexOf(
+            (card) => card?.FE_placeholder_card
+          );
+          nextOverColumn.cards.splice(index, 1);
+        }
+
         // thêm ActiveDraggingCardId vào nextOverColumn.cards với index mới
         nextOverColumn.cards = nextOverColumn.cards.toSpliced(newCardIndex, 0, {
           ...ActiveDraggingCardData,
@@ -234,12 +244,7 @@ const BoardContent = ({ board }) => {
   };
   // config cam bien
   const sensors = useSensors(
-    useSensor(MouseSensor, {
-      activationConstraint: {
-        distance: 10,
-        delay: 250, //250ms
-      },
-    }),
+    useSensor(MouseSensor),
     useSensor(TouchSensor, {
       activationConstraint: {
         distance: 10,

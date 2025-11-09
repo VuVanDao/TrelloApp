@@ -44,6 +44,7 @@ const TrelloCard = ({ card }) => {
           },
           cursor: "pointer",
           overflow: "unset",
+          display: card?.FE_placeholder_card ? "none" : "block",
         }}
       >
         {card?.cover && (
