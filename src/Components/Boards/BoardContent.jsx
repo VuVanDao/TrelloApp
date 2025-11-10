@@ -231,7 +231,7 @@ const BoardContent = ({ board }) => {
         }
 
         // thêm ActiveDraggingCardId vào nextOverColumn.cards với index mới
-        nextOverColumn.cards = nextOverColumn.cards.toSpliced(newCardIndex, 0, {
+        nextOverColumn.cards.splice(newCardIndex, 0, {
           ...ActiveDraggingCardData,
           columnId: nextOverColumn._id,
         });
@@ -244,7 +244,11 @@ const BoardContent = ({ board }) => {
   };
   // config cam bien
   const sensors = useSensors(
-    useSensor(MouseSensor),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
     useSensor(TouchSensor, {
       activationConstraint: {
         distance: 10,

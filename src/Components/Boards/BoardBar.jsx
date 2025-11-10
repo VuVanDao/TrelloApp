@@ -52,30 +52,26 @@ const BoardBar = ({ boardTitle }) => {
 
         {/* right */}
         <Box sx={{ display: "flex", alignItems: "center", gap: "13px" }}>
-          <Tooltip title="điền tên tài khoản vào đây">
-            <Avatar
-              alt="User"
-              sx={{
-                width: "30px",
-                height: "30px",
-                display: {
-                  xs: "none",
-                  sm: "flex",
-                },
-              }}
-              className="cursor_pointer"
-            />
-          </Tooltip>
           <Box
             sx={{
               display: {
                 xs: "none",
-                sm: "flex",
+                md: "flex",
               },
               alignItems: "center",
               gap: "15px",
             }}
           >
+            <Tooltip title="điền tên tài khoản vào đây">
+              <Avatar
+                alt="User"
+                sx={{
+                  width: "30px",
+                  height: "30px",
+                }}
+                className="cursor_pointer"
+              />
+            </Tooltip>
             <BoxIconCover>
               <Tooltip title="Power-Ups">
                 <GoRocket />
@@ -87,6 +83,7 @@ const BoardBar = ({ boardTitle }) => {
               </Tooltip>
             </BoxIconCover>
           </Box>
+
           <BoxIconCover>
             <Tooltip title="Filter">
               <MdFilterList />
@@ -97,7 +94,7 @@ const BoardBar = ({ boardTitle }) => {
             sx={{
               display: {
                 xs: "none",
-                sm: "flex",
+                md: "flex",
               },
               alignItems: "center",
               gap: "15px",

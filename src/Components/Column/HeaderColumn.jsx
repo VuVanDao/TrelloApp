@@ -4,11 +4,12 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import BoxIconCover from "../BoxIconCover";
 const MenuHeaderColumn = lazy(() => import("./MenuHeaderColumn"));
 
-const HeaderColumn = ({ title }) => {
+const HeaderColumn = ({ title, isDraggingColumn }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   return (
     <>
       <Box
@@ -35,6 +36,7 @@ const HeaderColumn = ({ title }) => {
           <MenuHeaderColumn
             anchorEl={anchorEl}
             setAnchorEl={setAnchorEl}
+            isDraggingColumn={isDraggingColumn}
           ></MenuHeaderColumn>
         </Suspense>
       </Box>

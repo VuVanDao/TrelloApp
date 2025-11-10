@@ -7,14 +7,16 @@ import {
   MenuItem,
   Tooltip,
   Typography,
+  useColorScheme,
 } from "@mui/material";
 import { BiGroup } from "react-icons/bi";
 import { CiShare1 } from "react-icons/ci";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import React, { lazy, useState } from "react";
+import React, { lazy, Suspense, useState } from "react";
 const MenuThemeHeader = lazy(() => import("./MenuThemeHeader"));
 
 const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
+  const { mode } = useColorScheme();
   const open = Boolean(anchorEl);
   const [anchorElChild, setAnchorElChild] = useState(null);
   const openChild = Boolean(anchorElChild);
@@ -29,10 +31,12 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
   };
 
   const handleCloseChild = () => {
-    setAnchorElChild((perv) => {
-      return null;
-    });
+    setAnchorElChild(null);
   };
+  if (!anchorEl) {
+    handleCloseChild();
+  }
+
   return (
     <>
       <Menu
@@ -46,7 +50,13 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
           },
         }}
       >
-        <ListSubheader sx={{ width: "300px" }} onClick={handleClose}>
+        <ListSubheader
+          sx={{ width: "300px" }}
+          onClick={handleClose}
+          style={{
+            backgroundColor: mode === "light" ? "#fff" : "#2e2e2e",
+          }}
+        >
           <Typography color="#92959a">Account </Typography>
         </ListSubheader>
         <MenuItem onClick={handleClose}>
@@ -97,13 +107,15 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
           <Typography>Theme</Typography>
           <MdKeyboardArrowRight />
 
-          <Tooltip placement="left" title="theme">
-            <MenuThemeHeader
-              anchorElChild={anchorElChild}
-              handleCloseChild={handleCloseChild}
-              openChild={openChild}
-            ></MenuThemeHeader>
-          </Tooltip>
+          <Suspense>
+            <Tooltip placement="left" title="theme">
+              <MenuThemeHeader
+                anchorElChild={anchorElChild}
+                handleCloseChild={handleCloseChild}
+                openChild={openChild}
+              ></MenuThemeHeader>
+            </Tooltip>
+          </Suspense>
         </MenuItem>
         <Divider></Divider>
         <MenuItem onClick={handleClose}>

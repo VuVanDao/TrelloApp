@@ -1,8 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useColorScheme } from "@mui/material";
 import { IoAddSharp } from "react-icons/io5";
 import React from "react";
 
 const ButtonAddCol = () => {
+  const { mode } = useColorScheme("light");
+
   return (
     <>
       <Box
@@ -17,9 +19,9 @@ const ButtonAddCol = () => {
           maxHeight: "45px",
           minHeight: "45px",
           color: "white",
-          backgroundColor: "#55a6de",
+          backgroundColor: mode === "light" ? "#55a6de" : "#2e2e31",
           "&:hover": {
-            backgroundColor: "#4b9fdd",
+            backgroundColor: mode === "light" ? "#4b9fdd" : "#4d4d51",
           },
         }}
         className="cursor_pointer"

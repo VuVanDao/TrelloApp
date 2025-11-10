@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Collapse,
@@ -8,15 +8,21 @@ import {
   Menu,
   MenuItem,
   Typography,
+  useColorScheme,
 } from "@mui/material";
 import { IoMdClose } from "react-icons/io";
 import BoxIconCover from "../BoxIconCover";
 import { LuArrowUpRight } from "react-icons/lu";
-import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-import { MdOutlineKeyboardArrowUp } from "react-icons/md";
+import {
+  MdOutlineKeyboardArrowDown,
+  MdOutlineKeyboardArrowUp,
+} from "react-icons/md";
+
 const commonFontsize = "14px";
-const MenuHeaderColumn = ({ anchorEl, setAnchorEl }) => {
+const MenuHeaderColumn = ({ anchorEl, setAnchorEl, isDraggingColumn }) => {
   const open = Boolean(anchorEl);
+  const { mode } = useColorScheme();
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -25,6 +31,11 @@ const MenuHeaderColumn = ({ anchorEl, setAnchorEl }) => {
   const handleClick = () => {
     setOpenList(!openList);
   };
+  useEffect(() => {
+    if (isDraggingColumn) {
+      handleClose(); // Nếu component cha đang bị kéo, đóng menu lại
+    }
+  }, [isDraggingColumn]);
   return (
     <>
       <Menu
@@ -39,7 +50,13 @@ const MenuHeaderColumn = ({ anchorEl, setAnchorEl }) => {
         }}
         // autoFocus="false"
       >
-        <ListSubheader sx={{ minWidth: "300px", maxWidth: "300px" }}>
+        <ListSubheader
+          sx={{
+            minWidth: "300px",
+            maxWidth: "300px",
+            backgroundColor: mode === "light" ? "#fff" : "#2e2e2e",
+          }}
+        >
           <Box
             sx={{
               display: "flex",
@@ -50,13 +67,19 @@ const MenuHeaderColumn = ({ anchorEl, setAnchorEl }) => {
             }}
           >
             <Box sx={{ opacity: 0 }}>a</Box>
-            <Typography fontSize={"15px"} color="#44546f">
+            <Typography
+              fontSize={"15px"}
+              color={mode === "light" ? "#44546f" : "white"}
+            >
               List actions
             </Typography>
             <BoxIconCover hoverColor={"#d1d3d4"}>
               <IoMdClose
-                style={{ color: "#44546f", fontSize: "15px" }}
-                onClick={handleClose}
+                style={{
+                  color: mode === "light" ? "#44546f" : "white",
+                  fontSize: "15px",
+                }}
+                onMouseDown={handleClose}
               />
             </BoxIconCover>
           </Box>
@@ -98,13 +121,20 @@ const MenuHeaderColumn = ({ anchorEl, setAnchorEl }) => {
             pr: "20px",
           }}
         >
-          <Typography fontSize={commonFontsize} color="#44546f">
+          <Typography
+            fontSize={commonFontsize}
+            color={mode === "light" ? "#44546f" : "white"}
+          >
             Automation
           </Typography>
           {openList ? (
-            <MdOutlineKeyboardArrowUp />
+            <MdOutlineKeyboardArrowUp
+              style={{ color: mode === "light" ? "#44546f" : "white" }}
+            />
           ) : (
-            <MdOutlineKeyboardArrowDown />
+            <MdOutlineKeyboardArrowDown
+              style={{ color: mode === "light" ? "#44546f" : "white" }}
+            />
           )}
         </MenuItem>
 

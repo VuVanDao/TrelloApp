@@ -6,6 +6,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
 import { AiOutlineAppstore } from "react-icons/ai";
@@ -17,18 +18,33 @@ import { IoApps } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
 import { Suspense, lazy } from "react";
 import BoxIconCover from "../BoxIconCover";
+import MenuRightSideResponsive from "./MenuRightSideResponsive";
 const MenuLeftSide = lazy(() => import("./MenuLeftSide"));
 const MenuRightSide = lazy(() => import("./MenuRightSide"));
 
 const Header = () => {
   const [anchorElLeft, setAnchorElLeft] = useState(null);
   const [anchorElRight, setAnchorElRight] = useState(null);
-  const handleClick = (event, item) => {
+  const [openMenuRightResponsive, setOpenMenuRightResponsive] = useState(false);
+  const isMd = useMediaQuery("(min-width: 576px)"); // false < 576px < true : nhỏ hơn 576px là false , ngược lại là true
+
+  const handleClick = (event, item, openMenuRes = false) => {
+    if (openMenuRes) {
+      setOpenMenuRightResponsive(true);
+    }
     item === "left"
       ? setAnchorElLeft(event.currentTarget)
       : setAnchorElRight(event.currentTarget);
   };
 
+  if (!isMd && anchorElRight && !openMenuRightResponsive) {
+    setAnchorElRight(null);
+  }
+
+  if (isMd && openMenuRightResponsive) {
+    setAnchorElRight(null);
+    setOpenMenuRightResponsive(false);
+  }
   return (
     <>
       <Box
@@ -197,10 +213,6 @@ const Header = () => {
               />
             </Tooltip>
           </BoxIconCover>
-          <MenuRightSide
-            anchorEl={anchorElRight}
-            setAnchorEl={setAnchorElRight}
-          />
         </Box>
 
         <Box
@@ -212,10 +224,26 @@ const Header = () => {
           }}
         >
           <BoxIconCover>
-            <IoApps style={{ fontSize: "20px", color: "#ffffff" }} />
+            <IoApps
+              style={{ fontSize: "20px", color: "#ffffff" }}
+              onClick={(e) => handleClick(e, "right", true)}
+            />
           </BoxIconCover>
         </Box>
       </Box>
+      <Suspense>
+        {!isMd ? (
+          <MenuRightSideResponsive
+            anchorEl={anchorElRight}
+            setAnchorEl={setAnchorElRight}
+          ></MenuRightSideResponsive>
+        ) : (
+          <MenuRightSide
+            anchorEl={anchorElRight}
+            setAnchorEl={setAnchorElRight}
+          />
+        )}
+      </Suspense>
     </>
   );
 };

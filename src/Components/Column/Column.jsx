@@ -47,7 +47,10 @@ const Column = ({ column }) => {
             }  - ${theme.spacing(5)})`,
         }}
       >
-        <HeaderColumn title={column.title}></HeaderColumn>
+        <HeaderColumn
+          title={column.title}
+          isDraggingColumn={isDragging}
+        ></HeaderColumn>
         <Box
           sx={{
             display: "flex",
