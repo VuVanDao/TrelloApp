@@ -39,7 +39,7 @@ const Column = ({ column }) => {
           borderRadius: "15px",
           minWidth: (theme) => theme.trelloCustom.ColumnWidth,
           maxWidth: (theme) => theme.trelloCustom.ColumnWidth,
-          gap: "7px",
+          gap: column?.cards?.length > 0 ? "7px" : "0px",
           height: "fit-content",
           maxHeight: (theme) =>
             `calc(100vh - ${

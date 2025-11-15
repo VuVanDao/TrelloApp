@@ -27,6 +27,9 @@ const theme = createTheme({
         list_background: {
           main: "#f1f2f4",
         },
+        common_color_btn: {
+          main: "#1868db",
+        },
       },
     },
     dark: {
@@ -49,6 +52,9 @@ const theme = createTheme({
         },
         list_background: {
           main: "#f1f2f4",
+        },
+        common_color_btn: {
+          main: "#1868db",
         },
       },
     },

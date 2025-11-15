@@ -5,6 +5,7 @@ import {
   CardContent,
   CardMedia,
   Typography,
+  useColorScheme,
 } from "@mui/material";
 import { FaUserFriends, FaCommentAlt } from "react-icons/fa";
 import { GrAttachment } from "react-icons/gr";
@@ -13,6 +14,8 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 const TrelloCard = ({ card }) => {
+  const { mode } = useColorScheme();
+
   const {
     attributes,
     listeners,
@@ -45,6 +48,10 @@ const TrelloCard = ({ card }) => {
           cursor: "pointer",
           overflow: "unset",
           display: card?.FE_placeholder_card ? "none" : "block",
+          border: "2px solid transparent",
+          ":hover": {
+            borderColor: mode === "light" ? "#4688ec" : "#ceb8b8",
+          },
         }}
       >
         {card?.cover && (

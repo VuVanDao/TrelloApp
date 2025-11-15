@@ -10,3 +10,5 @@ export const generatePlaceholderCard = (column) => {
     _id: `${column?._id}-placeholder-card`,
   };
 };
+export const apiBackend = "http://localhost:8080";
+export const apiVersion = "v1";

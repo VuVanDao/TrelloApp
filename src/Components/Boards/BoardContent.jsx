@@ -10,7 +10,6 @@ import {
   DragOverlay,
   getFirstCollision,
   KeyboardSensor,
-  MouseSensor,
   pointerWithin,
   rectIntersection,
   TouchSensor,
@@ -25,6 +24,7 @@ import {
 import Column from "../Column/Column";
 import TrelloCard from "../TrelloCard/TrelloCard";
 import { cloneDeep, isEmpty } from "lodash";
+import { MouseSensor } from "~/CustomLibraries/MyDndKitSensor";
 
 const BoardContent = ({ board }) => {
   const [orderedColumns, setOrderedColumns] = useState([]);
@@ -37,17 +37,17 @@ const BoardContent = ({ board }) => {
   const lastOverId = useRef(null);
   // khi bắt đầu thao tác
   const handleDragStart = (event) => {
-    // console.log("🚀 ~ handleDragStart ~ event:", event);
+    console.log("🚀 ~ handleDragStart ~ event:", event);
     const { active } = event;
     setActiveDragItemId(active?.id);
     setActiveDragItemType(
-      active?.data?.current?.columnId
+      active?.data?.current?.columnIds
         ? ACTIVE_DRAG_ITEM_TYPE.CARD
         : ACTIVE_DRAG_ITEM_TYPE.COLUMN
     );
     setActiveDragItemData(active?.data?.current);
     // nếu là kéo card thì mới set oldColumn
-    if (active?.data?.current?.columnId) {
+    if (active?.data?.current?.columnIds) {
       setOldColumnWhenDraggingCard(findColumnByCardId(active?.id));
     }
   };
