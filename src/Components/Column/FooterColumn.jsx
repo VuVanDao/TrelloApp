@@ -3,12 +3,11 @@ import React, { useState } from "react";
 import { IoAddSharp } from "react-icons/io5";
 import { PiImagesLight } from "react-icons/pi";
 import BoxIconCover from "../BoxIconCover";
-import { useParams } from "react-router-dom";
 import { MdOutlineClose } from "react-icons/md";
 import { LuLightbulb } from "react-icons/lu";
 import { toast } from "react-toastify";
-const FooterColumn = () => {
-  let { boardId } = useParams();
+import { createNewCard } from "~/apis";
+const FooterColumn = ({ columnID, boardId }) => {
   const [openAddCard, SetOpenAddCard] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
   const toggleSetOpenFormAddCard = () => {
@@ -19,15 +18,18 @@ const FooterColumn = () => {
       toast.warning("Missing data");
       return;
     }
-    console.log("🚀 ~ FooterColumn ~ cardTitle:", cardTitle);
 
-    // await createNewCard({ title: cardTitle, boardIds: boardId })
-    //   .then((res) => {
-    //     console.log("🚀 ~ handleCreateCard ~ res:", res);
-    //   })
-    //   .catch((err) => {
-    //     console.log("🚀 ~ handleCreateCard ~ err:", err);
-    //   });
+    await createNewCard({
+      title: cardTitle,
+      boardIds: boardId,
+      columnIds: columnID,
+    })
+      .then((res) => {
+        console.log("🚀 ~ handleCreateCard ~ res:", res);
+      })
+      .catch((err) => {
+        console.log("🚀 ~ handleCreateCard ~ err:", err);
+      });
   };
   if (!openAddCard) {
     return (

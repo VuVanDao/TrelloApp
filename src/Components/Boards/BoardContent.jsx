@@ -37,7 +37,7 @@ const BoardContent = ({ board }) => {
   const lastOverId = useRef(null);
   // khi bắt đầu thao tác
   const handleDragStart = (event) => {
-    console.log("🚀 ~ handleDragStart ~ event:", event);
+    // console.log("🚀 ~ handleDragStart ~ event:", event);
     const { active } = event;
     setActiveDragItemId(active?.id);
     setActiveDragItemType(
@@ -254,10 +254,10 @@ const BoardContent = ({ board }) => {
         distance: 10,
         delay: 250, //250ms
       },
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
     })
+    // useSensor(KeyboardSensor, {
+    //   coordinateGetter: sortableKeyboardCoordinates,
+    // })
   );
   // config dropAnimation
   const dropAnimation = {

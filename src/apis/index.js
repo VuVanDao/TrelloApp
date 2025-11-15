@@ -19,3 +19,13 @@ export const createNewColumn = async (data) => {
     return res.data;
   }
 };
+//card
+export const createNewCard = async (data) => {
+  if (data) {
+    const res = await InterceptorAxios.post(
+      `${apiBackend}/${apiVersion}/api/cards`,
+      data
+    );
+    return res.data;
+  }
+};
