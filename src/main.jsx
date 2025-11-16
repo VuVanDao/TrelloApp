@@ -6,13 +6,16 @@ import { BrowserRouter } from "react-router-dom";
 import Index from "./Routers/index.jsx";
 import "./index.css";
 import { ToastContainer } from "react-toastify";
+import { LoadingProvider } from "./page/LoadingProvider.jsx";
 
 createRoot(document.getElementById("root")).render(
   <CssVarsProvider theme={theme}>
     <BrowserRouter basename="/">
       <CssBaseline />
       <GlobalStyles styles={{ a: { textDecoration: "none" } }} />
-      <Index />
+      <LoadingProvider>
+        <Index />
+      </LoadingProvider>
       <ToastContainer
         position="top-right"
         autoClose={5000}
