@@ -4,7 +4,7 @@ import BoardBar from "./BoardBar";
 import BoardContent from "./BoardContent";
 import FakeBoardContent from "./FakeBoardContent";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
-import { getDetailBoardAPI } from "~/apis";
+import { getDetailBoardAPI, updateColumnOrderIds } from "~/apis";
 import { LoadingContext } from "~/page/LoadingProvider";
 import { registerLoadingSetter } from "~/utils/LoadingManager";
 import { isEmpty } from "lodash";
@@ -22,7 +22,16 @@ const Board = () => {
   // });
   // console.log("🚀 ~ Board ~ location:", location);
   const moveCardApi = async (ArrayColumns) => {
-    console.log("🚀 ~ moveCardApi ~ ArrayColumns:", ArrayColumns);
+    const columnsOrderIds = ArrayColumns.map((column) => column?._id);
+    board.columns = ArrayColumns;
+    board.columnOrderIds = columnsOrderIds;
+    await updateColumnOrderIds(boardId, columnsOrderIds)
+      .then((res) => {
+        console.log("🚀 ~ moveCardApi ~ res:", res);
+      })
+      .catch((error) => {
+        console.log("🚀 ~ moveCardApi ~ error:", error);
+      });
   };
   const handleGetBoardDetail = async (loading = true) => {
     if (boardId) {

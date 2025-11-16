@@ -1,10 +1,19 @@
 import InterceptorAxios from "~/utils/InterceptorAxios";
 import { apiBackend, apiVersion } from "~/utils/constant";
 //board
-export const getDetailBoardAPI = async (boardId) => {
+export const getDetailBoardAPI = async (boardId, loading = true) => {
   if (boardId) {
     const res = await InterceptorAxios.get(
-      `${apiBackend}/${apiVersion}/api/boards/${boardId}`
+      `${apiBackend}/${apiVersion}/api/boards/${boardId}?loading=${loading}`
+    );
+    return res.data;
+  }
+};
+export const updateColumnOrderIds = async (boardId, ArrayColumns) => {
+  if (boardId) {
+    const res = await InterceptorAxios.put(
+      `${apiBackend}/${apiVersion}/api/boards/${boardId}`,
+      { columnOrderIds: ArrayColumns }
     );
     return res.data;
   }
