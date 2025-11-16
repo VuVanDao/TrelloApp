@@ -9,10 +9,10 @@ const ListTrelloCards = ({ cards }) => {
   return (
     <>
       <SortableContext
-        items={cards.map((card) => card._id)}
+        items={cards?.map((card) => card?._id)}
         strategy={verticalListSortingStrategy}
       >
-        {cards.map((card) => (
+        {cards?.map((card) => (
           <TrelloCard key={card._id} card={card}></TrelloCard>
         ))}
       </SortableContext>

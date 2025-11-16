@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ListColumns from "../ListColumns/ListColumns";
-import { mapOrder } from "~/utils/sort";
 import {
   closestCenter,
   closestCorners,
@@ -38,6 +37,7 @@ const BoardContent = ({
   const [activeDragItemData, setActiveDragItemData] = useState(null);
   const [OldColumnWhenDraggingCard, setOldColumnWhenDraggingCard] =
     useState(null);
+
   // điểm va chạm cuối cùng
   const lastOverId = useRef(null);
   // khi bắt đầu thao tác
@@ -82,11 +82,13 @@ const BoardContent = ({
       // xử lí khi kéo thả card cùng 1 column
       if (OldColumnWhenDraggingCard._id === columnOver._id) {
         const oldCardIndex = OldColumnWhenDraggingCard?.cards?.findIndex(
-          (card) => card._id === activeDragItemId
+          (card) => {
+            return card._id === activeDragItemId;
+          }
         );
-        const newCardIndex = columnOver?.cards?.findIndex(
-          (card) => card._id === OverDraggingCardId
-        );
+        const newCardIndex = columnOver?.cards?.findIndex((card) => {
+          return card._id === OverDraggingCardId;
+        });
         const orderedCardColumn = arrayMove(
           OldColumnWhenDraggingCard?.cards,
           oldCardIndex,
@@ -314,7 +316,7 @@ const BoardContent = ({
     [activeDragItemType, orderedColumns]
   );
   useEffect(() => {
-    setOrderedColumns(mapOrder(board?.columns, board.columnOrderIds, "_id"));
+    setOrderedColumns(board?.columns);
   }, [board]);
   return (
     <>

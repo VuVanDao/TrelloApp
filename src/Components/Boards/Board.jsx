@@ -11,7 +11,7 @@ import {
 } from "~/apis";
 import { LoadingContext } from "~/page/LoadingProvider";
 import { registerLoadingSetter } from "~/utils/LoadingManager";
-import { isEmpty } from "lodash";
+import { cloneDeep, isEmpty } from "lodash";
 import { generatePlaceholderCard } from "~/utils/constant";
 
 const Board = () => {
@@ -38,15 +38,23 @@ const Board = () => {
       });
   };
   const moveCardSameColumnApi = async (columnIds, ArrayCards) => {
-    const targetColumn = board.columns.find(
-      (column) => column._id === columnIds
-    );
-    const orderCardIds = ArrayCards.map((card) => card?._id);
-    targetColumn.cards = ArrayCards;
-    targetColumn.cardOrderIds = orderCardIds;
-    await updateCardOrderIds(columnIds, orderCardIds)
+    setBoard((prev) => {
+      const columnHaveCardsChange = cloneDeep(prev);
+      // tìm column mà card đang kéo thả
+      const targetColumn = columnHaveCardsChange.columns.find(
+        (column) => column._id === columnIds
+      );
+      console.log("🚀 ~ moveCardSameColumnApi ~ targetColumn:", targetColumn);
+      targetColumn.cards = ArrayCards;
+      targetColumn.cardOrderIds = ArrayCards.map((card) => card._id);
+      return columnHaveCardsChange;
+    });
+    await updateCardOrderIds(
+      columnIds,
+      ArrayCards.map((card) => card?._id)
+    )
       .then((res) => {
-        console.log("🚀 ~ moveCardSameColumnApi ~ res:", res);
+        // console.log("🚀 ~ moveCardSameColumnApi ~ res:", res);
       })
       .catch((error) => {
         console.log("🚀 ~ moveCardSameColumnApi ~ error:", error);
@@ -57,14 +65,16 @@ const Board = () => {
       await getDetailBoardAPI(boardId, loading)
         .then((res) => {
           setBoard(() => {
-            const newColumn = res.data.columns.find((column) =>
+            const newColumn = res.data.columns.filter((column) =>
               isEmpty(column.cardOrderIds)
             );
-            if (newColumn) {
-              newColumn.cards = [generatePlaceholderCard(newColumn)];
-              newColumn.cardOrderIds = newColumn.cards.map((card) => card._id);
-            }
 
+            if (newColumn) {
+              newColumn.forEach((column) => {
+                column.cards = [generatePlaceholderCard(column)];
+                column.cardOrderIds = column.cards.map((card) => card._id);
+              });
+            }
             return res.data;
           });
         })
@@ -85,11 +95,14 @@ const Board = () => {
       ) : (
         <>
           <BoardBar boardTitle={board.title} />
-          <BoardContent
-            board={board}
-            handleGetBoardDetail={handleGetBoardDetail}
-            moveCardSameColumnApi={moveCardSameColumnApi}
-          />
+          {board && board?.columns && (
+            <BoardContent
+              board={board}
+              handleGetBoardDetail={handleGetBoardDetail}
+              moveCardSameColumnApi={moveCardSameColumnApi}
+              moveColumnApi={moveColumnApi}
+            />
+          )}
         </>
       )}
 

@@ -1,9 +1,8 @@
 import { Box } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HeaderColumn from "./HeaderColumn";
 import FooterColumn from "./FooterColumn";
 import ListTrelloCards from "../ListTrelloCards/ListTrelloCards";
-import { mapOrder } from "~/utils/sort";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 const Column = ({ column, handleGetBoardDetail }) => {
@@ -24,8 +23,7 @@ const Column = ({ column, handleGetBoardDetail }) => {
     height: "100%",
     opacity: isDragging ? 0.5 : 1,
   };
-  const orderedCard = mapOrder(column?.cards, column?.cardOrderIds, "_id");
-
+  const orderedCard = column?.cards;
   return (
     <div ref={setNodeRef} {...attributes} style={style}>
       <Box
@@ -41,7 +39,7 @@ const Column = ({ column, handleGetBoardDetail }) => {
           maxWidth: (theme) => theme.trelloCustom.ColumnWidth,
           gap:
             column?.cards?.length > 0 &&
-            !column?.cards.find((card) => card.FE_placeholder_card)
+            !column?.cards.find((card) => card?.FE_placeholder_card)
               ? "7px"
               : "0px",
           height: "fit-content",

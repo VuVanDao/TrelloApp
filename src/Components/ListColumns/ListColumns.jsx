@@ -10,10 +10,10 @@ const ListColumns = ({ columns, handleGetBoardDetail }) => {
   return (
     <>
       <SortableContext
-        items={columns.map((column) => column._id)}
+        items={columns?.map((column) => column?._id)}
         strategy={horizontalListSortingStrategy}
       >
-        {columns.map((column) => (
+        {columns?.map((column) => (
           <Column
             key={column?._id}
             column={column}
