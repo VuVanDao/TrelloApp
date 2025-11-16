@@ -7,10 +7,13 @@ import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { getDetailBoardAPI } from "~/apis";
 import { LoadingContext } from "~/page/LoadingProvider";
 import { registerLoadingSetter } from "~/utils/LoadingManager";
+import { isEmpty } from "lodash";
+import { generatePlaceholderCard } from "~/utils/constant";
 
 const Board = () => {
   let { boardId } = useParams();
   const { isCallingApi, setIsCallingApi } = useContext(LoadingContext);
+  const [board, setBoard] = useState([]);
   // const location = useLocation();
   // let [searchParams] = useSearchParams();
   // searchParams.forEach((i) => {
@@ -18,12 +21,24 @@ const Board = () => {
   //   return i;
   // });
   // console.log("🚀 ~ Board ~ location:", location);
-  const [board, setBoard] = useState([]);
-  const handleGetBoardDetail = async () => {
+  const moveCardApi = async (ArrayColumns) => {
+    console.log("🚀 ~ moveCardApi ~ ArrayColumns:", ArrayColumns);
+  };
+  const handleGetBoardDetail = async (loading = true) => {
     if (boardId) {
-      await getDetailBoardAPI(boardId)
+      await getDetailBoardAPI(boardId, loading)
         .then((res) => {
-          setBoard(res.data);
+          setBoard(() => {
+            const newColumn = res.data.columns.find((column) =>
+              isEmpty(column.cardOrderIds)
+            );
+            if (newColumn) {
+              newColumn.cards = [generatePlaceholderCard(newColumn)];
+              newColumn.cardOrderIds = newColumn.cards.map((card) => card._id);
+            }
+
+            return res.data;
+          });
         })
         .catch((err) => {
           console.log("🚀 ~ handleGetBoardDetail ~ err:", err);
@@ -45,9 +60,11 @@ const Board = () => {
           <BoardContent
             board={board}
             handleGetBoardDetail={handleGetBoardDetail}
+            moveCardApi={moveCardApi}
           />
         </>
       )}
+
       {/* <FakeBoardContent board={board}></FakeBoardContent> */}
     </>
   );
