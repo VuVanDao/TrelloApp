@@ -6,7 +6,7 @@ import {
 } from "@dnd-kit/sortable";
 import ButtonAddCol from "../ButtonAddCol/ButtonAddCol";
 
-const ListColumns = ({ columns }) => {
+const ListColumns = ({ columns, handleGetBoardDetail }) => {
   return (
     <>
       <SortableContext
@@ -14,9 +14,15 @@ const ListColumns = ({ columns }) => {
         strategy={horizontalListSortingStrategy}
       >
         {columns.map((column) => (
-          <Column key={column?._id} column={column}></Column>
+          <Column
+            key={column?._id}
+            column={column}
+            handleGetBoardDetail={handleGetBoardDetail}
+          ></Column>
         ))}
-        <ButtonAddCol></ButtonAddCol>
+        <ButtonAddCol
+          handleGetBoardDetail={handleGetBoardDetail}
+        ></ButtonAddCol>
       </SortableContext>
     </>
   );

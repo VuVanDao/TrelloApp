@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import { createNewColumn } from "~/apis";
 import { useParams } from "react-router-dom";
 
-const ButtonAddCol = () => {
+const ButtonAddCol = ({ handleGetBoardDetail, test }) => {
   const { mode } = useColorScheme("light");
   let { boardId } = useParams();
   const [openFormAddColumn, SetOpenAddColumn] = useState(false);
@@ -29,7 +29,8 @@ const ButtonAddCol = () => {
     }
     await createNewColumn({ title: columnTitle, boardIds: boardId })
       .then((res) => {
-        console.log("🚀 ~ handleCreateColumn ~ res:", res);
+        handleGetBoardDetail();
+        toggleSetOpenFormAddColumn();
       })
       .catch((err) => {
         console.log("🚀 ~ handleCreateColumn ~ err:", err);

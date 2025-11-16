@@ -7,7 +7,7 @@ import { MdOutlineClose } from "react-icons/md";
 import { LuLightbulb } from "react-icons/lu";
 import { toast } from "react-toastify";
 import { createNewCard } from "~/apis";
-const FooterColumn = ({ columnID, boardId }) => {
+const FooterColumn = ({ columnID, boardId, handleGetBoardDetail }) => {
   const [openAddCard, SetOpenAddCard] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
   const toggleSetOpenFormAddCard = () => {
@@ -26,6 +26,8 @@ const FooterColumn = ({ columnID, boardId }) => {
     })
       .then((res) => {
         console.log("🚀 ~ handleCreateCard ~ res:", res);
+        handleGetBoardDetail();
+        toggleSetOpenFormAddCard();
       })
       .catch((err) => {
         console.log("🚀 ~ handleCreateCard ~ err:", err);

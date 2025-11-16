@@ -26,7 +26,7 @@ import TrelloCard from "../TrelloCard/TrelloCard";
 import { cloneDeep, isEmpty } from "lodash";
 import { MouseSensor } from "~/CustomLibraries/MyDndKitSensor";
 
-const BoardContent = ({ board }) => {
+const BoardContent = ({ board, handleGetBoardDetail }) => {
   const [orderedColumns, setOrderedColumns] = useState([]);
   const [activeDragItemId, setActiveDragItemId] = useState(null);
   const [activeDragItemType, setActiveDragItemType] = useState(null);
@@ -331,7 +331,10 @@ const BoardContent = ({ board }) => {
             overflowY: "unset",
           }}
         >
-          <ListColumns columns={orderedColumns}></ListColumns>
+          <ListColumns
+            columns={orderedColumns}
+            handleGetBoardDetail={handleGetBoardDetail}
+          ></ListColumns>
           <DragOverlay dropAnimation={dropAnimation}>
             {!activeDragItemId && null}
             {activeDragItemId &&
