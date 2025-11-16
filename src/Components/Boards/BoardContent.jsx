@@ -26,7 +26,12 @@ import TrelloCard from "../TrelloCard/TrelloCard";
 import { cloneDeep, isEmpty } from "lodash";
 import { MouseSensor } from "~/CustomLibraries/MyDndKitSensor";
 
-const BoardContent = ({ board, handleGetBoardDetail, moveCardApi }) => {
+const BoardContent = ({
+  board,
+  handleGetBoardDetail,
+  moveColumnApi,
+  moveCardSameColumnApi,
+}) => {
   const [orderedColumns, setOrderedColumns] = useState([]);
   const [activeDragItemId, setActiveDragItemId] = useState(null);
   const [activeDragItemType, setActiveDragItemType] = useState(null);
@@ -97,6 +102,7 @@ const BoardContent = ({ board, handleGetBoardDetail, moveCardApi }) => {
           targetColumn.cardOrderIds = orderedCardColumn.map((card) => card._id);
           return columnHaveCardsChange;
         });
+        moveCardSameColumnApi(OldColumnWhenDraggingCard._id, orderedCardColumn);
       } else {
         moveCardBetweenTwoColumns(
           columnOver,
@@ -118,8 +124,8 @@ const BoardContent = ({ board, handleGetBoardDetail, moveCardApi }) => {
         const newIndex = orderedColumns.findIndex(
           (column) => column._id === over.id
         );
-        moveCardApi(arrayMove(orderedColumns, oldIndex, newIndex));
         setOrderedColumns(arrayMove(orderedColumns, oldIndex, newIndex));
+        moveColumnApi(arrayMove(orderedColumns, oldIndex, newIndex));
       }
     }
     setActiveDragItemId(null);
