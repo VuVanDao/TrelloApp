@@ -4,7 +4,11 @@ import BoardBar from "./BoardBar";
 import BoardContent from "./BoardContent";
 import FakeBoardContent from "./FakeBoardContent";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
-import { getDetailBoardAPI, updateColumnOrderIds } from "~/apis";
+import {
+  getDetailBoardAPI,
+  updateCardOrderIds,
+  updateColumnOrderIds,
+} from "~/apis";
 import { LoadingContext } from "~/page/LoadingProvider";
 import { registerLoadingSetter } from "~/utils/LoadingManager";
 import { isEmpty } from "lodash";
@@ -21,16 +25,31 @@ const Board = () => {
   //   return i;
   // });
   // console.log("🚀 ~ Board ~ location:", location);
-  const moveCardApi = async (ArrayColumns) => {
+  const moveColumnApi = async (ArrayColumns) => {
     const columnsOrderIds = ArrayColumns.map((column) => column?._id);
     board.columns = ArrayColumns;
     board.columnOrderIds = columnsOrderIds;
     await updateColumnOrderIds(boardId, columnsOrderIds)
       .then((res) => {
-        console.log("🚀 ~ moveCardApi ~ res:", res);
+        console.log("🚀 ~ moveColumnApi ~ res:", res);
       })
       .catch((error) => {
-        console.log("🚀 ~ moveCardApi ~ error:", error);
+        console.log("🚀 ~ moveColumnApi ~ error:", error);
+      });
+  };
+  const moveCardSameColumnApi = async (columnIds, ArrayCards) => {
+    const targetColumn = board.columns.find(
+      (column) => column._id === columnIds
+    );
+    const orderCardIds = ArrayCards.map((card) => card?._id);
+    targetColumn.cards = ArrayCards;
+    targetColumn.cardOrderIds = orderCardIds;
+    await updateCardOrderIds(columnIds, orderCardIds)
+      .then((res) => {
+        console.log("🚀 ~ moveCardSameColumnApi ~ res:", res);
+      })
+      .catch((error) => {
+        console.log("🚀 ~ moveCardSameColumnApi ~ error:", error);
       });
   };
   const handleGetBoardDetail = async (loading = true) => {
@@ -69,7 +88,7 @@ const Board = () => {
           <BoardContent
             board={board}
             handleGetBoardDetail={handleGetBoardDetail}
-            moveCardApi={moveCardApi}
+            moveCardSameColumnApi={moveCardSameColumnApi}
           />
         </>
       )}

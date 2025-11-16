@@ -28,6 +28,15 @@ export const createNewColumn = async (data) => {
     return res.data;
   }
 };
+export const updateCardOrderIds = async (columnId, ArrayColumns) => {
+  if (columnId) {
+    const res = await InterceptorAxios.put(
+      `${apiBackend}/${apiVersion}/api/columns/${columnId}`,
+      { cardOrderIds: ArrayColumns }
+    );
+    return res.data;
+  }
+};
 //card
 export const createNewCard = async (data) => {
   if (data) {
