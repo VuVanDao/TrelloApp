@@ -29,7 +29,7 @@ const ButtonAddCol = ({ handleGetBoardDetail, test }) => {
     }
     await createNewColumn({ title: columnTitle, boardIds: boardId })
       .then((res) => {
-        handleGetBoardDetail();
+        handleGetBoardDetail(false);
         toggleSetOpenFormAddColumn();
       })
       .catch((err) => {

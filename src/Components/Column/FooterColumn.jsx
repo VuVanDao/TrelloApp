@@ -25,8 +25,7 @@ const FooterColumn = ({ columnID, boardId, handleGetBoardDetail }) => {
       columnIds: columnID,
     })
       .then((res) => {
-        console.log("🚀 ~ handleCreateCard ~ res:", res);
-        handleGetBoardDetail();
+        handleGetBoardDetail(false);
         toggleSetOpenFormAddCard();
       })
       .catch((err) => {

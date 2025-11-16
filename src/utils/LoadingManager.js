@@ -1,5 +1,5 @@
 export const loadingManager = {
-  set: () => {},
+  set: () => {}, // sau registerLoadingSetter(setIsCallingApi) thi loadingManager.set = setIsCallingApi
 };
 
 export const registerLoadingSetter = (setter) => {

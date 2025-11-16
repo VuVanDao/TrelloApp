@@ -6,8 +6,17 @@ export let isCallingApi = false;
 // Add a request interceptor
 instance.interceptors.request.use(
   function (config) {
+    // console.log("🚀 ~ config:", config);
+    const { method, url } = config;
+    if (method === "get" && url.includes(`?loading`)) {
+      const loadingValue = url.split("?");
+      if (loadingValue[1]?.includes("true")) {
+        loadingManager.set(true);
+        return config;
+      }
+    }
+    loadingManager.set(false);
     // Do something before request is sent
-    loadingManager.set(true);
     return config;
   },
   function (error) {

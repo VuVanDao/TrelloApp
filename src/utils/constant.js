@@ -4,7 +4,7 @@ export const ACTIVE_DRAG_ITEM_TYPE = {
 };
 export const generatePlaceholderCard = (column) => {
   return {
-    boardId: column.boardId,
+    boardId: column.boardIds,
     columnId: column?._id,
     FE_placeholder_card: true,
     _id: `${column?._id}-placeholder-card`,
