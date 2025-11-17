@@ -8,6 +8,7 @@ import {
   getDetailBoardAPI,
   updateCardOrderIds,
   updateColumnOrderIds,
+  updateMoveCardFromDifferentColumn,
 } from "~/apis";
 import { LoadingContext } from "~/page/LoadingProvider";
 import { registerLoadingSetter } from "~/utils/LoadingManager";
@@ -38,17 +39,16 @@ const Board = () => {
       });
   };
   const moveCardSameColumnApi = async (columnIds, ArrayCards) => {
-    setBoard((prev) => {
-      const columnHaveCardsChange = cloneDeep(prev);
-      // tìm column mà card đang kéo thả
-      const targetColumn = columnHaveCardsChange.columns.find(
-        (column) => column._id === columnIds
-      );
-      console.log("🚀 ~ moveCardSameColumnApi ~ targetColumn:", targetColumn);
-      targetColumn.cards = ArrayCards;
-      targetColumn.cardOrderIds = ArrayCards.map((card) => card._id);
-      return columnHaveCardsChange;
-    });
+    // setBoard((prev) => {
+    //   const columnHaveCardsChange = cloneDeep(prev);
+    //   // tìm column mà card đang kéo thả
+    //   const targetColumn = columnHaveCardsChange.columns.find(
+    //     (column) => column._id === columnIds
+    //   );
+    //   targetColumn.cards = ArrayCards;
+    //   targetColumn.cardOrderIds = ArrayCards.map((card) => card._id);
+    //   return columnHaveCardsChange;
+    // });
     await updateCardOrderIds(
       columnIds,
       ArrayCards.map((card) => card?._id)
@@ -59,6 +59,32 @@ const Board = () => {
       .catch((error) => {
         console.log("🚀 ~ moveCardSameColumnApi ~ error:", error);
       });
+  };
+  const moveCardDifferentColumnApi = async (
+    nextOverColumn,
+    ActiveDraggingCardId,
+    OldColumnWhenDraggingCard,
+    nextColumn
+  ) => {
+    const newBoard = cloneDeep(board);
+    newBoard.columns = nextColumn;
+    newBoard.columnOrderIds = nextColumn.map((column) => column?._id);
+    setBoard(newBoard);
+
+    const preCardOrderIds = nextColumn.find(
+      (column) => column._id === OldColumnWhenDraggingCard._id
+    );
+
+    const nextCardOrderIds = nextColumn.find(
+      (column) => column._id === nextOverColumn._id
+    );
+    await updateMoveCardFromDifferentColumn(
+      ActiveDraggingCardId,
+      nextOverColumn._id,
+      nextCardOrderIds.cardOrderIds,
+      OldColumnWhenDraggingCard._id,
+      preCardOrderIds.cardOrderIds
+    );
   };
   const handleGetBoardDetail = async (loading = true) => {
     if (boardId) {
@@ -101,6 +127,7 @@ const Board = () => {
               handleGetBoardDetail={handleGetBoardDetail}
               moveCardSameColumnApi={moveCardSameColumnApi}
               moveColumnApi={moveColumnApi}
+              moveCardDifferentColumnApi={moveCardDifferentColumnApi}
             />
           )}
         </>

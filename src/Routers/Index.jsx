@@ -13,7 +13,6 @@ const Index = () => {
         <Routes>
           <Route path="/" element={<HandleRedirectToTrello />}></Route>
           <Route path="/vi" element={<HomePage />} />
-
           <Route path="/boards/:boardId" element={<App />} />
         </Routes>
       </Suspense>

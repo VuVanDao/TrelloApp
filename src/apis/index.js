@@ -37,6 +37,24 @@ export const updateCardOrderIds = async (columnId, ArrayColumns) => {
     return res.data;
   }
 };
+export const updateMoveCardFromDifferentColumn = async (
+  activeCardId, // id của cái card sẽ thay đổi columnID
+  nextColumnId, // cột mới để đổi cardOrderIds
+  nextCardOrderIds,
+  preColumn, // cái cột cũ, cx sẽ thay đổi cardOrderIds
+  preCardOrderIds
+) => {
+  const res = await InterceptorAxios.put(
+    `${apiBackend}/${apiVersion}/api/columns/move_card_different_column/${nextColumnId}`,
+    {
+      activeCardId,
+      nextCardOrderIds,
+      preColumn,
+      preCardOrderIds,
+    }
+  );
+  return res.data;
+};
 //card
 export const createNewCard = async (data) => {
   if (data) {
