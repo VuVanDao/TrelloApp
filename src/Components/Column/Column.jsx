@@ -52,6 +52,7 @@ const Column = ({ column, handleGetBoardDetail }) => {
         <HeaderColumn
           title={column.title}
           isDraggingColumn={isDragging}
+          columnId={column}
         ></HeaderColumn>
         <Box
           sx={{

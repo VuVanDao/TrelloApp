@@ -55,6 +55,15 @@ export const updateMoveCardFromDifferentColumn = async (
   );
   return res.data;
 };
+export const ArchiveColumn = async (columnId, boardId) => {
+  if (columnId) {
+    const res = await InterceptorAxios.put(
+      `${apiBackend}/${apiVersion}/api/columns/archive_column/${columnId}`,
+      { _destroy: true, boardId }
+    );
+    return res.data;
+  }
+};
 //card
 export const createNewCard = async (data) => {
   if (data) {

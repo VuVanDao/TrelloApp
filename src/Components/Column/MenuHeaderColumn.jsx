@@ -17,12 +17,38 @@ import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
 } from "react-icons/md";
+import { useConfirm } from "material-ui-confirm";
+import { ArchiveColumn } from "~/apis";
+import { useParams } from "react-router-dom";
 
 const commonFontsize = "14px";
-const MenuHeaderColumn = ({ anchorEl, setAnchorEl, isDraggingColumn }) => {
+const MenuHeaderColumn = ({
+  anchorEl,
+  setAnchorEl,
+  isDraggingColumn,
+  columnId,
+}) => {
   const open = Boolean(anchorEl);
   const { mode } = useColorScheme();
+  let { boardId } = useParams();
+  const confirm = useConfirm();
+  const handleArchie = async () => {
+    const { confirmed } = await confirm({
+      description: `This will  delete ${columnId.title}.`,
+      allowClose: false,
+      title: "Archive this column",
+    });
 
+    if (confirmed) {
+      await ArchiveColumn(columnId?._id, boardId)
+        .then((res) => {
+          console.log("🚀 ~ handleArchie ~ res:", res);
+        })
+        .catch((error) => {
+          console.log("🚀 ~ handleArchie ~ error:", error);
+        });
+    }
+  };
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -161,7 +187,7 @@ const MenuHeaderColumn = ({ anchorEl, setAnchorEl, isDraggingColumn }) => {
           </List>
         </Collapse>
         <Divider></Divider>
-        <MenuItem>
+        <MenuItem onClick={handleArchie}>
           <Typography fontSize={commonFontsize}>Archive this list</Typography>
         </MenuItem>
         <MenuItem>
