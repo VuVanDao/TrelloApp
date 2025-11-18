@@ -95,7 +95,7 @@ const Board = () => {
         .then((res) => {
           setBoard(() => {
             const newColumn = res.data.columns.filter((column) =>
-              isEmpty(column.cardOrderIds)
+              isEmpty(column?.cardOrderIds)
             );
 
             if (newColumn) {
