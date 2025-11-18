@@ -65,3 +65,12 @@ export const createNewCard = async (data) => {
     return res.data;
   }
 };
+export const ArchiveCard = async (cardId, columnId) => {
+  if (cardId) {
+    const res = await InterceptorAxios.put(
+      `${apiBackend}/${apiVersion}/api/cards/${cardId}`,
+      { data: { _destroy: true }, columnId: columnId }
+    );
+    return res.data;
+  }
+};

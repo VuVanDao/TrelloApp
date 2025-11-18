@@ -124,15 +124,13 @@ const Board = () => {
       ) : (
         <>
           <BoardBar boardTitle={board.title} />
-          {board && board?.columns && (
-            <BoardContent
-              board={board}
-              handleGetBoardDetail={handleGetBoardDetail}
-              moveCardSameColumnApi={moveCardSameColumnApi}
-              moveColumnApi={moveColumnApi}
-              moveCardDifferentColumnApi={moveCardDifferentColumnApi}
-            />
-          )}
+          <BoardContent
+            board={board}
+            handleGetBoardDetail={handleGetBoardDetail}
+            moveCardSameColumnApi={moveCardSameColumnApi}
+            moveColumnApi={moveColumnApi}
+            moveCardDifferentColumnApi={moveCardDifferentColumnApi}
+          />
         </>
       )}
 

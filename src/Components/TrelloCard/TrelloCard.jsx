@@ -4,18 +4,21 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  Tooltip,
   Typography,
   useColorScheme,
 } from "@mui/material";
 import { FaUserFriends, FaCommentAlt } from "react-icons/fa";
 import { GrAttachment } from "react-icons/gr";
-import React from "react";
+import React, { lazy, Suspense, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
+import { FiEdit } from "react-icons/fi";
+// import MenuTrelloCard from "./MenuTrelloCard";
+const MenuTrelloCard = lazy(() => import("./MenuTrelloCard"));
 const TrelloCard = ({ card }) => {
   const { mode } = useColorScheme();
-
+  const [hoverCard, setHoverCard] = useState(false);
   const {
     attributes,
     listeners,
@@ -33,6 +36,10 @@ const TrelloCard = ({ card }) => {
     opacity: isDragging ? 0.5 : 1,
     border: isDragging ? "1px solid black" : undefined,
     borderRadius: isDragging ? "4px" : undefined,
+  };
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
   return (
     <div ref={setNodeRef} {...attributes} {...listeners} style={style}>
@@ -53,6 +60,8 @@ const TrelloCard = ({ card }) => {
             borderColor: mode === "light" ? "#4688ec" : "#ceb8b8",
           },
         }}
+        onMouseOver={() => setHoverCard(true)}
+        onMouseLeave={() => setHoverCard(false)}
       >
         {card?.cover && (
           <CardMedia
@@ -70,7 +79,33 @@ const TrelloCard = ({ card }) => {
         )}
 
         <CardContent>
-          <Typography fontSize={"15px"}>{card?.title}</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography fontSize={"15px"}>{card?.title}</Typography>
+            {hoverCard && (
+              <Tooltip title="Edit">
+                <Box
+                  sx={{
+                    width: "23px",
+                    height: "23px",
+                    borderRadius: "5px",
+                    "&:hover": {
+                      backgroundColor: "#d1d3d4",
+                    },
+                    textAlign: "center",
+                  }}
+                  onClick={handleClick}
+                >
+                  <FiEdit style={{ fontSize: "13px" }} />
+                </Box>
+              </Tooltip>
+            )}
+          </Box>
         </CardContent>
         <CardActions>
           {card?.memberIds && card?.memberIds?.length > 0 && (
@@ -120,6 +155,13 @@ const TrelloCard = ({ card }) => {
           )}
         </CardActions>
       </Card>
+      <Suspense>
+        <MenuTrelloCard
+          anchorEl={anchorEl}
+          setAnchorEl={setAnchorEl}
+          card={card}
+        ></MenuTrelloCard>
+      </Suspense>
     </div>
   );
 };

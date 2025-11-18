@@ -9,21 +9,22 @@ import ButtonAddCol from "../ButtonAddCol/ButtonAddCol";
 const ListColumns = ({ columns, handleGetBoardDetail }) => {
   return (
     <>
-      <SortableContext
-        items={columns?.map((column) => column?._id)}
-        strategy={horizontalListSortingStrategy}
-      >
-        {columns?.map((column) => (
-          <Column
-            key={column?._id}
-            column={column}
-            handleGetBoardDetail={handleGetBoardDetail}
-          ></Column>
-        ))}
-        <ButtonAddCol
-          handleGetBoardDetail={handleGetBoardDetail}
-        ></ButtonAddCol>
-      </SortableContext>
+      {columns?.length > 0 && (
+        <SortableContext
+          items={columns?.map((column) => column?._id)}
+          strategy={horizontalListSortingStrategy}
+        >
+          {columns?.map((column) => (
+            <Column
+              key={column?._id}
+              column={column}
+              handleGetBoardDetail={handleGetBoardDetail}
+            ></Column>
+          ))}
+        </SortableContext>
+      )}
+
+      <ButtonAddCol handleGetBoardDetail={handleGetBoardDetail}></ButtonAddCol>
     </>
   );
 };

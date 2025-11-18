@@ -29,12 +29,14 @@ instance.interceptors.request.use(
 // Add a response interceptor
 instance.interceptors.response.use(
   function onFulfilled(response) {
+    console.log("🚀 ~ onFulfilled ~ response:", response);
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     loadingManager.set(false);
     return response;
   },
   function onRejected(error) {
+    console.log("🚀 ~ onRejected ~ error:", error);
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     loadingManager.set(false);
