@@ -78,12 +78,15 @@ const Board = () => {
     const nextCardOrderIds = nextColumn.find(
       (column) => column._id === nextOverColumn._id
     );
+    const checkEmptyColumn =
+      preCardOrderIds.cardOrderIds.length === 1 &&
+      preCardOrderIds.cardOrderIds[0].includes("-placeholder-card");
     await updateMoveCardFromDifferentColumn(
       ActiveDraggingCardId,
       nextOverColumn._id,
       nextCardOrderIds.cardOrderIds,
       OldColumnWhenDraggingCard._id,
-      preCardOrderIds.cardOrderIds
+      checkEmptyColumn ? [] : preCardOrderIds.cardOrderIds
     );
   };
   const handleGetBoardDetail = async (loading = true) => {
