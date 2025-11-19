@@ -1,6 +1,5 @@
 import React, { lazy, Suspense, useState } from "react";
 import {
-  AppBar,
   Toolbar,
   Typography,
   Button,
@@ -13,7 +12,9 @@ import {
   Paper,
   useMediaQuery,
   Divider,
+  AppBar,
 } from "@mui/material";
+
 import { IoMdArrowDroprightCircle } from "react-icons/io";
 import { AiOutlineAppstore } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
