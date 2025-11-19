@@ -3,7 +3,7 @@ import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/s
 import { CssBaseline, GlobalStyles } from "@mui/material";
 import theme from "./Theme.js";
 import { BrowserRouter } from "react-router-dom";
-import Index from "./Routers/index.jsx";
+import Index from "./Routers/Index.jsx";
 import "./index.css";
 import { ToastContainer } from "react-toastify";
 import { LoadingProvider } from "./page/LoadingProvider.jsx";
