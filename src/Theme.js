@@ -30,6 +30,9 @@ const theme = createTheme({
         common_color_btn: {
           main: "#1868db",
         },
+        text_common: {
+          main: "#121212",
+        },
       },
     },
     dark: {
@@ -55,6 +58,9 @@ const theme = createTheme({
         },
         common_color_btn: {
           main: "#1868db",
+        },
+        text_common: {
+          main: "#121212",
         },
       },
     },

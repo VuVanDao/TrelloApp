@@ -24,7 +24,7 @@ const HomePage = () => {
   const LinkSXCommon = {
     margin: "0 12px",
     textDecoration: "none",
-    color: "text.primary",
+    color: "text_common.main",
     display: "flex",
     alignItems: "center",
     "&:hover": {
@@ -38,7 +38,7 @@ const HomePage = () => {
       sx={{
         color: "grey.400",
         textDecoration: "none",
-        "&:hover": { backgroundColor: "red" },
+        "&:hover": { backgroundColor: "rgb(52, 69, 99)" },
         display: "block",
         mb: 1.5,
         p: "15px",
@@ -130,7 +130,10 @@ const HomePage = () => {
               >
                 Ghi lại, sắp xếp và giải quyết việc cần làm từ bất cứ đâu.
               </Typography>
-              <Typography variant="h6" sx={{ mb: 4, color: "text.secondary" }}>
+              <Typography
+                variant="h6"
+                sx={{ mb: 4, color: "text_common.main" }}
+              >
                 Thoát khỏi tình trạng lộn xộn và hỗn loạn – giải phóng năng suất
                 của bạn bằng Trello.
               </Typography>
@@ -144,6 +147,24 @@ const HomePage = () => {
                     display: {
                       md: "inherit",
                       xs: "none",
+                    },
+                    "& .MuiInputBase-root": {
+                      color: "black", // text mặc định
+                      backgroundColor: "#fff",
+                    },
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "gray", // border mặc định
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "black", // border khi hover
+                      },
+                    },
+                    "& .MuiInputLabel-root": {
+                      color: "gray", // label mặc định
+                    },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "white", // label khi focus
                     },
                   }}
                 />
@@ -163,9 +184,10 @@ const HomePage = () => {
                   Đăng ký - hoàn toàn miễn phí
                 </Button>
               </Box>
-              <Typography mb={4}>
+
+              <Typography mb={4} sx={{ color: "text_common.main" }}>
                 Khi nhập email của mình, tôi thừa nhận{" "}
-                <Link sx={{ cursor: "pointer" }}>
+                <Link sx={{ cursor: "pointer", color: "#1868db" }}>
                   Chính sách quyền riêng tư của Atlassian
                 </Link>
               </Typography>
@@ -223,7 +245,7 @@ const HomePage = () => {
             fontWeight="bold"
             gutterBottom
             textTransform={"uppercase"}
-            sx={{ mb: 2 }}
+            sx={{ mb: 2, color: "text_common.main" }}
           >
             Thông tin cơ bản về Trello
           </Typography>
@@ -233,7 +255,7 @@ const HomePage = () => {
             component="h2"
             fontWeight="bold"
             gutterBottom
-            sx={{ mb: 2 }}
+            sx={{ mb: 2, color: "text_common.main" }}
           >
             Công cụ thúc đẩy năng suất của bạn
           </Typography>
@@ -241,7 +263,7 @@ const HomePage = () => {
           <Typography
             variant="body1"
             color="text.secondary"
-            sx={{ mb: 6, maxWidth: "800px" }} // Giới hạn chiều rộng cho dễ đọc
+            sx={{ mb: 6, maxWidth: "800px", color: "text_common.main" }} // Giới hạn chiều rộng cho dễ đọc
           >
             Luôn sắp xếp khoa học và hiệu quả nhờ Hộp thư đến, Bảng và Công cụ
             lập kế hoạch. Mọi việc cần làm, ý tưởng hay trách nhiệm – dù lớn hay
@@ -269,6 +291,7 @@ const HomePage = () => {
                           p: "15px",
                           borderLeft: "10px solid rgba(0,199,229,1)",
                           cursor: "pointer",
+                          color: "text_common.main",
                         }}
                       >
                         <Typography
@@ -279,7 +302,7 @@ const HomePage = () => {
                         >
                           {feature.title}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text_common.main">
                           {feature.description}
                         </Typography>
                       </Box>
@@ -292,6 +315,7 @@ const HomePage = () => {
                         borderRadius: "5px",
                         p: "15px",
                         cursor: "pointer",
+                        color: "text_common.main",
                       }}
                       onClick={() => setItemSelect(feature)}
                     >
@@ -303,7 +327,7 @@ const HomePage = () => {
                       >
                         {feature.title}
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
+                      <Typography variant="body2" color="text_common.main">
                         {feature.description}
                       </Typography>
                     </Box>
@@ -453,7 +477,12 @@ const HomePage = () => {
           <Box sx={{ textAlign: "left", mb: 5 }}>
             <Typography
               color="text.secondary"
-              sx={{ fontWeight: "bold", fontSize: "15px", mb: "10px" }}
+              sx={{
+                fontWeight: "bold",
+                fontSize: "15px",
+                mb: "10px",
+                color: "text_common.main",
+              }}
             >
               LÀM VIỆC THÔNG MINH HƠN
             </Typography>
@@ -461,7 +490,7 @@ const HomePage = () => {
               variant="h4"
               component="h2"
               gutterBottom
-              sx={{ fontWeight: "bold", color: "text.primary" }}
+              sx={{ fontWeight: "bold", color: "text_common.main" }}
             >
               Trello giúp bạn làm được nhiều việc hơn
             </Typography>
@@ -472,6 +501,7 @@ const HomePage = () => {
                 maxWidth: "800px",
                 lineHeight: 1.6,
                 textAlign: "left",
+                color: "text_common.main",
               }}
             >
               Tùy chỉnh cách bạn sắp xếp nhờ các phân tích hợp, tự động hóa để
@@ -504,14 +534,20 @@ const HomePage = () => {
                   <Typography
                     variant="h5"
                     component="h3"
-                    sx={{ fontWeight: "bold", mb: 1.5, color: "text.primary" }}
+                    sx={{
+                      fontWeight: "bold",
+                      mb: 1.5,
+                      color: "text_common.main",
+                    }}
                   >
                     Tiện ích tích hợp
                   </Typography>
                   <Typography
                     variant="body1"
-                    color="text.secondary"
-                    sx={{ mb: 3 }}
+                    sx={{
+                      mb: 3,
+                      color: "text_common.main",
+                    }}
                   >
                     Kết nối các ứng dụng bạn đã sử dụng vào quy trình làm việc
                     Trello hoặc thêm Tiện ích bổ sung giúp điều chỉnh một số nhu
@@ -551,14 +587,20 @@ const HomePage = () => {
                   <Typography
                     variant="h5"
                     component="h3"
-                    sx={{ fontWeight: "bold", mb: 1.5, color: "text.primary" }}
+                    sx={{
+                      fontWeight: "bold",
+                      mb: 1.5,
+                      color: "text_common.main",
+                    }}
                   >
                     tự động
                   </Typography>
                   <Typography
                     variant="body1"
-                    color="text.secondary"
-                    sx={{ mb: 3 }}
+                    sx={{
+                      mb: 3,
+                      color: "text_common.main",
+                    }}
                   >
                     Mọi bảng Trello đều tích hợp tính năng tự động hóa không cần
                     mã. Bạn có thể tập trung vào công việc quan trọng nhất, phần
@@ -598,14 +640,20 @@ const HomePage = () => {
                   <Typography
                     variant="h5"
                     component="h3"
-                    sx={{ fontWeight: "bold", mb: 1.5, color: "text.primary" }}
+                    sx={{
+                      fontWeight: "bold",
+                      mb: 1.5,
+                      color: "text_common.main",
+                    }}
                   >
                     Phân chiếu thẻ
                   </Typography>
                   <Typography
                     variant="body1"
-                    color="text.secondary"
-                    sx={{ mb: 3 }}
+                    sx={{
+                      mb: 3,
+                      color: "text_common.main",
+                    }}
                   >
                     Xem tất cả việc cần làm từ nhiều bảng ở cùng một nơi. Phân
                     chiếu thẻ để theo dõi công việc ở bất kỳ đâu mà bạn cần.
@@ -624,12 +672,11 @@ const HomePage = () => {
         </Container>
       </Box>
 
-      <Box sx={{ py: { xs: 5 } }}>
+      <Box sx={{ py: { xs: 5 }, backgroundColor: "#fff" }}>
         <Container maxWidth="lg" sx={{ textAlign: "center" }}>
           <Typography
             variant="h6"
             align="center"
-            color="text.secondary"
             sx={{ maxWidth: 550, mx: "auto", mb: 5 }}
           >
             Tham gia cộng đồng hàng triệu người dùng toàn cầu đang sử dụng
@@ -657,7 +704,7 @@ const HomePage = () => {
           <Typography
             variant="h5"
             component="h2"
-            sx={{ fontWeight: "bold", color: "text.primary", mb: 4 }}
+            sx={{ fontWeight: "bold", color: "text_common.main", mb: 4 }}
           >
             Bắt đầu sử dụng Trello ngay hôm nay
           </Typography>
@@ -683,14 +730,29 @@ const HomePage = () => {
               sx={{
                 flex: 1, // Chiếm phần lớn không gian
                 bgcolor: "white",
+                "& .MuiInputBase-root": {
+                  color: "black", // text mặc định
+                  backgroundColor: "#fff",
+                },
                 "& .MuiOutlinedInput-root": {
-                  borderRadius: { sm: "8px 0 0 8px" }, // Bo góc cho đẹp
+                  borderRadius: { sm: "8px 0 0 8px" },
+                  "& fieldset": {
+                    borderColor: "gray", // border mặc định
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "black", // border khi hover
+                  },
+                },
+                "& .MuiInputLabel-root": {
+                  color: "gray", // label mặc định
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "white", // label khi focus
                 },
               }}
             />
             <Button
               variant="contained"
-              color="primary"
               size="large"
               sx={{
                 py: "14px", // Làm cho nút cao bằng textfield
@@ -698,6 +760,7 @@ const HomePage = () => {
                 fontWeight: "bold",
                 borderRadius: { xs: 2, sm: "0 8px 8px 0" }, // Bo góc
                 boxShadow: "none",
+                color: "#fff",
                 "&:hover": {
                   boxShadow: "none",
                 },
@@ -710,11 +773,15 @@ const HomePage = () => {
           {/* Disclaimer Text */}
           <Typography
             variant="caption"
-            color="text.secondary"
-            sx={{ display: "block", mt: 2, px: 2 }}
+            sx={{
+              display: "block",
+              mt: 2,
+              px: 2,
+              color: "text_common.main",
+            }}
           >
             Khi nhấp email của mình, tôi thừa nhận{" "}
-            <Link href="#" underline="hover">
+            <Link href="#" underline="hover" sx={{ color: "#1868db" }}>
               Chính sách quyền riêng tư
             </Link>{" "}
             của Atlassian
