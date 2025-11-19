@@ -10,7 +10,7 @@ export const generatePlaceholderCard = (column) => {
     _id: `${column?._id}-placeholder-card`,
   };
 };
-export const apiBackend = "http://localhost:8080";
+export const apiBackend = import.meta.env.VITE_API_URL;
 export const apiVersion = "v1";
 
 // Dữ liệu cho các mục văn bản bên trái ở homePage
