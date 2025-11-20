@@ -1,7 +1,9 @@
 import React, { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+
 const App = lazy(() => import("~/App"));
-import HomePage from "~/page/HomePage";
+const HomePage = lazy(() => import("~/page/HomePage"));
+const LoginPage = lazy(() => import("~/page/Auth/LoginPage"));
 
 const Index = () => {
   const HandleRedirectToTrello = () => {
@@ -14,6 +16,7 @@ const Index = () => {
           <Route path="/" element={<HandleRedirectToTrello />}></Route>
           <Route path="/vi" element={<HomePage />} />
           <Route path="/boards/:boardId" element={<App />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </Suspense>
     </>
