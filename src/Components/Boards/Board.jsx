@@ -4,21 +4,28 @@ import BoardBar from "./BoardBar";
 import BoardContent from "./BoardContent";
 import FakeBoardContent from "./FakeBoardContent";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
-import {
-  getDetailBoardAPI,
-  updateCardOrderIds,
-  updateColumnOrderIds,
-  updateMoveCardFromDifferentColumn,
-} from "~/apis";
 import { LoadingContext } from "~/page/LoadingProvider";
 import { registerLoadingSetter } from "~/utils/LoadingManager";
 import { cloneDeep, isEmpty } from "lodash";
-import { generatePlaceholderCard } from "~/utils/constant";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getDetailBoardReduxAPI,
+  updateCardOrderIdsRedux,
+  updateColumnOrderIdsRedux,
+  updateCurrentActiveBoard,
+  updateMoveCardFromDifferentColumnRedux,
+} from "~/utils/Redux/ActiveBoardSlice";
+import LoadingPage from "../LoadingPage/LoadingPage";
 
 const Board = () => {
   let { boardId } = useParams();
   const { isCallingApi, setIsCallingApi } = useContext(LoadingContext);
   const [board, setBoard] = useState([]);
+  const activeBoard = useSelector((state) => {
+    return state.activeBoardReducer.activeBoardState;
+  });
+
+  const dispatch = useDispatch();
   // const location = useLocation();
   // let [searchParams] = useSearchParams();
   // searchParams.forEach((i) => {
@@ -27,38 +34,28 @@ const Board = () => {
   // });
   // console.log("🚀 ~ Board ~ location:", location);
   const moveColumnApi = async (ArrayColumns) => {
-    const columnsOrderIds = ArrayColumns.map((column) => column?._id);
-    board.columns = ArrayColumns;
-    board.columnOrderIds = columnsOrderIds;
-    await updateColumnOrderIds(boardId, columnsOrderIds)
-      .then((res) => {
-        console.log("🚀 ~ moveColumnApi ~ res:", res);
-      })
-      .catch((error) => {
-        console.log("🚀 ~ moveColumnApi ~ error:", error);
-      });
+    const boardClone = cloneDeep(activeBoard);
+    const columnOrderIds = ArrayColumns.map((column) => column?._id);
+    boardClone.columns = ArrayColumns;
+    boardClone.columnOrderIds = columnOrderIds;
+    dispatch(updateCurrentActiveBoard(boardClone)); // error khi để dispatch ở trước setBoard, tính bất biến của redux
+    dispatch(updateColumnOrderIdsRedux({ boardId, columnOrderIds }));
   };
   const moveCardSameColumnApi = async (columnIds, ArrayCards) => {
-    // setBoard((prev) => {
-    //   const columnHaveCardsChange = cloneDeep(prev);
-    //   // tìm column mà card đang kéo thả
-    //   const targetColumn = columnHaveCardsChange.columns.find(
-    //     (column) => column._id === columnIds
-    //   );
-    //   targetColumn.cards = ArrayCards;
-    //   targetColumn.cardOrderIds = ArrayCards.map((card) => card._id);
-    //   return columnHaveCardsChange;
-    // });
-    await updateCardOrderIds(
-      columnIds,
-      ArrayCards.map((card) => card?._id)
-    )
-      .then((res) => {
-        // console.log("🚀 ~ moveCardSameColumnApi ~ res:", res);
+    const boardClone = cloneDeep(activeBoard);
+    // tìm column mà card đang kéo thả
+    const targetColumn = boardClone.columns.find(
+      (column) => column._id === columnIds
+    );
+    targetColumn.cards = ArrayCards;
+    targetColumn.cardOrderIds = ArrayCards.map((card) => card._id);
+    dispatch(updateCurrentActiveBoard(boardClone));
+    dispatch(
+      updateCardOrderIdsRedux({
+        columnIds,
+        ArrayCards: targetColumn.cardOrderIds,
       })
-      .catch((error) => {
-        console.log("🚀 ~ moveCardSameColumnApi ~ error:", error);
-      });
+    );
   };
   const moveCardDifferentColumnApi = async (
     nextOverColumn,
@@ -66,50 +63,37 @@ const Board = () => {
     OldColumnWhenDraggingCard,
     nextColumn
   ) => {
-    const newBoard = cloneDeep(board);
+    const newBoard = cloneDeep(activeBoard);
     newBoard.columns = nextColumn;
     newBoard.columnOrderIds = nextColumn.map((column) => column?._id);
-    setBoard(newBoard);
+    dispatch(updateCurrentActiveBoard(newBoard));
 
+    // tìm column active (column co card chuyển sang column khác) để lấy cardOrderIds
     const preCardOrderIds = nextColumn.find(
       (column) => column._id === OldColumnWhenDraggingCard._id
     );
 
+    // tìm column over (column co card chuyển đến từ column khác) để lấy cardOrderIds
     const nextCardOrderIds = nextColumn.find(
       (column) => column._id === nextOverColumn._id
     );
+    // check xem column active có empty không
     const checkEmptyColumn =
       preCardOrderIds.cardOrderIds.length === 1 &&
       preCardOrderIds.cardOrderIds[0].includes("-placeholder-card");
-    await updateMoveCardFromDifferentColumn(
-      ActiveDraggingCardId,
-      nextOverColumn._id,
-      nextCardOrderIds.cardOrderIds,
-      OldColumnWhenDraggingCard._id,
-      checkEmptyColumn ? [] : preCardOrderIds.cardOrderIds
+    dispatch(
+      updateMoveCardFromDifferentColumnRedux({
+        activeCardId: ActiveDraggingCardId,
+        nextColumnId: nextOverColumn._id,
+        nextCardOrderIds: nextCardOrderIds.cardOrderIds,
+        preColumn: OldColumnWhenDraggingCard._id,
+        preCardOrderIds: checkEmptyColumn ? [] : preCardOrderIds.cardOrderIds,
+      })
     );
   };
   const handleGetBoardDetail = async (loading = true) => {
     if (boardId) {
-      await getDetailBoardAPI(boardId, loading)
-        .then((res) => {
-          setBoard(() => {
-            const newColumn = res.data.columns.filter((column) =>
-              isEmpty(column?.cardOrderIds)
-            );
-
-            if (newColumn) {
-              newColumn.forEach((column) => {
-                column.cards = [generatePlaceholderCard(column)];
-                column.cardOrderIds = column.cards.map((card) => card._id);
-              });
-            }
-            return res.data;
-          });
-        })
-        .catch((err) => {
-          console.log("🚀 ~ handleGetBoardDetail ~ err:", err);
-        });
+      dispatch(getDetailBoardReduxAPI({ boardId, loading }));
     }
   };
   useEffect(() => {
@@ -120,12 +104,12 @@ const Board = () => {
     <>
       <Header />
       {isCallingApi ? (
-        <h1>Loading</h1>
+        <LoadingPage></LoadingPage>
       ) : (
         <>
-          <BoardBar boardTitle={board.title} />
+          <BoardBar boardTitle={activeBoard?.title} />
           <BoardContent
-            board={board}
+            board={activeBoard}
             handleGetBoardDetail={handleGetBoardDetail}
             moveCardSameColumnApi={moveCardSameColumnApi}
             moveColumnApi={moveColumnApi}
@@ -138,5 +122,4 @@ const Board = () => {
     </>
   );
 };
-
 export default Board;

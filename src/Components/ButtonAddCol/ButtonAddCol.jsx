@@ -13,9 +13,12 @@ import BoxIconCover from "../BoxIconCover";
 import { toast } from "react-toastify";
 import { createNewColumn } from "~/apis";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getDetailBoardReduxAPI } from "~/utils/Redux/ActiveBoardSlice";
 
-const ButtonAddCol = ({ handleGetBoardDetail, test }) => {
+const ButtonAddCol = () => {
   const { mode } = useColorScheme("light");
+  const dispatch = useDispatch();
   let { boardId } = useParams();
   const [openFormAddColumn, SetOpenAddColumn] = useState(false);
   const [columnTitle, SetColumnTitle] = useState("");
@@ -29,7 +32,7 @@ const ButtonAddCol = ({ handleGetBoardDetail, test }) => {
     }
     await createNewColumn({ title: columnTitle, boardIds: boardId })
       .then((res) => {
-        handleGetBoardDetail(false);
+        dispatch(getDetailBoardReduxAPI({ boardId, loading: false }));
         toggleSetOpenFormAddColumn();
       })
       .catch((err) => {

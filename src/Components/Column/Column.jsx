@@ -5,7 +5,7 @@ import FooterColumn from "./FooterColumn";
 import ListTrelloCards from "../ListTrelloCards/ListTrelloCards";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-const Column = ({ column, handleGetBoardDetail }) => {
+const Column = ({ column }) => {
   const {
     attributes,
     listeners,
@@ -87,7 +87,6 @@ const Column = ({ column, handleGetBoardDetail }) => {
         <FooterColumn
           columnID={column?._id}
           boardId={column?.boardIds}
-          handleGetBoardDetail={handleGetBoardDetail}
         ></FooterColumn>
       </Box>
     </div>
