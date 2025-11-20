@@ -7,9 +7,12 @@ import { MdOutlineClose } from "react-icons/md";
 import { LuLightbulb } from "react-icons/lu";
 import { toast } from "react-toastify";
 import { createNewCard } from "~/apis";
-const FooterColumn = ({ columnID, boardId, handleGetBoardDetail }) => {
+import { useDispatch } from "react-redux";
+import { getDetailBoardReduxAPI } from "~/utils/Redux/ActiveBoardSlice";
+const FooterColumn = ({ columnID, boardId }) => {
   const [openAddCard, SetOpenAddCard] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
+  const dispatch = useDispatch();
   const toggleSetOpenFormAddCard = () => {
     SetOpenAddCard(!openAddCard);
   };
@@ -25,7 +28,7 @@ const FooterColumn = ({ columnID, boardId, handleGetBoardDetail }) => {
       columnIds: columnID,
     })
       .then((res) => {
-        handleGetBoardDetail(false);
+        dispatch(getDetailBoardReduxAPI({ boardId, loading: false }));
         toggleSetOpenFormAddCard();
       })
       .catch((err) => {

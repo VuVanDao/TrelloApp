@@ -52,6 +52,7 @@ const HomePage = () => {
   const handleClose = () => setOpen(false);
   const [itemSelect, setItemSelect] = useState(features[0]);
   const isMd = useMediaQuery("(min-width: 1000px)"); // false < 1000px < true : nhỏ hơn 1000px là false , ngược lại là true
+
   return (
     <>
       {/* AppBar */}
@@ -117,7 +118,6 @@ const HomePage = () => {
           </Box>
         </Toolbar>
       </AppBar>
-
       {/* hero section */}
       <Box sx={{ backgroundColor: "rgb(244, 245, 247)" }}>
         <Container maxWidth="xl" sx={{ py: " 70px" }}>

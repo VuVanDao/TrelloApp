@@ -15,16 +15,12 @@ const ListColumns = ({ columns, handleGetBoardDetail }) => {
           strategy={horizontalListSortingStrategy}
         >
           {columns?.map((column) => (
-            <Column
-              key={column?._id}
-              column={column}
-              handleGetBoardDetail={handleGetBoardDetail}
-            ></Column>
+            <Column key={column?._id} column={column}></Column>
           ))}
         </SortableContext>
       )}
 
-      <ButtonAddCol handleGetBoardDetail={handleGetBoardDetail}></ButtonAddCol>
+      <ButtonAddCol></ButtonAddCol>
     </>
   );
 };
