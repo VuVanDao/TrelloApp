@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Checkbox,
-  Container,
   Divider,
   FormControlLabel,
   Link,
@@ -11,7 +10,6 @@ import {
   TextField,
   Typography,
   Paper,
-  Tooltip,
 } from "@mui/material";
 import {
   FaGoogle,
@@ -20,12 +18,21 @@ import {
   FaSlack,
   FaTrello,
 } from "react-icons/fa";
+import { useForm } from "react-hook-form";
 
 // Màu chủ đạo của Trello/Atlassian
 const TRELLO_BLUE = "#0052CC";
 const BG_COLOR = "#F9FAFC";
 
 const LoginPasswordPage = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => console.log(data);
+
   return (
     <Box
       sx={{
@@ -109,23 +116,41 @@ const LoginPasswordPage = () => {
         >
           Log in to continue
         </Typography>
-        {/* Form nhập Email */}
-        <Box component="form" noValidate autoComplete="off">
-          <TextField
-            fullWidth
-            placeholder="Enter your email"
-            variant="outlined"
-            size="small"
-            sx={{ mb: 2 }}
-          />
+        {/* Form nhập password */}
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
           <TextField
             fullWidth
             placeholder="Enter your password"
             variant="outlined"
             size="small"
             type="password"
+            {...register("password", { required: "this field is required" })}
           />
-
+          <Typography
+            variant="caption"
+            color="error"
+            display="block"
+            gutterBottom
+            mb={2}
+          >
+            {errors.password && <span>{errors.password.message}</span>}
+            {/* Khu vực hiển thị lỗi nếu có */}
+          </Typography>
+          <TextField
+            fullWidth
+            placeholder="Enter confirm password"
+            variant="outlined"
+            size="small"
+            type="password"
+            {...register("confirmPassword", {
+              required: "this field is required",
+              validate: (value) => {
+                if (watch("password") != value) {
+                  return "Your passwords do no match";
+                }
+              },
+            })}
+          />
           <Typography
             variant="caption"
             color="error"
@@ -133,8 +158,8 @@ const LoginPasswordPage = () => {
             gutterBottom
           >
             {/* Khu vực hiển thị lỗi nếu có */}
+            {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
           </Typography>
-
           {/* Checkbox Remember me */}
           <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
             <FormControlLabel
@@ -169,6 +194,7 @@ const LoginPasswordPage = () => {
               },
               mb: 3,
             }}
+            type="submit"
           >
             Continue
           </Button>

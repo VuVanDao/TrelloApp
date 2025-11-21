@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Checkbox,
-  Container,
   Divider,
   FormControlLabel,
   Link,
@@ -11,7 +10,6 @@ import {
   TextField,
   Typography,
   Paper,
-  Tooltip,
 } from "@mui/material";
 import {
   FaGoogle,
@@ -20,12 +18,24 @@ import {
   FaSlack,
   FaTrello,
 } from "react-icons/fa";
+import { useForm } from "react-hook-form";
+import { useAuth0 } from "@auth0/auth0-react";
 
 // Màu chủ đạo của Trello/Atlassian
 const TRELLO_BLUE = "#0052CC";
 const BG_COLOR = "#F9FAFC";
 
 const LoginPage = () => {
+  const { loginWithRedirect, user, isAuthenticated } = useAuth0();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => console.log(data);
+
   return (
     <Box
       sx={{
@@ -110,12 +120,13 @@ const LoginPage = () => {
           Log in to continue
         </Typography>
         {/* Form nhập Email */}
-        <Box component="form" noValidate autoComplete="off">
+        <Box component="form" onSubmit={handleSubmit(onSubmit)}>
           <TextField
             fullWidth
             placeholder="Enter your email"
             variant="outlined"
             size="small"
+            {...register("example", { required: true })}
           />
 
           <Typography
@@ -124,6 +135,7 @@ const LoginPage = () => {
             display="block"
             gutterBottom
           >
+            {errors.example && <span>This field is required</span>}
             {/* Khu vực hiển thị lỗi nếu có */}
           </Typography>
 
@@ -161,6 +173,7 @@ const LoginPage = () => {
               },
               mb: 3,
             }}
+            type="submit"
           >
             Continue
           </Button>
@@ -172,13 +185,30 @@ const LoginPage = () => {
 
           {/* Các nút Social Login */}
           <Stack spacing={1.5}>
-            <SocialButton icon={<FaGoogle color="#DB4437" />} text="Google" />
-            <SocialButton
-              icon={<FaMicrosoft color="#F25022" />}
-              text="Microsoft"
-            />
-            <SocialButton icon={<FaApple color="black" />} text="Apple" />
-            <SocialButton icon={<FaSlack color="#4A154B" />} text="Slack" />
+            <Box onClick={() => loginWithRedirect()}>
+              <SocialButton icon={<FaGoogle color="#DB4437" />} text="Google" />
+            </Box>
+            <Box onClick={() => loginWithRedirect()}>
+              <SocialButton
+                icon={<FaMicrosoft color="#F25022" />}
+                text="Microsoft"
+                onMouseDown={() => loginWithRedirect()}
+              />
+            </Box>
+            <Box onClick={() => loginWithRedirect()}>
+              <SocialButton
+                icon={<FaApple color="black" />}
+                text="Apple"
+                onMouseDown={() => loginWithRedirect()}
+              />
+            </Box>
+            <Box onClick={() => loginWithRedirect()}>
+              <SocialButton
+                icon={<FaSlack color="#4A154B" />}
+                text="Slack"
+                onMouseDown={() => loginWithRedirect()}
+              />
+            </Box>
           </Stack>
 
           {/* Footer Links */}
