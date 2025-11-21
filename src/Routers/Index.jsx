@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 const App = lazy(() => import("~/App"));
 const HomePage = lazy(() => import("~/page/HomePage"));
 const LoginPage = lazy(() => import("~/page/Auth/LoginPage"));
+const LoginPasswordPage = lazy(() => import("~/page/Auth/LoginPasswordPage"));
 
 const Index = () => {
   const HandleRedirectToTrello = () => {
@@ -16,7 +17,10 @@ const Index = () => {
           <Route path="/" element={<HandleRedirectToTrello />}></Route>
           <Route path="/vi" element={<HomePage />} />
           <Route path="/boards/:boardId" element={<App />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login">
+            <Route index element={<LoginPage />} />
+            <Route path="step_2" element={<LoginPasswordPage />} />
+          </Route>
         </Routes>
       </Suspense>
     </>

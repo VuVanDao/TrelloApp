@@ -25,7 +25,7 @@ import {
 const TRELLO_BLUE = "#0052CC";
 const BG_COLOR = "#F9FAFC";
 
-const LoginPage = () => {
+const LoginPasswordPage = () => {
   return (
     <Box
       sx={{
@@ -116,6 +116,14 @@ const LoginPage = () => {
             placeholder="Enter your email"
             variant="outlined"
             size="small"
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            fullWidth
+            placeholder="Enter your password"
+            variant="outlined"
+            size="small"
+            type="password"
           />
 
           <Typography
@@ -300,4 +308,4 @@ const SocialButton = ({ icon, text }) => (
   </Button>
 );
 
-export default LoginPage;
+export default LoginPasswordPage;
