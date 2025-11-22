@@ -38,7 +38,7 @@ export const accountSlice = createSlice({
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(createAccountRedux.fulfilled, (state, action) => {
       const res = action.payload.data;
-      state.activeBoardState = res;
+      state.accountState = res;
     });
   },
 });

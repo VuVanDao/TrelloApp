@@ -211,6 +211,7 @@ const Header = () => {
               <Avatar
                 alt="User"
                 sx={{ width: "25px", height: "25px" }}
+                src={currAccount?.avatar}
                 onClick={(e) => handleClick(e, "right")}
               />
             </Tooltip>

@@ -1,8 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { findAccountByAuth0Id } from "~/apis";
 import LoadingPage from "~/Components/LoadingPage/LoadingPage";
 import {
@@ -29,7 +29,7 @@ const VerifyAccount = () => {
   const handleLogin = async () => {
     if (isAuthenticated && user && user.email_verified) {
       const res = await findAccountByAuth0Id(user.sub);
-      if (res) {
+      if (res.data) {
         dispatch(updateCurrentAccount(res.data));
         navigate("/boards");
       } else {
@@ -59,8 +59,59 @@ const VerifyAccount = () => {
   } else {
     return (
       <>
-        <Box>
-          <Typography>{searchParams.get("error")}</Typography>
+        <Box
+          sx={{
+            width: "100%",
+            height: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Box
+            sx={{
+              width: "500px",
+              height: "300px",
+              display: "flex",
+              alignItems: "center",
+              flexDirection: "column",
+              justifyContent: "center",
+              backgroundColor: "#fff",
+              color: "black",
+              borderRadius: "10px",
+              gap: "10px",
+            }}
+          >
+            <Typography>{searchParams.get("error")}</Typography>
+            <Typography>{searchParams.get("error_description")}</Typography>
+            <Typography>
+              Sau khi xác thực với email của bạn xong, hãy thoát khỏi trang hoặc
+              làm mới trang và đăng nhập lại
+            </Typography>
+            <Link
+              style={{
+                padding: "5px 25px",
+                color: "black",
+                border: "1px solid black",
+                borderRadius: "5px",
+              }}
+              to={"https://mail.google.com/mail/u/0/#inbox"}
+            >
+              Go to my email
+            </Link>
+            <Button
+              onClick={() => {
+                logout();
+              }}
+              sx={{
+                padding: "5px 25px",
+                color: "#fff",
+              }}
+              variant="contained"
+            >
+              Back to home page
+            </Button>
+          </Box>
         </Box>
       </>
     );

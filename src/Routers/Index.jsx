@@ -1,12 +1,11 @@
 import React, { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import Boards from "~/page/Boards/Boards";
+import HomePage from "~/page/HomePage";
 
 const VerifyAccount = lazy(() => import("~/page/Auth/VerifyAccount"));
-const Boards = lazy(() => import("~/page/Boards/Boards"));
 const App = lazy(() => import("~/App"));
-const HomePage = lazy(() => import("~/page/HomePage"));
 const LoginPage = lazy(() => import("~/page/Auth/LoginPage"));
-const LoginPasswordPage = lazy(() => import("~/page/Auth/LoginPasswordPage"));
 
 const Index = () => {
   const HandleRedirectToTrello = () => {
@@ -24,7 +23,6 @@ const Index = () => {
           </Route>
           <Route path="/login">
             <Route index element={<LoginPage />} />
-            <Route path="step_2" element={<LoginPasswordPage />} />
           </Route>
         </Routes>
       </Suspense>

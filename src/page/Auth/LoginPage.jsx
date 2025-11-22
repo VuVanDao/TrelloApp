@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -35,7 +35,12 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => console.log(data);
-
+  const handleLogin = async () => {
+    if (!isAuthenticated && !user) loginWithRedirect();
+  };
+  useEffect(() => {
+    handleLogin();
+  }, [user, isAuthenticated]);
   return (
     <Box
       sx={{

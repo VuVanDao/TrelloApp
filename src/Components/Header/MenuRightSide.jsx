@@ -14,7 +14,8 @@ import { CiShare1 } from "react-icons/ci";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import React, { lazy, Suspense, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCurrentAccount } from "~/utils/Redux/AccountSlice";
 const MenuThemeHeader = lazy(() => import("./MenuThemeHeader"));
 
 const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
@@ -24,7 +25,7 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
   const [anchorElChild, setAnchorElChild] = useState(null);
   const openChild = Boolean(anchorElChild);
   const currAccount = useSelector((state) => state.accountReducer.accountState);
-
+  const dispatch = useDispatch();
   const handleClose = () => {
     setAnchorEl(null);
     handleCloseChild();
@@ -65,11 +66,15 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
         </ListSubheader>
         <MenuItem onClick={handleClose}>
           <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
-            <Avatar sx={{ width: "40px", height: "40px" }} alt="user"></Avatar>
+            <Avatar
+              sx={{ width: "40px", height: "40px" }}
+              alt="user"
+              src={currAccount?.avatar}
+            ></Avatar>
             <Box sx={{ height: "46px" }}>
               <Typography>{currAccount?.username}</Typography>
               <Typography sx={{ fontSize: "13px" }}>
-                {currAccount?.email}
+                {currAccount?.email || "Not link email"}
               </Typography>
             </Box>
           </Box>
@@ -139,13 +144,15 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
         </MenuItem>
         <Divider></Divider>
         <MenuItem
-          onClick={() =>
+          onClick={() => {
             logout({
               logoutParams: {
                 returnTo: window.location.origin + "/vi",
               },
-            })
-          }
+            });
+            dispatch(updateCurrentAccount(null));
+            dispatch(updateCurrentActiveBoard(null));
+          }}
         >
           <Typography>Logout</Typography>
         </MenuItem>
