@@ -19,6 +19,7 @@ import { CiSearch } from "react-icons/ci";
 import { Suspense, lazy } from "react";
 import BoxIconCover from "../BoxIconCover";
 import MenuRightSideResponsive from "./MenuRightSideResponsive";
+import { useSelector } from "react-redux";
 const MenuLeftSide = lazy(() => import("./MenuLeftSide"));
 const MenuRightSide = lazy(() => import("./MenuRightSide"));
 
@@ -27,6 +28,7 @@ const Header = () => {
   const [anchorElRight, setAnchorElRight] = useState(null);
   const [openMenuRightResponsive, setOpenMenuRightResponsive] = useState(false);
   const isMd = useMediaQuery("(min-width: 576px)"); // false < 576px < true : nhỏ hơn 576px là false , ngược lại là true
+  const currAccount = useSelector((state) => state.accountReducer.accountState);
 
   const handleClick = (event, item, openMenuRes = false) => {
     if (openMenuRes) {
@@ -205,7 +207,7 @@ const Header = () => {
             </Tooltip>
           </BoxIconCover>
           <BoxIconCover>
-            <Tooltip title="Account">
+            <Tooltip title={currAccount?.username || "Account"}>
               <Avatar
                 alt="User"
                 sx={{ width: "25px", height: "25px" }}

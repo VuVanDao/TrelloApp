@@ -14,6 +14,7 @@ import { CiShare1 } from "react-icons/ci";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import React, { lazy, Suspense, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useSelector } from "react-redux";
 const MenuThemeHeader = lazy(() => import("./MenuThemeHeader"));
 
 const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
@@ -22,6 +23,7 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
   const open = Boolean(anchorEl);
   const [anchorElChild, setAnchorElChild] = useState(null);
   const openChild = Boolean(anchorElChild);
+  const currAccount = useSelector((state) => state.accountReducer.accountState);
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -65,8 +67,10 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
           <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
             <Avatar sx={{ width: "40px", height: "40px" }} alt="user"></Avatar>
             <Box sx={{ height: "46px" }}>
-              <Typography>username</Typography>
-              <Typography sx={{ fontSize: "13px" }}>email@gmail.com</Typography>
+              <Typography>{currAccount?.username}</Typography>
+              <Typography sx={{ fontSize: "13px" }}>
+                {currAccount?.email}
+              </Typography>
             </Box>
           </Box>
         </MenuItem>
