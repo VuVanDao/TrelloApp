@@ -20,7 +20,9 @@ import { AiOutlineAppstore } from "react-icons/ai";
 import { MdKeyboardArrowDown } from "react-icons/md";
 const ModalWatchVideo = lazy(() => import("./ModalWatchVideo"));
 import { features } from "~/utils/constant";
+import { useAuth0 } from "@auth0/auth0-react";
 const HomePage = () => {
+  const { loginWithRedirect } = useAuth0();
   const LinkSXCommon = {
     margin: "0 12px",
     textDecoration: "none",
@@ -112,12 +114,14 @@ const HomePage = () => {
                 textTransform: "none",
                 height: "100%",
               }}
+              onClick={() => loginWithRedirect()}
             >
               Đến bảng của bạn
             </Button>
           </Box>
         </Toolbar>
       </AppBar>
+
       {/* hero section */}
       <Box sx={{ backgroundColor: "rgb(244, 245, 247)" }}>
         <Container maxWidth="xl" sx={{ py: " 70px" }}>

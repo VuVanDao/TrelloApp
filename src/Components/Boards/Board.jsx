@@ -28,6 +28,7 @@ const Board = () => {
   const dispatch = useDispatch();
   // const location = useLocation();
   // let [searchParams] = useSearchParams();
+  // console.log("🚀 ~ Board ~ searchParams:", searchParams[0]);
   // searchParams.forEach((i) => {
   //   console.log("🚀 ~ Board ~ i:", i);
   //   return i;
@@ -102,7 +103,6 @@ const Board = () => {
   }, []);
   return (
     <>
-      <Header />
       {isCallingApi ? (
         <LoadingPage></LoadingPage>
       ) : (

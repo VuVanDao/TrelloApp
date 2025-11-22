@@ -13,10 +13,12 @@ import { BiGroup } from "react-icons/bi";
 import { CiShare1 } from "react-icons/ci";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import React, { lazy, Suspense, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 const MenuThemeHeader = lazy(() => import("./MenuThemeHeader"));
 
 const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
   const { mode } = useColorScheme();
+  const { logout } = useAuth0();
   const open = Boolean(anchorEl);
   const [anchorElChild, setAnchorElChild] = useState(null);
   const openChild = Boolean(anchorElChild);
@@ -132,7 +134,15 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
           <Typography>Shortcuts</Typography>
         </MenuItem>
         <Divider></Divider>
-        <MenuItem>
+        <MenuItem
+          onClick={() =>
+            logout({
+              logoutParams: {
+                returnTo: window.location.origin + "/vi",
+              },
+            })
+          }
+        >
           <Typography>Logout</Typography>
         </MenuItem>
       </Menu>
