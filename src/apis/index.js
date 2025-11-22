@@ -39,3 +39,12 @@ export const ArchiveCard = async (cardId, columnId) => {
     return res.data;
   }
 };
+// account
+export const findAccountByAuth0Id = async (auth0Id) => {
+  if (auth0Id) {
+    const res = await InterceptorAxios.get(
+      `${apiBackend}/${apiVersion}/api/accounts/${auth0Id}`
+    );
+    return res.data;
+  }
+};

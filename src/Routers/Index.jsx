@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import VerifyAccount from "~/page/Auth/VerifyAccount";
 
+const VerifyAccount = lazy(() => import("~/page/Auth/VerifyAccount"));
 const Boards = lazy(() => import("~/page/Boards/Boards"));
 const App = lazy(() => import("~/App"));
 const HomePage = lazy(() => import("~/page/HomePage"));
