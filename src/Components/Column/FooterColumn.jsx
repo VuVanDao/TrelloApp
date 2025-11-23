@@ -1,5 +1,5 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { IoAddSharp } from "react-icons/io5";
 import { PiImagesLight } from "react-icons/pi";
 import BoxIconCover from "../BoxIconCover";
@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { getDetailBoardReduxAPI } from "~/utils/Redux/ActiveBoardSlice";
 const FooterColumn = ({ columnID, boardId }) => {
   const [openAddCard, SetOpenAddCard] = useState(false);
+  const [isCallApi, setIsCallApi] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
   const dispatch = useDispatch();
   const toggleSetOpenFormAddCard = () => {
@@ -21,7 +22,7 @@ const FooterColumn = ({ columnID, boardId }) => {
       toast.warning("Missing data");
       return;
     }
-
+    setIsCallApi(true);
     await createNewCard({
       title: cardTitle,
       boardIds: boardId,
@@ -33,7 +34,8 @@ const FooterColumn = ({ columnID, boardId }) => {
       })
       .catch((err) => {
         console.log("🚀 ~ handleCreateCard ~ err:", err);
-      });
+      })
+      .finally(() => setIsCallApi(false));
   };
   if (!openAddCard) {
     return (
@@ -120,6 +122,7 @@ const FooterColumn = ({ columnID, boardId }) => {
             }}
             variant="contained"
             onClick={handleCreateCard}
+            disabled={isCallApi}
           >
             Add card
           </Button>

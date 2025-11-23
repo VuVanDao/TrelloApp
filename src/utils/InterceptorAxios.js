@@ -2,6 +2,9 @@ import axios from "axios";
 import { loadingManager } from "./LoadingManager";
 import { toast } from "react-toastify";
 const instance = axios.create();
+// thời gian chờ tối đa 1 request (10p)
+instance.defaults.timeout = 1000 * 60 * 10;
+instance.defaults.withCredentials = true;
 // instance.defaults.withCredentials = true;
 export let isCallingApi = false;
 // Add a request interceptor
@@ -37,7 +40,9 @@ instance.interceptors.response.use(
   },
   function onRejected(error) {
     console.log("🚀 ~ onRejected ~ error:", error);
-    toast.error(error.response.data.message);
+    if (error.response?.status !== 410) {
+      toast.error(error.response.data.message);
+    }
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     loadingManager.set(false);

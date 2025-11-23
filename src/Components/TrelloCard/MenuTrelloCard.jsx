@@ -12,9 +12,13 @@ import { MdContentCopy } from "react-icons/md";
 import React from "react";
 import { useConfirm } from "material-ui-confirm";
 import { ArchiveCard } from "~/apis";
+import { useDispatch } from "react-redux";
+import { getDetailBoardReduxAPI } from "~/utils/Redux/ActiveBoardSlice";
 
 const MenuTrelloCard = ({ anchorEl, setAnchorEl, card }) => {
   const confirm = useConfirm();
+  const dispatch = useDispatch();
+
   const handleDelete = async () => {
     const { confirmed } = await confirm({
       description: `This will  delete ${card.title}.`,
@@ -25,7 +29,7 @@ const MenuTrelloCard = ({ anchorEl, setAnchorEl, card }) => {
     if (confirmed) {
       await ArchiveCard(card?._id, card?.columnIds)
         .then((res) => {
-          console.log("🚀 ~ handleDelete ~ res:", res);
+          dispatch(getDetailBoardReduxAPI({ boardId, loading: false }));
         })
         .catch((error) => {
           console.log("🚀 ~ handleDelete ~ error:", error);
