@@ -48,3 +48,9 @@ export const findAccountByAuth0IdOrEmail = async (id) => {
     return res.data;
   }
 };
+export const refreshTokenApi = async () => {
+  const res = await InterceptorAxios.get(
+    `${apiBackend}/${apiVersion}/api/accounts/refresh_token`
+  );
+  return res.data;
+};

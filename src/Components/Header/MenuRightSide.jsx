@@ -15,7 +15,11 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import React, { lazy, Suspense, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateCurrentAccount } from "~/utils/Redux/AccountSlice";
+import {
+  LogoutAccountRedux,
+  updateCurrentAccount,
+} from "~/utils/Redux/AccountSlice";
+import { updateCurrentActiveBoard } from "~/utils/Redux/ActiveBoardSlice";
 const MenuThemeHeader = lazy(() => import("./MenuThemeHeader"));
 
 const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
@@ -150,7 +154,7 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
                 returnTo: window.location.origin + "/vi",
               },
             });
-            dispatch(updateCurrentAccount(null));
+            dispatch(LogoutAccountRedux(null));
             dispatch(updateCurrentActiveBoard(null));
           }}
         >

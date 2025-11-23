@@ -51,6 +51,15 @@ export const LoginAccountRedux = createAsyncThunk(
     return response.data;
   }
 );
+export const LogoutAccountRedux = createAsyncThunk(
+  "activeBoard/LogoutAccountRedux",
+  async (data, thunkAPI) => {
+    const response = await InterceptorAxios.get(
+      `${apiBackend}/${apiVersion}/api/accounts/logout`
+    );
+    return response.data;
+  }
+);
 
 export const accountSlice = createSlice({
   name: "account",
@@ -75,6 +84,9 @@ export const accountSlice = createSlice({
     builder.addCase(LoginAccountRedux.fulfilled, (state, action) => {
       // const res = action.payload.data;
       // state.accountState = res;
+    });
+    builder.addCase(LogoutAccountRedux.fulfilled, (state, action) => {
+      state.accountState = null;
     });
   },
 });

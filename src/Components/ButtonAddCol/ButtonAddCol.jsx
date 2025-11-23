@@ -18,6 +18,7 @@ import { getDetailBoardReduxAPI } from "~/utils/Redux/ActiveBoardSlice";
 
 const ButtonAddCol = () => {
   const { mode } = useColorScheme("light");
+  const [callApi, setCallApi] = useState(false);
   const dispatch = useDispatch();
   let { boardId } = useParams();
   const [openFormAddColumn, SetOpenAddColumn] = useState(false);
@@ -30,6 +31,7 @@ const ButtonAddCol = () => {
       toast.warning("Missing data");
       return;
     }
+    setCallApi(true);
     await createNewColumn({ title: columnTitle, boardIds: boardId })
       .then((res) => {
         dispatch(getDetailBoardReduxAPI({ boardId, loading: false }));
@@ -37,6 +39,9 @@ const ButtonAddCol = () => {
       })
       .catch((err) => {
         console.log("🚀 ~ handleCreateColumn ~ err:", err);
+      })
+      .finally(() => {
+        setCallApi(true);
       });
   };
   if (!openFormAddColumn) {
@@ -123,6 +128,7 @@ const ButtonAddCol = () => {
             }}
             variant="contained"
             onClick={handleCreateColumn}
+            disabled={callApi}
           >
             Add list
           </Button>

@@ -9,8 +9,10 @@ import { TbSettingsAutomation } from "react-icons/tb";
 import { GoRocket } from "react-icons/go";
 import React from "react";
 import BoxIconCover from "../BoxIconCover";
+import { useSelector } from "react-redux";
 
 const BoardBar = ({ boardTitle }) => {
+  const currAccount = useSelector((state) => state.accountReducer.accountState);
   return (
     <>
       <Box
@@ -62,7 +64,7 @@ const BoardBar = ({ boardTitle }) => {
               gap: "15px",
             }}
           >
-            <Tooltip title="điền tên tài khoản vào đây">
+            <Tooltip title={currAccount?.username}>
               <Avatar
                 alt="User"
                 sx={{
@@ -70,6 +72,7 @@ const BoardBar = ({ boardTitle }) => {
                   height: "30px",
                 }}
                 className="cursor_pointer"
+                src={currAccount?.avatar}
               />
             </Tooltip>
             <BoxIconCover>
