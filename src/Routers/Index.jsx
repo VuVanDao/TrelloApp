@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Boards from "~/page/Boards/Boards";
 import HomePage from "~/page/HomePage";
 
@@ -8,8 +9,18 @@ const App = lazy(() => import("~/App"));
 const LoginPage = lazy(() => import("~/page/Auth/LoginPage"));
 
 const Index = () => {
+  const account = useSelector((state) => {
+    return state.accountReducer.accountState;
+  });
+
   const HandleRedirectToTrello = () => {
     return <Navigate to={"/boards"} />;
+  };
+  const HandleCheckSignIn = () => {
+    if (!account || !account?.auth0Id) {
+      return <Navigate to={"/vi"} />;
+    }
+    return <Outlet />;
   };
   return (
     <>
@@ -18,8 +29,10 @@ const Index = () => {
           <Route path="/" element={<HandleRedirectToTrello />}></Route>
           <Route path="/vi" element={<HomePage />} />
           <Route path="/verify_account" element={<VerifyAccount />} />
-          <Route path="/boards" element={<Boards />}>
-            <Route path=":boardId" element={<App />} />
+          <Route element={<HandleCheckSignIn />}>
+            <Route path="/boards" element={<Boards />}>
+              <Route path=":boardId" element={<App />} />
+            </Route>
           </Route>
           <Route path="/login">
             <Route index element={<LoginPage />} />

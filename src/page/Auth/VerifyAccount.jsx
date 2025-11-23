@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, Zoom } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -53,9 +53,6 @@ const VerifyAccount = () => {
   }, [isAuthenticated, user, isLoading]);
   if (isLoading) {
     return <LoadingPage></LoadingPage>;
-  }
-  if (isAuthenticated && user && user.email_verified) {
-    return <>VerifiedAccount</>;
   } else {
     return (
       <>
@@ -68,50 +65,71 @@ const VerifyAccount = () => {
             justifyContent: "center",
           }}
         >
-          <Box
-            sx={{
-              width: "500px",
-              height: "300px",
-              display: "flex",
-              alignItems: "center",
-              flexDirection: "column",
-              justifyContent: "center",
-              backgroundColor: "#fff",
-              color: "black",
-              borderRadius: "10px",
-              gap: "10px",
-            }}
-          >
-            <Typography>{searchParams.get("error")}</Typography>
-            <Typography>{searchParams.get("error_description")}</Typography>
-            <Typography>
-              Sau khi xác thực với email của bạn xong, hãy thoát khỏi trang hoặc
-              làm mới trang và đăng nhập lại
-            </Typography>
-            <Link
-              style={{
-                padding: "5px 25px",
-                color: "black",
-                border: "1px solid black",
-                borderRadius: "5px",
-              }}
-              to={"https://mail.google.com/mail/u/0/#inbox"}
-            >
-              Go to my email
-            </Link>
-            <Button
-              onClick={() => {
-                logout();
-              }}
-              sx={{
-                padding: "5px 25px",
-                color: "#fff",
-              }}
-              variant="contained"
-            >
-              Back to home page
-            </Button>
-          </Box>
+          <Zoom in={true} style={{ transitionDelay: "200ms" }}>
+            {isAuthenticated && user && user.email_verified ? (
+              <Box
+                sx={{
+                  width: "500px",
+                  height: "300px",
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  backgroundColor: "#fff",
+                  color: "black",
+                  borderRadius: "10px",
+                  gap: "10px",
+                }}
+              >
+                <Typography>VerifiedAccount</Typography>
+              </Box>
+            ) : (
+              <Box
+                sx={{
+                  width: "500px",
+                  height: "300px",
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  backgroundColor: "#fff",
+                  color: "black",
+                  borderRadius: "10px",
+                  gap: "10px",
+                }}
+              >
+                <Typography>{searchParams.get("error")}</Typography>
+                <Typography>{searchParams.get("error_description")}</Typography>
+                <Typography>
+                  Sau khi xác thực với email của bạn xong, hãy thoát khỏi trang
+                  hoặc làm mới trang và đăng nhập lại
+                </Typography>
+                <Link
+                  style={{
+                    padding: "5px 25px",
+                    color: "black",
+                    border: "1px solid black",
+                    borderRadius: "5px",
+                  }}
+                  to={"https://mail.google.com/mail/u/0/#inbox"}
+                >
+                  Go to my email
+                </Link>
+                <Button
+                  onClick={() => {
+                    logout();
+                  }}
+                  sx={{
+                    padding: "5px 25px",
+                    color: "#fff",
+                  }}
+                  variant="contained"
+                >
+                  Back to home page
+                </Button>
+              </Box>
+            )}
+          </Zoom>
         </Box>
       </>
     );

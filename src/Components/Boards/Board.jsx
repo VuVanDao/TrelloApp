@@ -20,7 +20,6 @@ import LoadingPage from "../LoadingPage/LoadingPage";
 const Board = () => {
   let { boardId } = useParams();
   const { isCallingApi, setIsCallingApi } = useContext(LoadingContext);
-  const [board, setBoard] = useState([]);
   const activeBoard = useSelector((state) => {
     return state.activeBoardReducer.activeBoardState;
   });
