@@ -3,10 +3,12 @@ import { Box, Button, Typography, Zoom } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { findAccountByAuth0Id } from "~/apis";
+import { findAccountByAuth0IdOrEmail } from "~/apis";
 import LoadingPage from "~/Components/LoadingPage/LoadingPage";
 import {
   createAccountRedux,
+  LoginAccountRedux,
+  updateAccountRedux,
   updateCurrentAccount,
 } from "~/utils/Redux/AccountSlice";
 
@@ -28,11 +30,19 @@ const VerifyAccount = () => {
   console.log("🚀 ~ Boards ~ user:", user);
   const handleLogin = async () => {
     if (isAuthenticated && user && user.email_verified) {
-      const res = await findAccountByAuth0Id(user.sub);
-      if (res.data) {
-        dispatch(updateCurrentAccount(res.data));
+      const res = await dispatch(
+        LoginAccountRedux({ email: user.email, auth0Id: user.sub })
+      );
+      if (!res.payload?.data?.email || !res.payload?.data?.auth0Id) {
+        await dispatch(
+          updateAccountRedux({ email: user?.email, auth0Id: user?.sub })
+        );
         navigate("/boards");
       } else {
+        dispatch(updateCurrentAccount(res?.payload?.data));
+        navigate("/boards");
+      }
+      if (!res?.payload?.data) {
         // 1. Lấy token để bảo mật API (Backend sẽ check token này)
         const token = await getAccessTokenSilently();
         dispatch(
@@ -45,6 +55,7 @@ const VerifyAccount = () => {
           })
         );
         navigate("/boards");
+        return;
       }
     }
   };

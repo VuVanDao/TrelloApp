@@ -18,7 +18,7 @@ const Index = () => {
   };
   const HandleCheckSignIn = () => {
     if (!account || !account?.auth0Id) {
-      return <Navigate to={"/vi"} />;
+      return <Navigate to={"/login"} />;
     }
     return <Outlet />;
   };

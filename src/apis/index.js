@@ -40,10 +40,10 @@ export const ArchiveCard = async (cardId, columnId) => {
   }
 };
 // account
-export const findAccountByAuth0Id = async (auth0Id) => {
-  if (auth0Id) {
+export const findAccountByAuth0IdOrEmail = async (id) => {
+  if (id) {
     const res = await InterceptorAxios.get(
-      `${apiBackend}/${apiVersion}/api/accounts/${auth0Id}`
+      `${apiBackend}/${apiVersion}/api/accounts/${id}`
     );
     return res.data;
   }

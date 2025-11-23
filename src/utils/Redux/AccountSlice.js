@@ -23,6 +23,34 @@ export const createAccountRedux = createAsyncThunk(
     return response.data;
   }
 );
+export const updateAccountRedux = createAsyncThunk(
+  // redux DetailBoardAPI :https://gemini.google.com/app/48d179cf17ed9880?hl=vi
+  "activeBoard/updateAccountRedux",
+  async ({ email, auth0Id }, thunkAPI) => {
+    const response = await InterceptorAxios.put(
+      `${apiBackend}/${apiVersion}/api/accounts/${email || auth0Id}`,
+      {
+        email,
+        auth0Id,
+      }
+    );
+    return response.data;
+  }
+);
+export const LoginAccountRedux = createAsyncThunk(
+  // redux DetailBoardAPI :https://gemini.google.com/app/48d179cf17ed9880?hl=vi
+  "activeBoard/LoginAccountRedux",
+  async ({ email, auth0Id }, thunkAPI) => {
+    const response = await InterceptorAxios.post(
+      `${apiBackend}/${apiVersion}/api/accounts/login`,
+      {
+        email,
+        auth0Id,
+      }
+    );
+    return response.data;
+  }
+);
 
 export const accountSlice = createSlice({
   name: "account",
@@ -39,6 +67,14 @@ export const accountSlice = createSlice({
     builder.addCase(createAccountRedux.fulfilled, (state, action) => {
       const res = action.payload.data;
       state.accountState = res;
+    });
+    builder.addCase(updateAccountRedux.fulfilled, (state, action) => {
+      const res = action.payload.data;
+      state.accountState = res;
+    });
+    builder.addCase(LoginAccountRedux.fulfilled, (state, action) => {
+      // const res = action.payload.data;
+      // state.accountState = res;
     });
   },
 });

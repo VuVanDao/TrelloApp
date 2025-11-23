@@ -5,7 +5,7 @@ const instance = axios.create();
 // thời gian chờ tối đa 1 request (10p)
 instance.defaults.timeout = 1000 * 60 * 10;
 instance.defaults.withCredentials = true;
-// instance.defaults.withCredentials = true;
+
 export let isCallingApi = false;
 // Add a request interceptor
 instance.interceptors.request.use(
