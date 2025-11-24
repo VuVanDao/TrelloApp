@@ -83,7 +83,19 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
             </Box>
           </Box>
         </MenuItem>
-        <MenuItem onClick={handleClose}>Switch accounts</MenuItem>
+        <MenuItem
+          onClick={() => {
+            logout({
+              logoutParams: {
+                returnTo: window.location.origin + "/login",
+              },
+            });
+            dispatch(LogoutAccountRedux(null));
+            dispatch(updateCurrentActiveBoard(null));
+          }}
+        >
+          Switch accounts
+        </MenuItem>
         <MenuItem
           onClick={handleClose}
           sx={{
