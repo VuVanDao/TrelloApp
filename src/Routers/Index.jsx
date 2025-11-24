@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Boards from "~/page/Boards/Boards";
 import HomePage from "~/page/HomePage";
+import Profiles from "~/page/Settings/Profiles";
+import SettingsPage from "~/page/Settings/SettingPage";
 
 const VerifyAccount = lazy(() => import("~/page/Auth/VerifyAccount"));
 const App = lazy(() => import("~/App"));
@@ -29,6 +31,9 @@ const Index = () => {
           <Route path="/" element={<HandleRedirectToTrello />}></Route>
           <Route path="/vi" element={<HomePage />} />
           <Route path="/verify_account" element={<VerifyAccount />} />
+          <Route path="/settings" element={<SettingsPage />}>
+            <Route index element={<Profiles />} />
+          </Route>
           <Route element={<HandleCheckSignIn />}>
             <Route path="/boards" element={<Boards />}>
               <Route path=":boardId" element={<App />} />

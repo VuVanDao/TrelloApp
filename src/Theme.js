@@ -14,6 +14,10 @@ const theme = createTheme({
         secondary: {
           main: "#ffffff",
         },
+        background: {
+          default: "#ffffff",
+          paper: "#ffffff",
+        },
         background_input_header: {
           main: "#396cb1",
           second: "#6b91c5",
@@ -42,6 +46,14 @@ const theme = createTheme({
         },
         secondary: {
           main: "#ffffff",
+        },
+        background: {
+          default: "#1d2125", // Nền chính
+          paper: "#22272b", // Nền sidebar/card
+        },
+        text: {
+          primary: "#b6c2cf", // Màu chữ chính
+          secondary: "#9fadbc", // Màu chữ phụ
         },
         background_input_header: {
           main: "#242528",
@@ -82,6 +94,12 @@ const theme = createTheme({
     ColumnWidth,
     CardWidth,
   },
+  typography: {
+    fontFamily: "Arial, sans-serif",
+    button: {
+      textTransform: "none",
+    },
+  },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
@@ -99,6 +117,37 @@ const theme = createTheme({
             cursor: "pointer",
           },
         },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "8px",
+          marginBottom: "4px",
+          // Style riêng khi item được chọn (active)
+          "&.Mui-selected": {
+            backgroundColor: "rgba(87, 157, 255, 0.1)", // Xanh nhạt
+            color: "#579dff", // Chữ xanh
+            "& .MuiListItemIcon-root": {
+              color: "#579dff",
+            },
+            "&:hover": {
+              backgroundColor: "rgba(87, 157, 255, 0.15)",
+            },
+          },
+        },
+      },
+    },
+    MuiDrawer: {
+      styleOverrides: {
+        paper: ({ theme }) => ({
+          backgroundColor: theme.palette.background.default, // Đồng bộ màu nền
+          borderRight: `1px solid ${
+            theme.palette.mode === "dark"
+              ? "rgba(255,255,255,0.1)"
+              : "rgba(0,0,0,0.1)"
+          }`,
+        }),
       },
     },
   },
