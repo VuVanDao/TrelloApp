@@ -20,10 +20,12 @@ import {
   updateCurrentAccount,
 } from "~/utils/Redux/AccountSlice";
 import { updateCurrentActiveBoard } from "~/utils/Redux/ActiveBoardSlice";
+import { useNavigate } from "react-router-dom";
 const MenuThemeHeader = lazy(() => import("./MenuThemeHeader"));
 
 const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
   const { mode } = useColorScheme();
+  const navigate = useNavigate();
   const { logout } = useAuth0();
   const open = Boolean(anchorEl);
   const [anchorElChild, setAnchorElChild] = useState(null);
@@ -120,7 +122,7 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
         <MenuItem>
           <Typography>Cards</Typography>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={() => navigate("/settings")}>
           <Typography>Settings</Typography>
         </MenuItem>
         <MenuItem

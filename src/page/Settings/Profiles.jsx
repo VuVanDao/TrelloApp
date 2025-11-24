@@ -11,12 +11,40 @@ import {
 
 import CloseIcon from "@mui/icons-material/Close";
 import PublicIcon from "@mui/icons-material/Public";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { updateAccountInfoRedux } from "~/utils/Redux/AccountSlice";
+import { useNavigate } from "react-router-dom";
 
 const Profiles = () => {
+  const currAccount = useSelector((state) => state.accountReducer.accountState);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => {
+    console.log(data);
+    dispatch(
+      updateAccountInfoRedux({
+        data: { username: data?.username, bio: data?.bio },
+        id: currAccount?._id,
+      })
+    );
+  };
+
   return (
     <Box sx={{ p: 3, maxWidth: "800px", margin: "0 auto" }}>
       {/* Header Buttons */}
-      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+      <Box
+        sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}
+        onClick={() => {
+          navigate("/boards");
+        }}
+      >
         <IconButton sx={{ color: "#9fadbc" }}>
           <CloseIcon />
         </IconButton>
@@ -109,102 +137,115 @@ const Profiles = () => {
         <span style={{ color: "#f44336" }}>*</span>
       </Typography>
 
-      <Box sx={{ mb: 3 }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
-          <Typography variant="subtitle2" fontWeight="bold">
-            Username <span style={{ color: "#f44336" }}>*</span>
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 0.5,
-              color: "#9fadbc",
-            }}
-          >
-            <PublicIcon sx={{ fontSize: 14 }} />
-            <Typography variant="caption">Always public</Typography>
+      <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
+        <Box sx={{ mb: 3 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
+            <Typography variant="subtitle2" fontWeight="bold">
+              Username <span style={{ color: "#f44336" }}>*</span>
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 0.5,
+                color: "#9fadbc",
+              }}
+            >
+              <PublicIcon sx={{ fontSize: 14 }} />
+              <Typography variant="caption">Always public</Typography>
+            </Box>
           </Box>
+          <TextField
+            fullWidth
+            defaultValue={currAccount?.username}
+            size="small"
+            variant="outlined"
+            {...register("username")}
+            sx={{
+              backgroundColor: (theme) =>
+                theme.palette.mode === "dark" ? "#22272b" : "#fff",
+              "& fieldset": {
+                borderColor: (theme) =>
+                  theme.palette.mode === "dark" ? "#738496" : "#ccc",
+              },
+              "&:hover fieldset": {
+                borderColor: (theme) =>
+                  theme.palette.mode === "dark" ? "#8c9bab" : "#999",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: (theme) => theme.palette.primary.main,
+              },
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: (theme) =>
+                    theme.palette.mode === "dark" ? "#fff" : "#738496", // border khi focus
+                },
+              },
+            }}
+          />
         </Box>
-        <TextField
-          fullWidth
-          defaultValue="dovuvan2"
-          size="small"
-          variant="outlined"
+
+        <Box sx={{ mb: 3 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
+            <Typography variant="subtitle2" fontWeight="bold">
+              Bio
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 0.5,
+                color: "#9fadbc",
+              }}
+            >
+              <PublicIcon sx={{ fontSize: 14 }} />
+              <Typography variant="caption">Always public</Typography>
+            </Box>
+          </Box>
+          <TextField
+            fullWidth
+            multiline
+            rows={4}
+            size="small"
+            variant="outlined"
+            defaultValue={currAccount?.bio}
+            {...register("bio")}
+            sx={{
+              backgroundColor: (theme) =>
+                theme.palette.mode === "dark" ? "#22272b" : "#fff",
+              "& fieldset": {
+                borderColor: (theme) =>
+                  theme.palette.mode === "dark" ? "#738496" : "#ccc",
+              },
+              "&:hover fieldset": {
+                borderColor: (theme) =>
+                  theme.palette.mode === "dark" ? "#8c9bab" : "#999",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: (theme) => theme.palette.primary.main,
+              },
+              "& .MuiOutlinedInput-root": {
+                "&.Mui-focused fieldset": {
+                  borderColor: (theme) =>
+                    theme.palette.mode === "dark" ? "#fff" : "#738496", // border khi focus
+                },
+              },
+            }}
+          />
+        </Box>
+        <Button
+          variant="contained"
+          type="submit"
           sx={{
             backgroundColor: (theme) =>
-              theme.palette.mode === "dark" ? "#22272b" : "#fff",
-            "& fieldset": {
-              borderColor: (theme) =>
-                theme.palette.mode === "dark" ? "#738496" : "#ccc",
-            },
-            "&:hover fieldset": {
-              borderColor: (theme) =>
-                theme.palette.mode === "dark" ? "#8c9bab" : "#999",
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: (theme) => theme.palette.primary.main,
-            },
-            "& .MuiOutlinedInput-root": {
-              "&.Mui-focused fieldset": {
-                borderColor: (theme) =>
-                  theme.palette.mode === "dark" ? "#fff" : "#738496", // border khi focus
-              },
-            },
+              theme.palette.mode === "dark" ? "#fff" : "black",
+            color: (theme) =>
+              theme.palette.mode === "dark" ? "black" : "#fff",
           }}
-        />
+        >
+          Save
+        </Button>
       </Box>
-
-      <Box sx={{ mb: 3 }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
-          <Typography variant="subtitle2" fontWeight="bold">
-            Bio
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 0.5,
-              color: "#9fadbc",
-            }}
-          >
-            <PublicIcon sx={{ fontSize: 14 }} />
-            <Typography variant="caption">Always public</Typography>
-          </Box>
-        </Box>
-        <TextField
-          fullWidth
-          multiline
-          rows={4}
-          size="small"
-          variant="outlined"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === "dark" ? "#22272b" : "#fff",
-            "& fieldset": {
-              borderColor: (theme) =>
-                theme.palette.mode === "dark" ? "#738496" : "#ccc",
-            },
-            "&:hover fieldset": {
-              borderColor: (theme) =>
-                theme.palette.mode === "dark" ? "#8c9bab" : "#999",
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: (theme) => theme.palette.primary.main,
-            },
-            "& .MuiOutlinedInput-root": {
-              "&.Mui-focused fieldset": {
-                borderColor: (theme) =>
-                  theme.palette.mode === "dark" ? "#fff" : "#738496", // border khi focus
-              },
-            },
-          }}
-        />
-      </Box>
-
-      <Button variant="contained" disabled>
-        Save
-      </Button>
     </Box>
   );
 };

@@ -3,12 +3,11 @@ import { Box, Button, Typography, Zoom } from "@mui/material";
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { findAccountByAuth0IdOrEmail } from "~/apis";
 import LoadingPage from "~/Components/LoadingPage/LoadingPage";
 import {
   createAccountRedux,
   LoginAccountRedux,
-  updateAccountRedux,
+  updateAuth0IdAccountRedux,
   updateCurrentAccount,
 } from "~/utils/Redux/AccountSlice";
 
@@ -40,7 +39,7 @@ const VerifyAccount = () => {
         (!res.payload?.data?.email || !res.payload?.data?.auth0Id)
       ) {
         await dispatch(
-          updateAccountRedux({
+          updateAuth0IdAccountRedux({
             email: user?.email,
             auth0Id: user?.sub,
             id: res.payload?.data?._id,

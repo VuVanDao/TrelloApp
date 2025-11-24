@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Boards from "~/page/Boards/Boards";
 import HomePage from "~/page/HomePage";
-import Profiles from "~/page/Settings/Profiles";
-import SettingsPage from "~/page/Settings/SettingPage";
 
 const VerifyAccount = lazy(() => import("~/page/Auth/VerifyAccount"));
+const Profiles = lazy(() => import("~/page/Settings/Profiles"));
+const SettingsPage = lazy(() => import("~/page/Settings/SettingPage"));
 const App = lazy(() => import("~/App"));
 const LoginPage = lazy(() => import("~/page/Auth/LoginPage"));
 

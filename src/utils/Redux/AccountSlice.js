@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import InterceptorAxios from "~/utils/InterceptorAxios";
 import { apiBackend, apiVersion, generatePlaceholderCard } from "../constant";
 import { isEmpty } from "lodash";
+import { toast } from "react-toastify";
 export const createAccountRedux = createAsyncThunk(
   // redux DetailBoardAPI :https://gemini.google.com/app/48d179cf17ed9880?hl=vi
   "activeBoard/createAccountRedux",
@@ -23,15 +24,28 @@ export const createAccountRedux = createAsyncThunk(
     return response.data;
   }
 );
-export const updateAccountRedux = createAsyncThunk(
+export const updateAuth0IdAccountRedux = createAsyncThunk(
   // redux DetailBoardAPI :https://gemini.google.com/app/48d179cf17ed9880?hl=vi
-  "activeBoard/updateAccountRedux",
+  "activeBoard/updateAuth0IdAccountRedux",
   async ({ email, auth0Id, id }, thunkAPI) => {
     const response = await InterceptorAxios.put(
       `${apiBackend}/${apiVersion}/api/accounts/${id}`,
       {
         email,
         auth0Id,
+      }
+    );
+    return response.data;
+  }
+);
+export const updateAccountInfoRedux = createAsyncThunk(
+  // redux DetailBoardAPI :https://gemini.google.com/app/48d179cf17ed9880?hl=vi
+  "activeBoard/updateAccountInfoRedux",
+  async ({ data, id }, thunkAPI) => {
+    const response = await InterceptorAxios.put(
+      `${apiBackend}/${apiVersion}/api/accounts/${id}`,
+      {
+        ...data,
       }
     );
     return response.data;
@@ -82,7 +96,7 @@ export const accountSlice = createSlice({
       const res = action.payload.data;
       state.accountState = res;
     });
-    builder.addCase(updateAccountRedux.fulfilled, (state, action) => {
+    builder.addCase(updateAuth0IdAccountRedux.fulfilled, (state, action) => {
       const res = action.payload.data;
       console.log("🚀 ~ action.payload.data:", action.payload.data);
       state.accountState = res;
@@ -93,6 +107,11 @@ export const accountSlice = createSlice({
     });
     builder.addCase(LogoutAccountRedux.fulfilled, (state, action) => {
       state.accountState = null;
+    });
+    builder.addCase(updateAccountInfoRedux.fulfilled, (state, action) => {
+      const res = action.payload.data;
+      toast.success("update info account complete");
+      state.accountState = res;
     });
   },
 });
