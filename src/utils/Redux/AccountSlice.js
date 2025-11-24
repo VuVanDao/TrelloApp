@@ -40,12 +40,17 @@ export const updateAccountRedux = createAsyncThunk(
 export const LoginAccountRedux = createAsyncThunk(
   // redux DetailBoardAPI :https://gemini.google.com/app/48d179cf17ed9880?hl=vi
   "activeBoard/LoginAccountRedux",
-  async ({ email, auth0Id }, thunkAPI) => {
+  async ({ email, auth0Id, token }, thunkAPI) => {
     const response = await InterceptorAxios.post(
       `${apiBackend}/${apiVersion}/api/accounts/login`,
       {
         email,
         auth0Id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
     );
     return response.data;

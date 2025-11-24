@@ -30,8 +30,9 @@ const VerifyAccount = () => {
   console.log("🚀 ~ Boards ~ user:", user);
   const handleLogin = async () => {
     if (isAuthenticated && user && user.email_verified) {
+      const token = await getAccessTokenSilently();
       const res = await dispatch(
-        LoginAccountRedux({ email: user.email, auth0Id: user.sub })
+        LoginAccountRedux({ email: user.email, auth0Id: user.sub, token })
       );
       if (
         res?.payload &&
