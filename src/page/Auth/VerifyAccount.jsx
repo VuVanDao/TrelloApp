@@ -33,9 +33,17 @@ const VerifyAccount = () => {
       const res = await dispatch(
         LoginAccountRedux({ email: user.email, auth0Id: user.sub })
       );
-      if (!res.payload?.data?.email || !res.payload?.data?.auth0Id) {
+      if (
+        res?.payload &&
+        res?.payload?.data &&
+        (!res.payload?.data?.email || !res.payload?.data?.auth0Id)
+      ) {
         await dispatch(
-          updateAccountRedux({ email: user?.email, auth0Id: user?.sub })
+          updateAccountRedux({
+            email: user?.email,
+            auth0Id: user?.sub,
+            id: res.payload?.data?._id,
+          })
         );
         navigate("/boards");
       } else {
@@ -45,7 +53,7 @@ const VerifyAccount = () => {
       if (!res?.payload?.data) {
         // 1. Lấy token để bảo mật API (Backend sẽ check token này)
         const token = await getAccessTokenSilently();
-        dispatch(
+        await dispatch(
           createAccountRedux({
             email: user.email,
             username: user.nickname || user.given_name,
@@ -55,7 +63,6 @@ const VerifyAccount = () => {
           })
         );
         navigate("/boards");
-        return;
       }
     }
   };

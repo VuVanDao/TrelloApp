@@ -2,7 +2,7 @@ import axios from "axios";
 import { loadingManager } from "./LoadingManager";
 import { toast } from "react-toastify";
 import { InjectStore } from "./Redux/ReduxStore";
-import { LoginAccountRedux } from "./Redux/AccountSlice";
+import { LoginAccountRedux, LogoutAccountRedux } from "./Redux/AccountSlice";
 import { refreshTokenApi } from "~/apis";
 const instance = axios.create();
 // thời gian chờ tối đa 1 request (10p)
@@ -44,11 +44,11 @@ instance.interceptors.response.use(
   function onRejected(error) {
     console.log("🚀 ~ onRejected ~ error:", error);
     if (error.response?.status !== 410) {
-      toast.error(error.response.data.message);
+      // toast.error(error.response.data.message);
     }
     if (error.response?.status === 401) {
-      toast.error(error.response.data.message);
-      InjectStore.dispatch(LoginAccountRedux());
+      // toast.error(error.response.data.message);
+      InjectStore.dispatch(LogoutAccountRedux());
     }
     // logic auto refresh token: https://gemini.google.com/app/49b2366ee2e813da?hl=vi
     const originalRequest = error.config;

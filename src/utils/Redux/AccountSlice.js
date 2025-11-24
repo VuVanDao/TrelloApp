@@ -26,9 +26,9 @@ export const createAccountRedux = createAsyncThunk(
 export const updateAccountRedux = createAsyncThunk(
   // redux DetailBoardAPI :https://gemini.google.com/app/48d179cf17ed9880?hl=vi
   "activeBoard/updateAccountRedux",
-  async ({ email, auth0Id }, thunkAPI) => {
+  async ({ email, auth0Id, id }, thunkAPI) => {
     const response = await InterceptorAxios.put(
-      `${apiBackend}/${apiVersion}/api/accounts/${email || auth0Id}`,
+      `${apiBackend}/${apiVersion}/api/accounts/${id}`,
       {
         email,
         auth0Id,
@@ -79,6 +79,7 @@ export const accountSlice = createSlice({
     });
     builder.addCase(updateAccountRedux.fulfilled, (state, action) => {
       const res = action.payload.data;
+      console.log("🚀 ~ action.payload.data:", action.payload.data);
       state.accountState = res;
     });
     builder.addCase(LoginAccountRedux.fulfilled, (state, action) => {
