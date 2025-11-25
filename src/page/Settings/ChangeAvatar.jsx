@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, IconButton, Avatar, Button } from "@mui/material";
@@ -9,6 +9,8 @@ import { uploadAvatarApi } from "~/apis";
 import LoadingPage from "~/Components/LoadingPage/LoadingPage";
 import { cloneDeep } from "lodash";
 import { updateCurrentAccount } from "~/utils/Redux/AccountSlice";
+import { useDropzone } from "react-dropzone";
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -24,13 +26,22 @@ const ChangeAvatar = () => {
   const currAccount = useSelector((state) => state.accountReducer.accountState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const onDrop = useCallback((acceptedFiles) => {
+    // Do something with the files
+    console.log("🚀 ~ ChangeAvatar ~ acceptedFiles:", acceptedFiles);
+    handleFileChange(acceptedFiles[0]);
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+  });
+
   // State cho file 'avatar'
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const handleFileChange = async (e) => {
-    setFile(e.target.files[0]);
+    setFile(e);
     const formData = new FormData();
-    formData.append("image", e.target.files[0]);
+    formData.append("image", e);
     setUploading(true);
     uploadAvatarApi(currAccount?._id, currAccount?.public_id, formData)
       .then((res) => {
@@ -74,6 +85,7 @@ const ChangeAvatar = () => {
           >
             Change your avatar
           </Typography>
+
           <Box
             sx={{
               width: "100%",
@@ -104,9 +116,13 @@ const ChangeAvatar = () => {
               type=""
             >
               Upload
-              <VisuallyHiddenInput type="file" onChange={handleFileChange} />
+              <VisuallyHiddenInput
+                type="file"
+                onChange={(e) => handleFileChange(e.target.files[0])}
+              />
             </Button>
           </Box>
+          {/* drop zone */}
           <Box
             sx={{
               width: "100%",
@@ -114,30 +130,18 @@ const ChangeAvatar = () => {
               flexDirection: "column",
               gap: "50px",
               alignItems: "center",
+              border: "1px solid black",
+              p: "50px 10px",
             }}
           >
-            <Avatar
-              src={currAccount?.avatar}
-              sx={{ m: "0 auto", width: "200px", height: "200px" }}
-            ></Avatar>
-            <Button
-              variant="contained"
-              component="label"
-              role={undefined}
-              tabIndex={-1}
-              startIcon={<CloudUploadIcon />}
-              sx={{
-                width: "50%",
-                backgroundColor: (theme) =>
-                  theme.palette.mode === "dark" ? "#fff" : "black",
-                color: (theme) =>
-                  theme.palette.mode === "dark" ? "black" : "#fff",
-              }}
-              type=""
-            >
-              Upload
-              <VisuallyHiddenInput type="file" onChange={handleFileChange} />
-            </Button>
+            <div {...getRootProps()}>
+              <input {...getInputProps()} />
+              {isDragActive ? (
+                <p>Drop the files here ...</p>
+              ) : (
+                <p>Drag 'n' drop some files here, or click to select files</p>
+              )}
+            </div>
           </Box>
         </Box>
       </>
