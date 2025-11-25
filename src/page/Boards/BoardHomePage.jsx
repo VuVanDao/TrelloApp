@@ -163,9 +163,7 @@ export default function BoardHomePage() {
     <Box sx={{ display: "flex", mt: "30px", width: "100%" }}>
       {/* mt để tránh header */}
       <Sidebar />
-      <Box sx={{ overflowX: "hidden" }}>
-        <Outlet />
-      </Box>
+      <Outlet />
     </Box>
   );
 }

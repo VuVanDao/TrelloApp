@@ -7,8 +7,6 @@ const BoardCard = ({ title, bg, isTemplate }) => {
       <Card
         sx={{
           height: 100,
-          //   width: "215px",
-          //   maxWidth: "215px",
           borderRadius: 1,
           position: "relative",
           bgcolor: "transparent",

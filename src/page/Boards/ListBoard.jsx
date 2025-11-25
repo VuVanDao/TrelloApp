@@ -27,7 +27,8 @@ const ListBoard = () => {
       <Box
         sx={{
           py: 1,
-          px: 3,
+          px: 5,
+          width: "100%",
         }}
       >
         {/* --- TEMPLATES SECTION --- */}
