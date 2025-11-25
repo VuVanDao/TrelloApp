@@ -98,7 +98,6 @@ export const accountSlice = createSlice({
     });
     builder.addCase(updateAuth0IdAccountRedux.fulfilled, (state, action) => {
       const res = action.payload.data;
-      console.log("🚀 ~ action.payload.data:", action.payload.data);
       state.accountState = res;
     });
     builder.addCase(LoginAccountRedux.fulfilled, (state, action) => {

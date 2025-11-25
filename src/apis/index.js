@@ -48,6 +48,15 @@ export const findAccountByAuth0IdOrEmail = async (id) => {
     return res.data;
   }
 };
+export const uploadAvatarApi = async (id, public_id, formData) => {
+  if (id) {
+    const res = await InterceptorAxios.put(
+      `${apiBackend}/${apiVersion}/api/accounts/upload_avatar?accountId=${id}&public_id=${public_id}`,
+      formData
+    );
+    return res.data;
+  }
+};
 export const refreshTokenApi = async () => {
   const res = await InterceptorAxios.get(
     `${apiBackend}/${apiVersion}/api/accounts/refresh_token`

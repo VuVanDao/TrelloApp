@@ -5,6 +5,7 @@ import Boards from "~/page/Boards/Boards";
 import HomePage from "~/page/HomePage";
 
 const VerifyAccount = lazy(() => import("~/page/Auth/VerifyAccount"));
+const ChangeAvatar = lazy(() => import("~/page/Settings/ChangeAvatar"));
 const Profiles = lazy(() => import("~/page/Settings/Profiles"));
 const SettingsPage = lazy(() => import("~/page/Settings/SettingPage"));
 const App = lazy(() => import("~/App"));
@@ -33,6 +34,7 @@ const Index = () => {
           <Route path="/verify_account" element={<VerifyAccount />} />
           <Route path="/settings" element={<SettingsPage />}>
             <Route index element={<Profiles />} />
+            <Route path="my_avatar" element={<ChangeAvatar />} />
           </Route>
           <Route element={<HandleCheckSignIn />}>
             <Route path="/boards" element={<Boards />}>

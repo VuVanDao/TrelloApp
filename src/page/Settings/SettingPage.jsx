@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 
 // Import Icons
+import { FaRegImage } from "react-icons/fa6";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import ListAltIcon from "@mui/icons-material/ListAlt";
@@ -22,131 +23,151 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
 import MenuIcon from "@mui/icons-material/Menu"; // Icon menu cho mobile
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const drawerWidth = 260;
-
-// 2. Nội dung Sidebar (Được tách ra để dùng chung cho cả Mobile và Desktop)
-const DrawerContent = () => (
-  <Box sx={{ p: 2, height: "100%", display: "flex", flexDirection: "column" }}>
-    {/* Personal Settings */}
-    <Typography
-      variant="caption"
-      sx={{ fontWeight: "bold", mb: 1, display: "block", color: "#9fadbc" }}
-    >
-      Personal Settings
-    </Typography>
-    <List component="nav" dense>
-      <ListItemButton selected>
-        <ListItemIcon sx={{ minWidth: 40 }}>
-          <PersonOutlineIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="Profile and Visibility" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon sx={{ minWidth: 40 }}>
-          <SettingsOutlinedIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="Settings" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon sx={{ minWidth: 40 }}>
-          <ListAltIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="Activity" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon sx={{ minWidth: 40 }}>
-          <CreditCardIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="Cards" />
-      </ListItemButton>
-    </List>
-
-    <Divider sx={{ my: 2, borderColor: "rgba(255,255,255,0.1)" }} />
-
-    {/* Workspace Section */}
-    <Typography
-      variant="caption"
-      sx={{ fontWeight: "bold", mb: 1, display: "block", color: "#9fadbc" }}
-    >
-      Workspace
-    </Typography>
-
-    <Box sx={{ display: "flex", alignItems: "center", mb: 1, pl: 1 }}>
-      <Box
-        sx={{
-          bgcolor: "#0079bf",
-          borderRadius: 1,
-          p: 0.5,
-          mr: 1,
-          display: "flex",
-        }}
-      >
-        <Typography
-          variant="caption"
-          sx={{ fontWeight: "bold", color: "#fff" }}
-        >
-          T
-        </Typography>
-      </Box>
-      <Typography variant="body2" fontWeight="bold">
-        Trello Workspace
-      </Typography>
-    </Box>
-
-    <List component="nav" dense>
-      <ListItemButton>
-        <ListItemIcon sx={{ minWidth: 40 }}>
-          <DashboardIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="Boards" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon sx={{ minWidth: 40 }}>
-          <GroupOutlinedIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="Members" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon sx={{ minWidth: 40 }}>
-          <SettingsOutlinedIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="Settings" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemIcon sx={{ minWidth: 40 }}>
-          <RocketLaunchOutlinedIcon fontSize="small" />
-        </ListItemIcon>
-        <ListItemText primary="Upgrade workspace" />
-      </ListItemButton>
-    </List>
-
-    <Box sx={{ mt: "auto", pt: 2 }}>
-      <Box
-        sx={{
-          border: "1px solid #9fadbc",
-          borderRadius: 1,
-          display: "inline-block",
-          px: 1,
-          py: 0.2,
-        }}
-      >
-        <Typography variant="caption" sx={{ fontWeight: "bold" }}>
-          FREE
-        </Typography>
-      </Box>
-    </Box>
-  </Box>
-);
-
 // 4. Component Layout chính
 export default function SettingsPage() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  const location = useLocation();
+  const navigate = useNavigate();
+  const DrawerContent = () => (
+    <Box
+      sx={{ p: 2, height: "100%", display: "flex", flexDirection: "column" }}
+    >
+      {/* Personal Settings */}
+      <Typography
+        variant="caption"
+        sx={{ fontWeight: "bold", mb: 1, display: "block", color: "#9fadbc" }}
+      >
+        Personal Settings
+      </Typography>
+      <List component="nav" dense>
+        <ListItemButton
+          onClick={() => {
+            navigate("/settings");
+          }}
+          selected={location?.pathname === "/settings"}
+        >
+          <ListItemIcon sx={{ minWidth: 40 }}>
+            <PersonOutlineIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Profile and Visibility" />
+        </ListItemButton>
 
+        <ListItemButton selected={location?.pathname?.includes("/account")}>
+          <ListItemIcon sx={{ minWidth: 40 }}>
+            <SettingsOutlinedIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Settings" />
+        </ListItemButton>
+
+        <ListItemButton selected={location?.pathname?.includes("/activity")}>
+          <ListItemIcon sx={{ minWidth: 40 }}>
+            <ListAltIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Activity" />
+        </ListItemButton>
+
+        <ListItemButton selected={location?.pathname?.includes("/cards")}>
+          <ListItemIcon sx={{ minWidth: 40 }}>
+            <CreditCardIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Cards" />
+        </ListItemButton>
+
+        <ListItemButton
+          onClick={() => {
+            navigate("/settings/my_avatar");
+          }}
+          selected={location?.pathname?.includes("/my_avatar")}
+        >
+          <ListItemIcon sx={{ minWidth: 40 }}>
+            <FaRegImage />
+          </ListItemIcon>
+          <ListItemText primary="Image" />
+        </ListItemButton>
+      </List>
+
+      <Divider sx={{ my: 2, borderColor: "rgba(255,255,255,0.1)" }} />
+
+      {/* Workspace Section */}
+      <Typography
+        variant="caption"
+        sx={{ fontWeight: "bold", mb: 1, display: "block", color: "#9fadbc" }}
+      >
+        Workspace
+      </Typography>
+
+      <Box sx={{ display: "flex", alignItems: "center", mb: 1, pl: 1 }}>
+        <Box
+          sx={{
+            bgcolor: "#0079bf",
+            borderRadius: 1,
+            p: 0.5,
+            mr: 1,
+            display: "flex",
+          }}
+        >
+          <Typography
+            variant="caption"
+            sx={{ fontWeight: "bold", color: "#fff" }}
+          >
+            T
+          </Typography>
+        </Box>
+        <Typography variant="body2" fontWeight="bold">
+          Trello Workspace
+        </Typography>
+      </Box>
+
+      <List component="nav" dense>
+        <ListItemButton>
+          <ListItemIcon sx={{ minWidth: 40 }}>
+            <DashboardIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Boards" />
+        </ListItemButton>
+        <ListItemButton>
+          <ListItemIcon sx={{ minWidth: 40 }}>
+            <GroupOutlinedIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Members" />
+        </ListItemButton>
+        <ListItemButton>
+          <ListItemIcon sx={{ minWidth: 40 }}>
+            <SettingsOutlinedIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Settings" />
+        </ListItemButton>
+        <ListItemButton>
+          <ListItemIcon sx={{ minWidth: 40 }}>
+            <RocketLaunchOutlinedIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText primary="Upgrade workspace" />
+        </ListItemButton>
+      </List>
+
+      <Box sx={{ mt: "auto", pt: 2 }}>
+        <Box
+          sx={{
+            border: "1px solid #9fadbc",
+            borderRadius: 1,
+            display: "inline-block",
+            px: 1,
+            py: 0.2,
+          }}
+        >
+          <Typography variant="caption" sx={{ fontWeight: "bold" }}>
+            FREE
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
+  );
   return (
     <Box sx={{ display: "flex", minHeight: "100vh" }}>
       {/* --- A. AppBar (Chỉ hiện trên Mobile) --- */}
