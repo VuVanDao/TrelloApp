@@ -1,35 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Typography,
-  List,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Button,
-  Grid,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  IconButton,
-  Chip,
-  Select,
-  MenuItem,
-  Divider,
-} from "@mui/material";
-
-// Import Icons
-import DashboardIcon from "@mui/icons-material/Dashboard"; // Icon Boards
-import TableChartIcon from "@mui/icons-material/TableChart"; // Icon Templates
-import HomeIcon from "@mui/icons-material/Home"; // Icon Home
-import AddIcon from "@mui/icons-material/Add";
-import SettingsIcon from "@mui/icons-material/Settings";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import CloseIcon from "@mui/icons-material/Close";
-import AccessTimeIcon from "@mui/icons-material/AccessTime"; // Icon Recently viewed
-import BusinessIcon from "@mui/icons-material/Business"; // Icon Workspace
-import { templates, recentBoards } from "~/utils/constant";
+import { Box, Typography, Card, CardActionArea, Chip } from "@mui/material";
 
 const BoardCard = ({ title, bg, isTemplate }) => {
   return (
@@ -37,8 +7,8 @@ const BoardCard = ({ title, bg, isTemplate }) => {
       <Card
         sx={{
           height: 100,
-          width: "215px",
-          maxWidth: "215px",
+          //   width: "215px",
+          //   maxWidth: "215px",
           borderRadius: 1,
           position: "relative",
           bgcolor: "transparent",

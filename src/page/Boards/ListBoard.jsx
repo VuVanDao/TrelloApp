@@ -24,7 +24,12 @@ import BoardCard from "~/Components/BoardCard/BoardCard";
 const ListBoard = () => {
   return (
     <>
-      <Box sx={{ py: 1, px: 3, maxWidth: "100%" }}>
+      <Box
+        sx={{
+          py: 1,
+          px: 3,
+        }}
+      >
         {/* --- TEMPLATES SECTION --- */}
         <Box sx={{ mb: 4 }}>
           <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
@@ -161,7 +166,7 @@ const ListBoard = () => {
               </Typography>
             </Box>
 
-            <Box sx={{ display: "flex", gap: 1 }}>
+            <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
               <Button
                 startIcon={<DashboardIcon />}
                 size="small"
@@ -222,11 +227,30 @@ const ListBoard = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   cursor: "pointer",
-                  width: "215px",
-                  maxWidth: "215px",
                 }}
               >
                 <Typography variant="body2">Create new board</Typography>
+              </Card>
+            </Grid>
+            <Grid
+              item
+              size={{
+                xs: 12,
+                sm: 6,
+                xl: 3,
+              }}
+            >
+              <Card
+                sx={{
+                  height: 100,
+                  bgcolor: "background.paper",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <Typography variant="body2">All boards</Typography>
               </Card>
             </Grid>
           </Grid>

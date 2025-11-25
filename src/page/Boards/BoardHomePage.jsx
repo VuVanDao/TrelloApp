@@ -25,7 +25,9 @@ import { Outlet, useNavigate } from "react-router-dom";
 export default function BoardHomePage() {
   const navigate = useNavigate();
   const Sidebar = () => (
-    <Box sx={{ width: 260, pr: 2, display: { xs: "none", md: "block" } }}>
+    <Box
+      sx={{ width: 260, pr: 2, display: { xs: "none", md: "block" }, pl: 4 }}
+    >
       {/* Top Navigation */}
       <List component="nav" dense sx={{ mb: 2 }}>
         <ListItemButton selected sx={{ mb: 0.5 }}>
@@ -158,11 +160,12 @@ export default function BoardHomePage() {
     </Box>
   );
   return (
-    <Box sx={{ display: "flex", mt: "30px", width: "100%", px: "30px" }}>
+    <Box sx={{ display: "flex", mt: "30px", width: "100%" }}>
       {/* mt để tránh header */}
       <Sidebar />
-      {/* <MainContent /> */}
-      <Outlet />
+      <Box sx={{ overflowX: "hidden" }}>
+        <Outlet />
+      </Box>
     </Box>
   );
 }
