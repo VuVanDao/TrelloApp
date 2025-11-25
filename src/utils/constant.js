@@ -40,3 +40,34 @@ export const features = [
     id: 3,
   },
 ];
+// mock data
+export const templates = [
+  {
+    title: "Kanban Template",
+    bg: "linear-gradient(135deg, #0079bf 0%, #5067c5 100%)", // Gradient xanh
+    tag: "TEMPLATE",
+  },
+  {
+    title: "Daily Task Management Template | Trello",
+    bg: 'url("https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80")',
+    tag: "TEMPLATE",
+  },
+  {
+    title: "Remote Team Hub",
+    bg: 'url("https://images.unsplash.com/photo-1593642532744-d377ab507dc8?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80")',
+    tag: "TEMPLATE",
+  },
+];
+// mock data
+export const recentBoards = [
+  { title: "VanDaoExplore", bg: "linear-gradient(to right, #2193b0, #6dd5ed)" },
+  { title: "Dating Funnel Template", bg: "#f2d600" }, // Vàng
+  {
+    title: "vcIII",
+    bg: 'url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80")',
+  },
+  {
+    title: "dm",
+    bg: 'url("https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80")',
+  },
+];

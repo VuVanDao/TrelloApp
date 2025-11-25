@@ -28,7 +28,6 @@ const ChangeAvatar = () => {
   const navigate = useNavigate();
   const onDrop = useCallback((acceptedFiles) => {
     // Do something with the files
-    console.log("🚀 ~ ChangeAvatar ~ acceptedFiles:", acceptedFiles);
     handleFileChange(acceptedFiles[0]);
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
