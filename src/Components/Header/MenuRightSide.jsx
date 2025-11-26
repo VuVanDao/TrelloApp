@@ -15,10 +15,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import React, { lazy, Suspense, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  LogoutAccountRedux,
-  updateCurrentAccount,
-} from "~/utils/Redux/AccountSlice";
+import { LogoutAccountRedux } from "~/utils/Redux/AccountSlice";
 import { updateCurrentActiveBoard } from "~/utils/Redux/ActiveBoardSlice";
 import { useNavigate } from "react-router-dom";
 const MenuThemeHeader = lazy(() => import("./MenuThemeHeader"));
@@ -43,6 +40,15 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
 
   const handleCloseChild = () => {
     setAnchorElChild(null);
+  };
+  const handleLogout = async () => {
+    dispatch(LogoutAccountRedux());
+    dispatch(updateCurrentActiveBoard(null));
+    logout({
+      logoutParams: {
+        returnTo: window.location.origin + "/vi",
+      },
+    });
   };
   if (!anchorEl) {
     handleCloseChild();
@@ -163,13 +169,7 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
         <Divider></Divider>
         <MenuItem
           onClick={() => {
-            logout({
-              logoutParams: {
-                returnTo: window.location.origin + "/vi",
-              },
-            });
-            dispatch(LogoutAccountRedux(null));
-            dispatch(updateCurrentActiveBoard(null));
+            handleLogout();
           }}
         >
           <Typography>Logout</Typography>

@@ -63,6 +63,7 @@ export const activeBoardSlice = createSlice({
   },
   reducers: {
     updateCurrentActiveBoard: (state, action) => {
+      console.log("🚀 ~ action.payload:", action.payload);
       state.activeBoardState = action.payload;
     },
   },
