@@ -25,7 +25,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-const ModalAddBoard = ({ open, setOpen }) => {
+const ModalAddBoard = ({ open, setOpen, handleGetAllBoard }) => {
   const [type, setType] = useState("");
   const {
     register,
@@ -33,7 +33,7 @@ const ModalAddBoard = ({ open, setOpen }) => {
     watch,
     formState: { errors },
   } = useForm();
-  console.log("🚀 ~ ModalAddBoard ~ errors:", errors);
+
   const handleClose = () => setOpen(false);
 
   const handleChange = (event) => {
@@ -45,10 +45,11 @@ const ModalAddBoard = ({ open, setOpen }) => {
       return;
     }
     const formData = { type, title: data.title, description: data.description };
-    console.log("🚀 ~ onSubmit ~ formData:", formData);
     createBoard(formData)
       .then((res) => {
         console.log("🚀 ~ onSubmit ~ res:", res);
+        handleClose();
+        handleGetAllBoard();
       })
       .catch((err) => {
         console.log("🚀 ~ onSubmit ~ err:", err);

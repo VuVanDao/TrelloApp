@@ -40,8 +40,10 @@ const AllBoard = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  const handleGetAllBoard = async () => {
-    setLoading(true);
+  const handleGetAllBoard = async (isUseLoading = false) => {
+    if (isUseLoading) {
+      setLoading(true);
+    }
     await getAllBoard()
       .then((res) => {
         setCurrPage(res?.data?.currPage);
@@ -60,8 +62,8 @@ const AllBoard = () => {
       });
   };
   useEffect(() => {
-    handleGetAllBoard();
-  }, [open]);
+    handleGetAllBoard(true);
+  }, [setOpen]);
   if (loading) {
     return <LoadingPage></LoadingPage>;
   }
@@ -222,7 +224,11 @@ const AllBoard = () => {
             </Button>
           </Box>
         )}
-        <ModalAddBoard setOpen={setOpen} open={open}></ModalAddBoard>
+        <ModalAddBoard
+          setOpen={setOpen}
+          open={open}
+          handleGetAllBoard={handleGetAllBoard}
+        ></ModalAddBoard>
       </Suspense>
     </Box>
   );
