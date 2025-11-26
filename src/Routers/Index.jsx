@@ -1,11 +1,15 @@
 import React, { lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+
 import BoardHomePage from "~/page/Boards/BoardHomePage";
 import Boards from "~/page/Boards/Boards";
 import HomePage from "~/page/HomePage";
 
-const ListBoard = lazy(() => import("~/page/Boards/ListBoard"));
+const ListBoardDashboard = lazy(() =>
+  import("~/page/Boards/ListBoardDashboard")
+);
+const AllBoard = lazy(() => import("~/page/Boards/AllBoard"));
 const VerifyAccount = lazy(() => import("~/page/Auth/VerifyAccount"));
 const ChangeAvatar = lazy(() => import("~/page/Settings/ChangeAvatar"));
 const Profiles = lazy(() => import("~/page/Settings/Profiles"));
@@ -40,8 +44,10 @@ const Index = () => {
           </Route>
           <Route element={<HandleCheckSignIn />}>
             <Route path="/boards" element={<Boards />}>
+              <Route index element={<Navigate to={"board_dashboard"} />} />
               <Route path="board_dashboard" element={<BoardHomePage />}>
-                <Route index element={<ListBoard />} />
+                <Route index element={<ListBoardDashboard />} />
+                <Route path="all_board" element={<AllBoard />} />
               </Route>
               <Route path=":boardId" element={<App />} />
             </Route>

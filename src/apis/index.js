@@ -1,6 +1,12 @@
 import InterceptorAxios from "~/utils/InterceptorAxios";
 import { apiBackend, apiVersion } from "~/utils/constant";
 //board
+export const getAllBoard = async () => {
+  const res = await InterceptorAxios.get(
+    `${apiBackend}/${apiVersion}/api/boards`
+  );
+  return res.data;
+};
 //column
 export const createNewColumn = async (data) => {
   if (data) {

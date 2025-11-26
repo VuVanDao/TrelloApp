@@ -8,6 +8,7 @@ import {
   ListItemText,
   Button,
   Divider,
+  useColorScheme,
 } from "@mui/material";
 
 // Import Icons
@@ -17,20 +18,35 @@ import HomeIcon from "@mui/icons-material/Home"; // Icon Home
 import AddIcon from "@mui/icons-material/Add";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 // ----------------------------------------------------------------------
 // 5. Layout Chính
 // ----------------------------------------------------------------------
 export default function BoardHomePage() {
+  const { mode } = useColorScheme();
+  console.log("🚀 ~ BoardHomePage ~ mode:", mode);
   const navigate = useNavigate();
+  const location = useLocation();
   const Sidebar = () => (
     <Box
-      sx={{ width: 260, pr: 2, display: { xs: "none", md: "block" }, pl: 4 }}
+      sx={{
+        width: "355px",
+        pr: 2,
+        display: { xs: "none", md: "block" },
+        pl: 4,
+      }}
     >
       {/* Top Navigation */}
       <List component="nav" dense sx={{ mb: 2 }}>
-        <ListItemButton selected sx={{ mb: 0.5 }}>
+        <ListItemButton
+          sx={{ mb: 0.5 }}
+          selected={
+            location?.pathname?.endsWith("/boards/board_dashboard") ||
+            location?.pathname?.endsWith("/boards/board_dashboard/")
+          }
+          onClick={() => navigate("/boards/board_dashboard")}
+        >
           <ListItemIcon sx={{ minWidth: 40 }}>
             <DashboardIcon fontSize="small" />
           </ListItemIcon>
@@ -50,7 +66,7 @@ export default function BoardHomePage() {
         </ListItemButton>
       </List>
 
-      <Divider sx={{ my: 2, borderColor: "rgba(255,255,255,0.1)" }} />
+      <Divider sx={{ my: 2, borderColor: "black" }} />
 
       {/* Workspaces Section */}
       <Box
@@ -105,7 +121,15 @@ export default function BoardHomePage() {
 
         {/* Sub menu inside workspace */}
         <List component="div" disablePadding dense>
-          <ListItemButton sx={{ pl: 5 }}>
+          <ListItemButton
+            sx={{ pl: 5 }}
+            onClick={() => {
+              navigate("all_board");
+            }}
+            selected={location?.pathname?.includes(
+              "/boards/board_dashboard/all_board"
+            )}
+          >
             <ListItemIcon sx={{ minWidth: 30 }}>
               <DashboardIcon fontSize="small" />
             </ListItemIcon>

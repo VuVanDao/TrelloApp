@@ -61,7 +61,7 @@ export const templates = [
 // mock data
 export const recentBoards = [
   { title: "VanDaoExplore", bg: "linear-gradient(to right, #2193b0, #6dd5ed)" },
-  { title: "Dating Funnel Template", bg: "#f2d600" }, // Vàng
+  { title: "Dating Funnel Template", bg: "" }, // Vàng
   {
     title: "vcIII",
     bg: 'url("https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80")',

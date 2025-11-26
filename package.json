@@ -23,6 +23,7 @@
     "cross-env": "^10.1.0",
     "lodash": "^4.17.21",
     "material-ui-confirm": "^4.0.0",
+    "randomcolor": "^0.6.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-dropzone": "^14.3.8",

@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Typography, Card, CardActionArea, Chip } from "@mui/material";
+import randomColor from "randomcolor";
 
 const BoardCard = ({ title, bg, isTemplate }) => {
   return (
@@ -20,13 +21,15 @@ const BoardCard = ({ title, bg, isTemplate }) => {
               height: "100%",
               width: "100%",
               background:
-                bg.includes("url") || bg.includes("gradient") ? bg : bg,
+                bg?.includes("url") || bg?.includes("gradient")
+                  ? bg
+                  : randomColor(),
               backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundColor:
-                !bg.includes("url") && !bg.includes("gradient")
+                !bg?.includes("url") && !bg?.includes("gradient")
                   ? bg
-                  : undefined, // Fallback color
+                  : randomColor(), // Fallback color
               p: 2,
               display: "flex",
               flexDirection: "column",
