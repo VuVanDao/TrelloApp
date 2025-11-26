@@ -27,7 +27,6 @@ const Profiles = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
     dispatch(
       updateAccountInfoRedux({
         data: { username: data?.username, bio: data?.bio },

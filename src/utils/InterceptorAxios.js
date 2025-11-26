@@ -53,7 +53,6 @@ instance.interceptors.response.use(
     if (error.response?.status === 401) {
       // toast.error(error.response.data.message);
       InjectStore.dispatch(LogoutAccountRedux());
-      InjectStore.dispatch(updateCurrentAccount(null));
     }
     // logic auto refresh token: https://gemini.google.com/app/49b2366ee2e813da?hl=vi
     const originalRequest = error.config;

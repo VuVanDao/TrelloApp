@@ -7,6 +7,13 @@ export const getAllBoard = async () => {
   );
   return res.data;
 };
+export const createBoard = async (data) => {
+  const res = await InterceptorAxios.post(
+    `${apiBackend}/${apiVersion}/api/boards`,
+    { ...data }
+  );
+  return res.data;
+};
 //column
 export const createNewColumn = async (data) => {
   if (data) {

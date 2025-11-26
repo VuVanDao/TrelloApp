@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Typography, Card, CardActionArea, Chip } from "@mui/material";
 import randomColor from "randomcolor";
+import { FaRegStar } from "react-icons/fa";
 
 const BoardCard = ({ title, bg, isTemplate }) => {
   return (
@@ -36,19 +37,45 @@ const BoardCard = ({ title, bg, isTemplate }) => {
               justifyContent: isTemplate ? "space-between" : "flex-start",
             }}
           >
-            <Typography
-              variant="subtitle1"
-              fontWeight="bold"
+            <Box
               sx={{
-                color: "#fff",
-                textShadow: "0 1px 2px rgba(0,0,0,0.5)",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
               }}
             >
-              {title}
-            </Typography>
+              <Typography
+                variant="subtitle1"
+                fontWeight="bold"
+                sx={{
+                  color: "#fff",
+                  textShadow: "0 1px 2px rgba(0,0,0,0.5)",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {title}
+              </Typography>
+              <Box
+                sx={{
+                  backgroundColor: "transparent",
+                  p: "5px",
+                  borderRadius: "5px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "25px",
+                  height: "25px",
+                  "&:hover  .pin_icon": {
+                    transform: "scale(1.25)",
+                    transition: "all 0.5s",
+                  },
+                }}
+              >
+                <FaRegStar style={{ color: "white" }} className="pin_icon" />
+              </Box>
+            </Box>
 
             {isTemplate && (
               <Chip
