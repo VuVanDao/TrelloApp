@@ -8,7 +8,6 @@ import {
   ListItemText,
   Button,
   Divider,
-  useColorScheme,
 } from "@mui/material";
 
 // Import Icons
@@ -24,8 +23,6 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 // 5. Layout Chính
 // ----------------------------------------------------------------------
 export default function BoardHomePage() {
-  const { mode } = useColorScheme();
-  console.log("🚀 ~ BoardHomePage ~ mode:", mode);
   const navigate = useNavigate();
   const location = useLocation();
   const Sidebar = () => (
@@ -66,7 +63,13 @@ export default function BoardHomePage() {
         </ListItemButton>
       </List>
 
-      <Divider sx={{ my: 2, borderColor: "black" }} />
+      <Divider
+        sx={{
+          my: 2,
+          borderColor: (theme) =>
+            theme.palette.mode === "dark" ? "white" : "black",
+        }}
+      />
 
       {/* Workspaces Section */}
       <Box

@@ -14,11 +14,21 @@ import EditIcon from "@mui/icons-material/Edit"; // Icon cái bút
 import LockIcon from "@mui/icons-material/Lock"; // Icon ổ khóa
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline"; // Icon người
 import { IoIosAddCircle } from "react-icons/io";
+import LoadingPage from "~/Components/LoadingPage/LoadingPage";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useDispatch } from "react-redux";
+import {
+  LogoutAccountRedux,
+  updateCurrentAccount,
+} from "~/utils/Redux/AccountSlice";
 const AllBoard = () => {
   const [totalBoard, setTotalBoard] = useState(0);
   const [currPage, setCurrPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [ListBoard, setListBoard] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { logout } = useAuth0();
+  const dispatch = useDispatch();
   const handleChange = (event, value) => {
     setCurrPage(value);
   };
@@ -27,20 +37,31 @@ const AllBoard = () => {
     setPage(0);
   };
   const handleGetAllBoard = async () => {
+    setLoading(true);
     await getAllBoard()
       .then((res) => {
-        console.log("🚀 ~ handleGetAllBoard ~ res:", res);
         setCurrPage(res?.data?.currPage);
         setTotalBoard(res?.data?.totalBoard);
         setListBoard(res?.data?.result);
       })
       .catch((err) => {
         console.log("🚀 ~ handleGetAllBoard ~ err:", err);
+        if (err?.status === 401) {
+          dispatch(LogoutAccountRedux());
+          dispatch(updateCurrentAccount(null));
+          logout();
+        }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
   useEffect(() => {
     handleGetAllBoard();
   }, []);
+  if (loading) {
+    return <LoadingPage></LoadingPage>;
+  }
   return (
     <Box
       sx={{

@@ -1,4 +1,10 @@
-import { configureStore, combineReducers, createStore } from "@reduxjs/toolkit";
+import {
+  configureStore,
+  combineReducers,
+  createStore,
+  applyMiddleware,
+} from "@reduxjs/toolkit";
+import { thunk } from "redux-thunk";
 import storage from "redux-persist/lib/storage";
 import { activeBoardSlice } from "./ActiveBoardSlice";
 import { accountSlice } from "./AccountSlice";
@@ -35,5 +41,8 @@ export const store = configureStore({
       },
     }),
 });
-export const InjectStore = createStore(persistedReducer);
+export const InjectStore = createStore(
+  persistedReducer,
+  applyMiddleware(thunk)
+);
 export const persistor = persistStore(store);
