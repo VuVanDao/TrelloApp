@@ -105,6 +105,7 @@ export const accountSlice = createSlice({
       // state.accountState = res;
     });
     builder.addCase(LogoutAccountRedux.fulfilled, (state, action) => {
+      localStorage.removeItem("currPage");
       state.accountState = null;
     });
     builder.addCase(updateAccountInfoRedux.fulfilled, (state, action) => {

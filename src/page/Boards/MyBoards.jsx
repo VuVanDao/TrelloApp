@@ -28,7 +28,9 @@ const ModalAddBoard = lazy(() => import("./ModalAddBoard"));
 const MyBoards = () => {
   const [ListBoard, setListBoard] = useState([]);
   const [totalBoard, setTotalBoard] = useState(0);
-  const [currPage, setCurrPage] = useState(1);
+  const [currPage, setCurrPage] = useState(
+    +localStorage.getItem("currPage") || 1
+  );
   const [totalPage, setTotalPage] = useState(0);
 
   const [loading, setLoading] = useState(false);
@@ -36,9 +38,7 @@ const MyBoards = () => {
   const handleOpen = () => setOpen(true);
   const { logout } = useAuth0();
   const dispatch = useDispatch();
-  const handleChange = async (event, value) => {
-    setCurrPage(value);
-  };
+
   const handleGetAllBoard = async (isUseLoading = false) => {
     if (isUseLoading) {
       setLoading(true);
@@ -61,7 +61,10 @@ const MyBoards = () => {
         setLoading(false);
       });
   };
-
+  const handleChange = async (event, value) => {
+    localStorage.setItem("currPage", value);
+    setCurrPage(value);
+  };
   useEffect(() => {
     handleGetAllBoard(true);
   }, [currPage]);
@@ -81,9 +84,10 @@ const MyBoards = () => {
             justifyContent: "space-between",
             alignItems: "center",
             flexWrap: "wrap",
+            gap: "10px",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             {/* Logo chữ T (Gradient xanh) */}
             <Box
               sx={{
@@ -163,7 +167,7 @@ const MyBoards = () => {
                 fontWeight="bold"
                 sx={{ fontSize: "18px" }}
               >
-                Your boards
+                Your boards ({totalBoard})
               </Typography>
             </Box>
             {ListBoard && ListBoard?.length > 0 && (
@@ -198,11 +202,13 @@ const MyBoards = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    flexWrap: "center",
+                    flexWrap: "wrap",
                     alignItems: "center",
+                    gap: "10px",
+                    mt: "10px",
                   }}
                 >
-                  <Typography>TotalBoard: {totalBoard}</Typography>
+                  <Typography>Page: {currPage}</Typography>
                   <Pagination
                     component="div"
                     count={totalPage}
@@ -224,7 +230,11 @@ const MyBoards = () => {
                 }}
               >
                 <Typography>you dont have any board, create one...</Typography>
-                <Button variant="contained" startIcon={<IoIosAddCircle />}>
+                <Button
+                  variant="contained"
+                  startIcon={<IoIosAddCircle />}
+                  onClick={() => handleOpen()}
+                >
                   Create new
                 </Button>
               </Box>
