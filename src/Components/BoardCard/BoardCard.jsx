@@ -1,9 +1,11 @@
 import React from "react";
 import { Box, Typography, Card, CardActionArea, Chip } from "@mui/material";
 import randomColor from "randomcolor";
-import { FaRegStar } from "react-icons/fa";
+import { FaRegStar, FaStar } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-const BoardCard = ({ title, bg, isTemplate }) => {
+const BoardCard = ({ title, bg, isTemplate, boardId, pinned }) => {
+  const navigate = useNavigate();
   return (
     <>
       <Card
@@ -14,6 +16,9 @@ const BoardCard = ({ title, bg, isTemplate }) => {
           bgcolor: "transparent",
           boxShadow: "none",
           "&:hover": { opacity: 0.9 },
+        }}
+        onClick={() => {
+          navigate(`/boards/${boardId}`);
         }}
       >
         <CardActionArea sx={{ height: "100%", borderRadius: 1 }}>
@@ -59,7 +64,8 @@ const BoardCard = ({ title, bg, isTemplate }) => {
               </Typography>
               <Box
                 sx={{
-                  backgroundColor: "transparent",
+                  backgroundColor: "rgba(255, 255, 255, 0.6)", // Màu trắng mờ (Glass effect)
+                  backdropFilter: "blur(4px)",
                   p: "5px",
                   borderRadius: "5px",
                   display: "flex",
@@ -67,13 +73,22 @@ const BoardCard = ({ title, bg, isTemplate }) => {
                   justifyContent: "center",
                   width: "25px",
                   height: "25px",
+                  cursor: "pointer",
                   "&:hover  .pin_icon": {
                     transform: "scale(1.25)",
-                    transition: "all 0.5s",
+                    transition: "all 0.2s ease-in-out",
                   },
                 }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  alert("children");
+                }}
               >
-                <FaRegStar style={{ color: "white" }} className="pin_icon" />
+                {pinned ? (
+                  <FaStar style={{ color: "white" }} className="pin_icon" />
+                ) : (
+                  <FaRegStar style={{ color: "white" }} className="pin_icon" />
+                )}
               </Box>
             </Box>
 

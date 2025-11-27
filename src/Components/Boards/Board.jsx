@@ -2,11 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import Header from "../Header/Header";
 import BoardBar from "./BoardBar";
 import BoardContent from "./BoardContent";
-import FakeBoardContent from "./FakeBoardContent";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import { LoadingContext } from "~/page/LoadingProvider";
 import { registerLoadingSetter } from "~/utils/LoadingManager";
-import { cloneDeep, isEmpty } from "lodash";
+import { cloneDeep } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getDetailBoardReduxAPI,
@@ -15,7 +14,8 @@ import {
   updateCurrentActiveBoard,
   updateMoveCardFromDifferentColumnRedux,
 } from "~/utils/Redux/ActiveBoardSlice";
-import LoadingPage from "../LoadingPage/LoadingPage";
+
+import GlobalLoading from "../LoadingPage/GlobalLoading";
 
 const Board = () => {
   let { boardId } = useParams();
@@ -103,7 +103,10 @@ const Board = () => {
   return (
     <>
       {isCallingApi ? (
-        <LoadingPage></LoadingPage>
+        <GlobalLoading
+          isLoading={isCallingApi}
+          message="đang lấy thông tin board"
+        ></GlobalLoading>
       ) : (
         <>
           <BoardBar boardTitle={activeBoard?.title} />

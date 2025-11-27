@@ -20,6 +20,7 @@ import { Suspense, lazy } from "react";
 import BoxIconCover from "../BoxIconCover";
 import MenuRightSideResponsive from "./MenuRightSideResponsive";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const MenuLeftSide = lazy(() => import("./MenuLeftSide"));
 const MenuRightSide = lazy(() => import("./MenuRightSide"));
 
@@ -29,7 +30,7 @@ const Header = () => {
   const [openMenuRightResponsive, setOpenMenuRightResponsive] = useState(false);
   const isMd = useMediaQuery("(min-width: 576px)"); // false < 576px < true : nhỏ hơn 576px là false , ngược lại là true
   const currAccount = useSelector((state) => state.accountReducer.accountState);
-
+  const navigate = useNavigate();
   const handleClick = (event, item, openMenuRes = false) => {
     if (openMenuRes) {
       setOpenMenuRightResponsive(true);
@@ -82,6 +83,7 @@ const Header = () => {
           <Box
             className="cursor_pointer"
             sx={{ display: "flex", alignItems: "center", gap: "5px" }}
+            onClick={() => navigate("/boards")}
           >
             <FaTrello style={{ fontSize: "25px", color: "secondary.main" }} />
             <Typography>Trello</Typography>

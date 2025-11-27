@@ -15,40 +15,40 @@ import EditIcon from "@mui/icons-material/Edit"; // Icon cái bút
 import LockIcon from "@mui/icons-material/Lock"; // Icon ổ khóa
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline"; // Icon người
 import { IoIosAddCircle } from "react-icons/io";
-import LoadingPage from "~/Components/LoadingPage/LoadingPage";
+
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch } from "react-redux";
 import {
   LogoutAccountRedux,
   updateCurrentAccount,
 } from "~/utils/Redux/AccountSlice";
+import GlobalLoading from "~/Components/LoadingPage/GlobalLoading";
+
 const ModalAddBoard = lazy(() => import("./ModalAddBoard"));
 const AllBoard = () => {
+  const [ListBoard, setListBoard] = useState([]);
   const [totalBoard, setTotalBoard] = useState(0);
   const [currPage, setCurrPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [ListBoard, setListBoard] = useState([]);
+  const [totalPage, setTotalPage] = useState(0);
+
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const { logout } = useAuth0();
   const dispatch = useDispatch();
-  const handleChange = (event, value) => {
+  const handleChange = async (event, value) => {
     setCurrPage(value);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
   const handleGetAllBoard = async (isUseLoading = false) => {
     if (isUseLoading) {
       setLoading(true);
     }
-    await getAllBoard()
+
+    await getAllBoard(currPage)
       .then((res) => {
-        setCurrPage(res?.data?.currPage);
         setTotalBoard(res?.data?.totalBoard);
         setListBoard(res?.data?.result);
+        setTotalPage(res?.data?.totalPage);
       })
       .catch((err) => {
         if (err?.status === 401) {
@@ -64,10 +64,8 @@ const AllBoard = () => {
 
   useEffect(() => {
     handleGetAllBoard(true);
-  }, [setOpen]);
-  if (loading) {
-    return <LoadingPage></LoadingPage>;
-  }
+  }, [currPage]);
+
   return (
     <Box
       sx={{
@@ -154,77 +152,86 @@ const AllBoard = () => {
         <Divider sx={{ my: 3, borderColor: "divider" }} />
 
         {/* --- Phần 3: Tiêu đề "Your boards" --- */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3 }}>
-          <PersonOutlineIcon sx={{ color: "text.primary" }} />
-          <Typography variant="h6" fontWeight="bold" sx={{ fontSize: "18px" }}>
-            Your boards
-          </Typography>
-        </Box>
-        {ListBoard && ListBoard?.length > 0 && (
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "center",
-              flexDirection: "column",
-              gap: "15px",
-            }}
-          >
-            {/* <Box sx={{ display: "flex", flexWrap: "center", gap: "15px" }}>
-              {ListBoard.map((board) => (
-                <BoardCard title={board?.title} key={board?._id} />
-              ))}
-            </Box> */}
-            <Grid container spacing={2}>
-              {ListBoard.map((board) => (
-                <Grid
-                  item
-                  key={board?._id}
-                  size={{
-                    xs: 12,
-                    sm: 6,
-                    xl: 3,
+        {loading ? (
+          <GlobalLoading isLoading={loading}></GlobalLoading>
+        ) : (
+          <Box>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 3 }}>
+              <PersonOutlineIcon sx={{ color: "text.primary" }} />
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                sx={{ fontSize: "18px" }}
+              >
+                Your boards
+              </Typography>
+            </Box>
+            {ListBoard && ListBoard?.length > 0 && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexWrap: "center",
+                  flexDirection: "column",
+                  gap: "15px",
+                }}
+              >
+                <Grid container spacing={2}>
+                  {ListBoard.map((board) => (
+                    <Grid
+                      item
+                      key={board?._id}
+                      size={{
+                        xs: 12,
+                        sm: 6,
+                        xl: 3,
+                      }}
+                    >
+                      <BoardCard
+                        title={board?.title}
+                        key={board?._id}
+                        boardId={board?._id}
+                        pinned={board?.pinned}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexWrap: "center",
+                    alignItems: "center",
                   }}
                 >
-                  <BoardCard title={board?.title} key={board?._id} />
-                </Grid>
-              ))}
-            </Grid>
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "center",
-                alignItems: "center",
-              }}
-            >
-              <Typography>TotalBoard: {totalBoard}</Typography>
-              <Pagination
-                component="div"
-                count={totalBoard}
-                page={currPage}
-                onChange={handleChange}
-                // rowsPerPage={rowsPerPage}
-                // onRowsPerPageChange={handleChangeRowsPerPage}
-              />
-            </Box>
+                  <Typography>TotalBoard: {totalBoard}</Typography>
+                  <Pagination
+                    component="div"
+                    count={totalPage}
+                    page={currPage}
+                    onChange={handleChange}
+                  />
+                </Box>
+              </Box>
+            )}
+
+            {ListBoard && ListBoard?.length === 0 && (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                <Typography>you dont have any board, create one...</Typography>
+                <Button variant="contained" startIcon={<IoIosAddCircle />}>
+                  Create new
+                </Button>
+              </Box>
+            )}
           </Box>
         )}
 
-        {ListBoard && ListBoard?.length === 0 && (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              gap: "10px",
-            }}
-          >
-            <Typography>you dont have any board, create one...</Typography>
-            <Button variant="contained" startIcon={<IoIosAddCircle />}>
-              Create new
-            </Button>
-          </Box>
-        )}
         <ModalAddBoard
           setOpen={setOpen}
           open={open}

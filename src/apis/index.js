@@ -1,9 +1,11 @@
 import InterceptorAxios from "~/utils/InterceptorAxios";
 import { apiBackend, apiVersion } from "~/utils/constant";
 //board
-export const getAllBoard = async () => {
+export const getAllBoard = async (page, limit) => {
   const res = await InterceptorAxios.get(
-    `${apiBackend}/${apiVersion}/api/boards`
+    `${apiBackend}/${apiVersion}/api/boards?limit=${limit || 8}&page=${
+      page || 1
+    }`
   );
   return res.data;
 };

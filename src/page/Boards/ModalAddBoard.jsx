@@ -31,10 +31,15 @@ const ModalAddBoard = ({ open, setOpen, handleGetAllBoard }) => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    reset();
+    setType("");
+    setOpen(false);
+  };
 
   const handleChange = (event) => {
     setType(event.target.value);
@@ -47,7 +52,8 @@ const ModalAddBoard = ({ open, setOpen, handleGetAllBoard }) => {
     const formData = { type, title: data.title, description: data.description };
     createBoard(formData)
       .then((res) => {
-        console.log("🚀 ~ onSubmit ~ res:", res);
+        reset();
+        setType("");
         handleClose();
         handleGetAllBoard();
       })
@@ -156,7 +162,8 @@ const ModalAddBoard = ({ open, setOpen, handleGetAllBoard }) => {
               sx={{
                 backgroundColor: (theme) =>
                   theme.palette.mode === "dark" ? "#dcdfe4" : "primary.main",
-                color: "white",
+                color: (theme) =>
+                  theme.palette.mode === "dark" ? "black" : "white",
               }}
             >
               Confirm
