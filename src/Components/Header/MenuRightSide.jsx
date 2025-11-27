@@ -42,13 +42,16 @@ const MenuRightSide = ({ anchorEl, setAnchorEl }) => {
     setAnchorElChild(null);
   };
   const handleLogout = async () => {
-    dispatch(LogoutAccountRedux());
-    dispatch(updateCurrentActiveBoard(null));
-    logout({
-      logoutParams: {
-        returnTo: window.location.origin + "/vi",
-      },
-    });
+    dispatch(LogoutAccountRedux())
+      .unwrap()
+      .then(() => {
+        dispatch(updateCurrentActiveBoard(null));
+        logout({
+          logoutParams: {
+            returnTo: window.location.origin + "/vi",
+          },
+        });
+      });
   };
   if (!anchorEl) {
     handleCloseChild();
