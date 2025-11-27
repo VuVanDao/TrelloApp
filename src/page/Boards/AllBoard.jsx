@@ -61,6 +61,7 @@ const AllBoard = () => {
         setLoading(false);
       });
   };
+
   useEffect(() => {
     handleGetAllBoard(true);
   }, [setOpen]);

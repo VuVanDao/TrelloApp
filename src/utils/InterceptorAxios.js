@@ -50,12 +50,30 @@ instance.interceptors.response.use(
     if (error.response?.status !== 410) {
       // toast.error(error.response.data.message);
     }
+    const originalRequest = error.config;
     if (error.response?.status === 401) {
-      // toast.error(error.response.data.message);
+      // Kiểm tra xem URL của request bị lỗi có chứa từ khoá logout không
+      if (originalRequest.url.includes("/logout")) {
+        // Nếu chính cái API logout bị 401, nghĩa là token đã chết rồi.
+        // KHÔNG GỌI LẠI API LOGOUT NỮA để tránh lặp vô tận.
+
+        // Chỉ cần dọn dẹp Redux/State ở phía Client
+        InjectStore.dispatch(updateCurrentAccount(null));
+
+        // Có thể redirect về login luôn nếu muốn
+        window.location.href = "/login";
+
+        return Promise.reject(error);
+      }
+      // ------------------------------------
+
+      // Nếu không phải là API logout (ví dụ: get board, get user...)
+      // thì mới thực hiện quy trình logout chuẩn
       InjectStore.dispatch(LogoutAccountRedux());
+      window.location.href = "/login";
     }
     // logic auto refresh token: https://gemini.google.com/app/49b2366ee2e813da?hl=vi
-    const originalRequest = error.config;
+
     if (error.response?.status === 410 && !originalRequest._retry) {
       // !originalRequest._retry: Đây là cái "chốt chặn".
       // Nó kiểm tra xem request này đã từng được retry chưa.
