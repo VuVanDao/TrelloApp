@@ -9,7 +9,7 @@ import HomePage from "~/page/HomePage";
 const ListBoardDashboard = lazy(() =>
   import("~/page/Boards/ListBoardDashboard")
 );
-const AllBoard = lazy(() => import("~/page/Boards/AllBoard"));
+const MyBoards = lazy(() => import("~/page/Boards/MyBoards"));
 const VerifyAccount = lazy(() => import("~/page/Auth/VerifyAccount"));
 const ChangeAvatar = lazy(() => import("~/page/Settings/ChangeAvatar"));
 const Profiles = lazy(() => import("~/page/Settings/Profiles"));
@@ -47,7 +47,7 @@ const Index = () => {
               <Route index element={<Navigate to={"board_dashboard"} />} />
               <Route path="board_dashboard" element={<BoardHomePage />}>
                 <Route index element={<ListBoardDashboard />} />
-                <Route path="all_board" element={<AllBoard />} />
+                <Route path="my_boards" element={<MyBoards />} />
               </Route>
               <Route path=":boardId" element={<App />} />
             </Route>

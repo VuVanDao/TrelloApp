@@ -20,8 +20,10 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime"; // Icon Recently vi
 import BusinessIcon from "@mui/icons-material/Business"; // Icon Workspace
 import { recentBoards, templates } from "~/utils/constant";
 import BoardCard from "~/Components/BoardCard/BoardCard";
+import { useNavigate } from "react-router-dom";
 
 const ListBoard = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Box
@@ -172,6 +174,7 @@ const ListBoard = () => {
                 startIcon={<DashboardIcon />}
                 size="small"
                 color="inherit"
+                onClick={() => navigate("/boards/board_dashboard/my_boards")}
               >
                 Boards
               </Button>

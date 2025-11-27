@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import React, { lazy, Suspense, useEffect, useState } from "react";
 import BoardCard from "~/Components/BoardCard/BoardCard";
-import { getAllBoard } from "~/apis";
+import { getMyBoards } from "~/apis";
 // Import Icons
 import EditIcon from "@mui/icons-material/Edit"; // Icon cái bút
 import LockIcon from "@mui/icons-material/Lock"; // Icon ổ khóa
@@ -25,7 +25,7 @@ import {
 import GlobalLoading from "~/Components/LoadingPage/GlobalLoading";
 
 const ModalAddBoard = lazy(() => import("./ModalAddBoard"));
-const AllBoard = () => {
+const MyBoards = () => {
   const [ListBoard, setListBoard] = useState([]);
   const [totalBoard, setTotalBoard] = useState(0);
   const [currPage, setCurrPage] = useState(1);
@@ -44,7 +44,7 @@ const AllBoard = () => {
       setLoading(true);
     }
 
-    await getAllBoard(currPage)
+    await getMyBoards(currPage)
       .then((res) => {
         setTotalBoard(res?.data?.totalBoard);
         setListBoard(res?.data?.result);
@@ -242,4 +242,4 @@ const AllBoard = () => {
   );
 };
 
-export default AllBoard;
+export default MyBoards;

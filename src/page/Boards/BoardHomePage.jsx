@@ -127,10 +127,10 @@ export default function BoardHomePage() {
           <ListItemButton
             sx={{ pl: 5 }}
             onClick={() => {
-              navigate("all_board");
+              navigate("my_boards");
             }}
             selected={location?.pathname?.includes(
-              "/boards/board_dashboard/all_board"
+              "/boards/board_dashboard/my_boards"
             )}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
