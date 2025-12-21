@@ -78,3 +78,12 @@ export const refreshTokenApi = async () => {
   );
   return res.data;
 };
+export const AddToRecentViewBoard = async (boardId, accountId) => {
+  if (boardId && accountId) {
+    const res = await InterceptorAxios.post(
+      `${apiBackend}/${apiVersion}/api/board_recent_views/add_to_recent_view`,
+      { boardId, accountId }
+    );
+    return res.data;
+  }
+};
