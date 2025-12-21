@@ -3,9 +3,15 @@ import { Box, Typography, Card, CardActionArea, Chip } from "@mui/material";
 import randomColor from "randomcolor";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { AddToRecentViewBoard } from "~/apis";
+import { useSelector } from "react-redux";
 
 const BoardCard = ({ title, bg, isTemplate, boardId, pinned }) => {
+  const currAccount = useSelector((state) => state.accountReducer.accountState);
   const navigate = useNavigate();
+  const handleAddToRecentView = async () => {
+    await AddToRecentViewBoard(boardId, currAccount?._id);
+  };
   return (
     <>
       <Card
@@ -18,6 +24,7 @@ const BoardCard = ({ title, bg, isTemplate, boardId, pinned }) => {
           "&:hover": { opacity: 0.9 },
         }}
         onClick={() => {
+          handleAddToRecentView();
           navigate(`/boards/${boardId}`);
         }}
       >
