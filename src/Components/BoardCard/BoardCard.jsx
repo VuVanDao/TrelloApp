@@ -3,14 +3,33 @@ import { Box, Typography, Card, CardActionArea, Chip } from "@mui/material";
 import randomColor from "randomcolor";
 import { FaRegStar, FaStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { AddToRecentViewBoard } from "~/apis";
+import {
+  addPinnedBoard,
+  AddToRecentViewBoard,
+  removePinnedBoard,
+} from "~/apis";
 import { useSelector } from "react-redux";
 
-const BoardCard = ({ title, bg, isTemplate, boardId, pinned }) => {
+const BoardCard = ({
+  title,
+  bg,
+  isTemplate,
+  boardId,
+  pinned,
+  handleGetAllBoard,
+}) => {
   const currAccount = useSelector((state) => state.accountReducer.accountState);
   const navigate = useNavigate();
   const handleAddToRecentView = async () => {
     await AddToRecentViewBoard(boardId, currAccount?._id);
+  };
+  const handlePinnedBoard = async (statusBoardPinned) => {
+    if (statusBoardPinned) {
+      await removePinnedBoard(boardId, currAccount?._id);
+    } else {
+      await addPinnedBoard(boardId, currAccount?._id);
+    }
+    handleGetAllBoard();
   };
   return (
     <>
@@ -88,13 +107,20 @@ const BoardCard = ({ title, bg, isTemplate, boardId, pinned }) => {
                 }}
                 onClick={(e) => {
                   e.stopPropagation();
-                  alert("children");
                 }}
               >
                 {pinned ? (
-                  <FaStar style={{ color: "white" }} className="pin_icon" />
+                  <FaStar
+                    style={{ color: "white" }}
+                    className="pin_icon"
+                    onClick={() => handlePinnedBoard(true)}
+                  />
                 ) : (
-                  <FaRegStar style={{ color: "white" }} className="pin_icon" />
+                  <FaRegStar
+                    style={{ color: "white" }}
+                    className="pin_icon"
+                    onClick={() => handlePinnedBoard(false)}
+                  />
                 )}
               </Box>
             </Box>

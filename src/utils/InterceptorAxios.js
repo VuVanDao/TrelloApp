@@ -48,7 +48,7 @@ instance.interceptors.response.use(
   function onRejected(error) {
     console.log("🚀 ~ onRejected ~ error:", error);
     if (error.response?.status !== 410) {
-      // toast.error(error.response.data.message);
+      toast.error(error.response.data.message);
     }
     const originalRequest = error.config;
     if (error.response?.status === 401) {

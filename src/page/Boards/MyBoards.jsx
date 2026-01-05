@@ -195,6 +195,7 @@ const MyBoards = () => {
                         key={board?._id}
                         boardId={board?._id}
                         pinned={board?.pinned}
+                        handleGetAllBoard={handleGetAllBoard}
                       />
                     </Grid>
                   ))}

@@ -87,3 +87,21 @@ export const AddToRecentViewBoard = async (boardId, accountId) => {
     return res.data;
   }
 };
+export const addPinnedBoard = async (boardId, accountId) => {
+  if (boardId && accountId) {
+    const res = await InterceptorAxios.post(
+      `${apiBackend}/${apiVersion}/api/pinned_boards/add_to_pinned_board`,
+      { boardId, accountId }
+    );
+    return res.data;
+  }
+};
+export const removePinnedBoard = async (boardId, accountId) => {
+  if (boardId && accountId) {
+    const res = await InterceptorAxios.post(
+      `${apiBackend}/${apiVersion}/api/pinned_boards/remove_to_pinned_board`,
+      { boardId, accountId }
+    );
+    return res.data;
+  }
+};
