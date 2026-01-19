@@ -7,7 +7,6 @@ import {
   Link,
   Container,
   Grid,
-  TextField,
   Stack,
   Paper,
   useMediaQuery,
@@ -144,34 +143,6 @@ const HomePage = () => {
               <Box
                 sx={{ display: "flex", gap: 1, flexDirection: "column", mb: 4 }}
               >
-                <TextField
-                  variant="outlined"
-                  placeholder="Email"
-                  sx={{
-                    display: {
-                      md: "inherit",
-                      xs: "none",
-                    },
-                    "& .MuiInputBase-root": {
-                      color: "black", // text mặc định
-                      backgroundColor: "#fff",
-                    },
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        borderColor: "gray", // border mặc định
-                      },
-                      "&:hover fieldset": {
-                        borderColor: "black", // border khi hover
-                      },
-                    },
-                    "& .MuiInputLabel-root": {
-                      color: "gray", // label mặc định
-                    },
-                    "& .MuiInputLabel-root.Mui-focused": {
-                      color: "white", // label khi focus
-                    },
-                  }}
-                />
                 <Button
                   variant="contained"
                   size="large"
@@ -184,8 +155,9 @@ const HomePage = () => {
                       md: "50%",
                     },
                   }}
+                  onClick={() => loginWithRedirect()}
                 >
-                  Đăng ký - hoàn toàn miễn phí
+                  Bắt đầu trải nghiệm
                 </Button>
               </Box>
 
@@ -727,34 +699,6 @@ const HomePage = () => {
             noValidate
             autoComplete="off"
           >
-            <TextField
-              variant="outlined"
-              placeholder="Email"
-              type="email"
-              sx={{
-                flex: 1, // Chiếm phần lớn không gian
-                bgcolor: "white",
-                "& .MuiInputBase-root": {
-                  color: "black", // text mặc định
-                  backgroundColor: "#fff",
-                },
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: { sm: "8px 0 0 8px" },
-                  "& fieldset": {
-                    borderColor: "gray", // border mặc định
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "black", // border khi hover
-                  },
-                },
-                "& .MuiInputLabel-root": {
-                  color: "gray", // label mặc định
-                },
-                "& .MuiInputLabel-root.Mui-focused": {
-                  color: "white", // label khi focus
-                },
-              }}
-            />
             <Button
               variant="contained"
               size="large"
@@ -762,15 +706,16 @@ const HomePage = () => {
                 py: "14px", // Làm cho nút cao bằng textfield
                 px: 4,
                 fontWeight: "bold",
-                borderRadius: { xs: 2, sm: "0 8px 8px 0" }, // Bo góc
+                borderRadius: { xs: 2, sm: "8px" }, // Bo góc
                 boxShadow: "none",
                 color: "#fff",
                 "&:hover": {
                   boxShadow: "none",
                 },
               }}
+              onClick={() => loginWithRedirect()}
             >
-              Đăng ký - hoàn toàn miễn phí
+              Bắt đầu trải nghiệm
             </Button>
           </Box>
 
