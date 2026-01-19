@@ -34,7 +34,7 @@ instance.interceptors.request.use(
     // Do something with request error
     loadingManager.set(true);
     return Promise.reject(error);
-  }
+  },
 );
 let refreshTokenPromise = null;
 // Add a response interceptor
@@ -48,7 +48,15 @@ instance.interceptors.response.use(
   function onRejected(error) {
     console.log("🚀 ~ onRejected ~ error:", error);
     if (error.response?.status !== 410) {
-      toast.error(error.response.data.message);
+      switch (error.response?.status) {
+        case error.response?.status >= 0 && error.response?.status <= 100:
+          toast.warning(error.response.data.message);
+          break;
+
+        default:
+          toast.error(error.response.data.message);
+          break;
+      }
     }
     const originalRequest = error.config;
     if (error.response?.status === 401) {
@@ -102,6 +110,6 @@ instance.interceptors.response.use(
     // Do something with response error
     loadingManager.set(false);
     return Promise.reject(error);
-  }
+  },
 );
 export default instance;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -21,9 +21,23 @@ import BusinessIcon from "@mui/icons-material/Business"; // Icon Workspace
 import { recentBoards, templates } from "~/utils/constant";
 import BoardCard from "~/Components/BoardCard/BoardCard";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getAllPinnedBoardApi } from "~/apis/boardApi";
+import { TiPinOutline } from "react-icons/ti";
 // path: /boards/board_dashboard
 const ListBoard = () => {
   const navigate = useNavigate();
+  const currAccount = useSelector((state) => state.accountReducer.accountState);
+
+  const [listPinnedBoard, setListPinnedBoard] = useState([]);
+  const getAllPinnedBoard = async () => {
+    await getAllPinnedBoardApi(currAccount?._id).then((res) => {
+      setListPinnedBoard(res?.data?.pinnedBoards);
+    });
+  };
+  useEffect(() => {
+    getAllPinnedBoard();
+  }, []);
   return (
     <>
       <Box
@@ -115,6 +129,45 @@ const ListBoard = () => {
                 }}
               >
                 <BoardCard title={item.title} bg={item.bg} />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+        {/* Pinned board */}
+        <Box sx={{ mb: 4 }}>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <TiPinOutline
+              style={{
+                marginRight: 5,
+                color: "text.secondary",
+                fontSize: "20px",
+              }}
+            />
+            <Typography variant="h6" fontWeight="bold">
+              Your pinned board
+            </Typography>
+          </Box>
+          <Grid container spacing={2}>
+            {listPinnedBoard?.length === 0 && (
+              <Typography>You have not pinned any board</Typography>
+            )}
+            {listPinnedBoard?.map((item, index) => (
+              <Grid
+                item
+                key={index}
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  xl: 3,
+                }}
+              >
+                <BoardCard
+                  title={item.title}
+                  bg={item.bg}
+                  boardId={item?._id}
+                  pinned={item?.pinned}
+                  handleGetAllBoard={getAllPinnedBoard}
+                />
               </Grid>
             ))}
           </Grid>
