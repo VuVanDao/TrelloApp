@@ -21,7 +21,7 @@ import BusinessIcon from "@mui/icons-material/Business"; // Icon Workspace
 import { recentBoards, templates } from "~/utils/constant";
 import BoardCard from "~/Components/BoardCard/BoardCard";
 import { useNavigate } from "react-router-dom";
-
+// path: /boards/board_dashboard
 const ListBoard = () => {
   const navigate = useNavigate();
   return (
