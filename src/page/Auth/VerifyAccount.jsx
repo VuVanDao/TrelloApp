@@ -13,7 +13,6 @@ import {
 
 const VerifyAccount = () => {
   const {
-    loginWithRedirect,
     logout,
     isAuthenticated,
     user,
@@ -47,6 +46,8 @@ const VerifyAccount = () => {
         );
         navigate("/boards");
       } else {
+        console.log("update account");
+        
         dispatch(updateCurrentAccount(res?.payload?.data));
         navigate("/boards");
       }
