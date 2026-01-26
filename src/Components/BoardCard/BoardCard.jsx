@@ -17,6 +17,7 @@ const BoardCard = ({
   boardId,
   pinned,
   handleGetAllBoard,
+  updateUIBoard,
 }) => {
   const currAccount = useSelector((state) => state.accountReducer.accountState);
   const navigate = useNavigate();
@@ -25,11 +26,13 @@ const BoardCard = ({
   };
   const handlePinnedBoard = async (statusBoardPinned) => {
     if (statusBoardPinned) {
+      updateUIBoard(boardId, false);
       await removePinnedBoard(boardId, currAccount?._id);
     } else {
+      updateUIBoard(boardId, true);
       await addPinnedBoard(boardId, currAccount?._id);
     }
-    handleGetAllBoard();
+    // handleGetAllBoard();
   };
   return (
     <>
@@ -106,7 +109,7 @@ const BoardCard = ({
                   },
                 }}
                 onClick={(e) => {
-                  e.stopPropagation();
+                  e.stopPropagation(); // tranh bị ấn và bị vào board
                 }}
               >
                 {pinned ? (

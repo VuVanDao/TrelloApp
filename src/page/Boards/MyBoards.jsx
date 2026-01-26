@@ -29,12 +29,12 @@ const MyBoards = () => {
   const [ListBoard, setListBoard] = useState([]);
   const [totalBoard, setTotalBoard] = useState(0);
   const [currPage, setCurrPage] = useState(
-    +localStorage.getItem("currPage") || 1
+    +localStorage.getItem("currPage") || 1,
   );
   const [totalPage, setTotalPage] = useState(0);
-
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [changeUI, setChangeUI] = useState(false);
   const handleOpen = () => setOpen(true);
   const { logout } = useAuth0();
   const dispatch = useDispatch();
@@ -65,10 +65,18 @@ const MyBoards = () => {
     localStorage.setItem("currPage", value);
     setCurrPage(value);
   };
+  const updateUIBoard = (boardId, statusPin) => {
+    const currBoard = ListBoard.find((board) => board._id === boardId);
+    currBoard.pinned = statusPin;
+    setChangeUI(!changeUI);
+    // ham nay de update ui cua board, se doi mau ki hieu pin cua board
+    setListBoard(ListBoard);
+  };
   useEffect(() => {
+    localStorage.setItem("currPage", 1);
     handleGetAllBoard(true);
   }, [currPage]);
-
+  useEffect(() => {}, [changeUI]);
   return (
     <Box
       sx={{
@@ -196,6 +204,7 @@ const MyBoards = () => {
                         boardId={board?._id}
                         pinned={board?.pinned}
                         handleGetAllBoard={handleGetAllBoard}
+                        updateUIBoard={updateUIBoard}
                       />
                     </Grid>
                   ))}

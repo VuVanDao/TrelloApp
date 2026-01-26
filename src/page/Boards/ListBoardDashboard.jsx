@@ -24,20 +24,32 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getAllPinnedBoardApi } from "~/apis/boardApi";
 import { TiPinOutline } from "react-icons/ti";
+import _ from "lodash";
 // path: /boards/board_dashboard
 const ListBoard = () => {
   const navigate = useNavigate();
   const currAccount = useSelector((state) => state.accountReducer.accountState);
 
   const [listPinnedBoard, setListPinnedBoard] = useState([]);
+  const [changeUI, setChangeUI] = useState(false);
   const getAllPinnedBoard = async () => {
     await getAllPinnedBoardApi(currAccount?._id).then((res) => {
       setListPinnedBoard(res?.data?.pinnedBoards);
     });
   };
+  const updateUIBoard = (boardId, statusPin) => {
+    let listPinnedBoardClone = _.cloneDeep(listPinnedBoard);
+    const currPinnedBoard = listPinnedBoardClone.filter(
+      (board) => board._id !== boardId,
+    );
+    setChangeUI(!changeUI);
+    // ham nay de update ui cua board, se doi mau ki hieu pin cua board
+    setListPinnedBoard(currPinnedBoard);
+  };
   useEffect(() => {
     getAllPinnedBoard();
   }, []);
+  useEffect(() => {}, [changeUI]);
   return (
     <>
       <Box
@@ -167,6 +179,7 @@ const ListBoard = () => {
                   boardId={item?._id}
                   pinned={item?.pinned}
                   handleGetAllBoard={getAllPinnedBoard}
+                  updateUIBoard={updateUIBoard}
                 />
               </Grid>
             ))}
@@ -238,7 +251,12 @@ const ListBoard = () => {
               >
                 Members
               </Button>
-              <Button startIcon={<SettingsIcon />} size="small" color="inherit">
+              <Button
+                startIcon={<SettingsIcon />}
+                size="small"
+                color="inherit"
+                onClick={() => navigate(`/Settings`)}
+              >
                 Settings
               </Button>
               <Button
