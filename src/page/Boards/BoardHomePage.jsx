@@ -130,13 +130,13 @@ export default function BoardHomePage() {
               navigate("my_boards");
             }}
             selected={location?.pathname?.includes(
-              "/boards/board_dashboard/my_boards"
+              "/boards/board_dashboard/my_boards",
             )}
           >
             <ListItemIcon sx={{ minWidth: 30 }}>
               <DashboardIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary="Boards" />
+            <ListItemText primary="My Boards" />
           </ListItemButton>
           <ListItemButton sx={{ pl: 5 }}>
             <ListItemIcon sx={{ minWidth: 30 }}>
