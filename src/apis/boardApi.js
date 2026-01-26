@@ -8,3 +8,11 @@ export const getAllPinnedBoardApi = async (accountId) => {
     return res.data;
   }
 };
+export const getRecentlyViewedBoardApi = async (accountId) => {
+  if (accountId) {
+    const res = await InterceptorAxios.get(
+      `${apiBackend}/${apiVersion}/api/recently_viewed_board/${accountId}`,
+    );
+    return res.data;
+  }
+};
