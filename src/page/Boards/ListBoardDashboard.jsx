@@ -22,7 +22,10 @@ import { recentBoards, templates } from "~/utils/constant";
 import BoardCard from "~/Components/BoardCard/BoardCard";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getAllPinnedBoardApi } from "~/apis/boardApi";
+import {
+  getAllPinnedBoardApi,
+  getRecentlyViewedBoardApi,
+} from "~/apis/boardApi";
 import { TiPinOutline } from "react-icons/ti";
 import _ from "lodash";
 // path: /boards/board_dashboard
@@ -31,10 +34,17 @@ const ListBoard = () => {
   const currAccount = useSelector((state) => state.accountReducer.accountState);
 
   const [listPinnedBoard, setListPinnedBoard] = useState([]);
+  const [listRecentViewedBoard, setListRecentViewedBoard] = useState([]);
   const [changeUI, setChangeUI] = useState(false);
   const getAllPinnedBoard = async () => {
     await getAllPinnedBoardApi(currAccount?._id).then((res) => {
       setListPinnedBoard(res?.data?.pinnedBoards);
+    });
+  };
+  const getAllRecentlyViewedBoard = async () => {
+    await getRecentlyViewedBoardApi(currAccount?._id).then((res) => {
+      console.log("🚀 ~ getAllRecentlyViewedBoard ~ res:", res);
+      setListRecentViewedBoard(res?.data?.RecentlyViewedBoard);
     });
   };
   const updateUIBoard = (boardId, statusPin) => {
@@ -48,6 +58,7 @@ const ListBoard = () => {
   };
   useEffect(() => {
     getAllPinnedBoard();
+    getAllRecentlyViewedBoard();
   }, []);
   useEffect(() => {}, [changeUI]);
   return (
@@ -60,7 +71,7 @@ const ListBoard = () => {
         }}
       >
         {/* --- TEMPLATES SECTION --- */}
-        <Box sx={{ mb: 4 }}>
+        {/* <Box sx={{ mb: 4 }}>
           <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
             <TableChartIcon sx={{ mr: 1, color: "text.secondary" }} />
             <Typography variant="h6" fontWeight="bold">
@@ -119,9 +130,9 @@ const ListBoard = () => {
           >
             Browse the full template gallery
           </Typography>
-        </Box>
+        </Box> */}
 
-        {/* --- RECENTLY VIEWED SECTION --- */}
+        {/* --- RECENTLY VIEWED BOARD --- */}
         <Box sx={{ mb: 4 }}>
           <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
             <AccessTimeIcon sx={{ mr: 1, color: "text.secondary" }} />
@@ -130,7 +141,7 @@ const ListBoard = () => {
             </Typography>
           </Box>
           <Grid container spacing={2}>
-            {recentBoards.map((item, index) => (
+            {listRecentViewedBoard.map((item, index) => (
               <Grid
                 item
                 key={index}
@@ -140,7 +151,14 @@ const ListBoard = () => {
                   xl: 3,
                 }}
               >
-                <BoardCard title={item.title} bg={item.bg} />
+                <BoardCard
+                  title={item.title}
+                  bg={item.bg}
+                  boardId={item?._id}
+                  pinned={item?.pinned}
+                  handleGetAllBoard={getAllRecentlyViewedBoard}
+                  updateUIBoard={updateUIBoard}
+                />
               </Grid>
             ))}
           </Grid>
