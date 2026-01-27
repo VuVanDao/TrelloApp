@@ -78,7 +78,7 @@ const ListBoard = () => {
           </Box>
 
           <Grid container spacing={2}>
-            {listRecentViewedBoard.map((item, index) => (
+            {listRecentViewedBoard?.map((item, index) => (
               <Grid
                 item
                 key={index}
@@ -224,7 +224,7 @@ const ListBoard = () => {
           {/* Boards in Workspace */}
           <Grid container spacing={2}>
             {/* Board cards */}
-            {recentBoards.slice(0, 2).map((item, index) => (
+            {recentBoards?.slice(0, 2).map((item, index) => (
               <Grid
                 item
                 size={{
