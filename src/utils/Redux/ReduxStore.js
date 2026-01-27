@@ -18,6 +18,7 @@ import {
   REGISTER,
   persistStore,
 } from "redux-persist";
+import { activeColumnSlice } from "./ActiveColumnSlice";
 // 1. Cấu hình persist
 const persistConfig = {
   key: "root",
@@ -28,6 +29,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   activeBoardReducer: activeBoardSlice.reducer,
   accountReducer: accountSlice.reducer,
+  activeColumnReducer: activeColumnSlice.reducer,
 });
 // 2. Tạo persisted reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -43,6 +45,6 @@ export const store = configureStore({
 });
 export const InjectStore = createStore(
   persistedReducer,
-  applyMiddleware(thunk)
+  applyMiddleware(thunk),
 );
 export const persistor = persistStore(store);

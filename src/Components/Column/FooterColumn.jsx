@@ -7,16 +7,18 @@ import { MdOutlineClose } from "react-icons/md";
 import { LuLightbulb } from "react-icons/lu";
 import { toast } from "react-toastify";
 import { createNewCard } from "~/apis";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDetailBoardReduxAPI } from "~/utils/Redux/ActiveBoardSlice";
+import { updateFooterColumn } from "~/utils/Redux/ActiveColumnSlice";
 const FooterColumn = ({ columnID, boardId }) => {
-  const [openAddCard, SetOpenAddCard] = useState(false);
   const [isCallApi, setIsCallApi] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
+  const { openColumnFooter, columnId } = useSelector((state) => {
+    return state.activeColumnReducer;
+  });
+
   const dispatch = useDispatch();
-  const toggleSetOpenFormAddCard = () => {
-    SetOpenAddCard(!openAddCard);
-  };
+
   const handleCreateCard = async () => {
     if (!cardTitle) {
       toast.warning("Missing data");
@@ -30,14 +32,13 @@ const FooterColumn = ({ columnID, boardId }) => {
     })
       .then((res) => {
         dispatch(getDetailBoardReduxAPI({ boardId, loading: false }));
-        toggleSetOpenFormAddCard();
       })
       .catch((err) => {
         console.log("🚀 ~ handleCreateCard ~ err:", err);
       })
       .finally(() => setIsCallApi(false));
   };
-  if (!openAddCard) {
+  if (!(openColumnFooter && columnID === columnId)) {
     return (
       <>
         <Box
@@ -62,7 +63,14 @@ const FooterColumn = ({ columnID, boardId }) => {
               },
             }}
             className="cursor_pointer"
-            onClick={toggleSetOpenFormAddCard}
+            onClick={() => {
+              dispatch(
+                updateFooterColumn({
+                  columnId: columnID,
+                  openColumnFooter: true,
+                }),
+              );
+            }}
           >
             <IoAddSharp />
             <Typography fontSize={"15px"}>Add a card</Typography>
@@ -141,7 +149,12 @@ const FooterColumn = ({ columnID, boardId }) => {
           <BoxIconCover hoverColor={"#d1d3d4"}>
             <MdOutlineClose
               onClick={() => {
-                toggleSetOpenFormAddCard();
+                dispatch(
+                  updateFooterColumn({
+                    columnId: null,
+                    openColumnFooter: false,
+                  }),
+                );
               }}
             />
           </BoxIconCover>
