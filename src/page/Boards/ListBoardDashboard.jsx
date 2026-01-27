@@ -70,76 +70,13 @@ const ListBoard = () => {
           width: "100%",
         }}
       >
-        {/* --- TEMPLATES SECTION --- */}
-        {/* <Box sx={{ mb: 4 }}>
-          <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
-            <TableChartIcon sx={{ mr: 1, color: "text.secondary" }} />
-            <Typography variant="h6" fontWeight="bold">
-              Most popular templates
-            </Typography>
-            <Box sx={{ flexGrow: 1 }} />
-            <IconButton size="small">
-              <CloseIcon fontSize="small" />
-            </IconButton>
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mb: 2,
-              flexWrap: "wrap",
-            }}
-          >
-            <Typography variant="body2" color="text.secondary" sx={{ mr: 2 }}>
-              Get going faster with a template from the Trello community or
-            </Typography>
-            <Select
-              defaultValue="category"
-              size="small"
-              sx={{ height: 32, fontSize: 14 }}
-            >
-              <MenuItem value="category">choose a category</MenuItem>
-            </Select>
-          </Box>
-
-          <Grid container spacing={2}>
-            {templates.map((item, index) => (
-              <Grid
-                item
-                key={index}
-                size={{
-                  xs: 12,
-                  sm: 6,
-                  xl: 3,
-                }}
-              >
-                <BoardCard title={item.title} bg={item.bg} isTemplate />
-              </Grid>
-            ))}
-          </Grid>
-
-          <Typography
-            variant="body2"
-            sx={{
-              mt: 2,
-              color: "primary.main",
-              cursor: "pointer",
-              textDecoration: "underline",
-            }}
-          >
-            Browse the full template gallery
-          </Typography>
-        </Box> */}
-
         {/* --- RECENTLY VIEWED BOARD --- */}
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 2 }}>
           <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
             <AccessTimeIcon sx={{ mr: 1, color: "text.secondary" }} />
-            <Typography variant="h6" fontWeight="bold">
-              Recently viewed
-            </Typography>
+            <Typography fontWeight="bold">Recently viewed</Typography>
           </Box>
+
           <Grid container spacing={2}>
             {listRecentViewedBoard.map((item, index) => (
               <Grid
@@ -164,7 +101,7 @@ const ListBoard = () => {
           </Grid>
         </Box>
         {/* Pinned board */}
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ mb: 2 }}>
           <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
             <TiPinOutline
               style={{
@@ -173,9 +110,7 @@ const ListBoard = () => {
                 fontSize: "20px",
               }}
             />
-            <Typography variant="h6" fontWeight="bold">
-              Your pinned board
-            </Typography>
+            <Typography fontWeight="bold">Your pinned board</Typography>
           </Box>
           <Grid container spacing={2}>
             {listPinnedBoard?.length === 0 && (
@@ -206,9 +141,8 @@ const ListBoard = () => {
 
         {/* --- YOUR WORKSPACES SECTION --- */}
         <Box>
-          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 1 }}>
             <Typography
-              variant="h6"
               fontWeight="bold"
               sx={{
                 color: "text.secondary",
