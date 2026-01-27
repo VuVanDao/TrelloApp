@@ -41,7 +41,7 @@ const ButtonAddCol = () => {
         console.log("🚀 ~ handleCreateColumn ~ err:", err);
       })
       .finally(() => {
-        setCallApi(true);
+        setCallApi(false);
       });
   };
   if (!openFormAddColumn) {
