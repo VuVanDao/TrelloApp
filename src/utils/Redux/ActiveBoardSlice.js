@@ -7,30 +7,30 @@ export const getDetailBoardReduxAPI = createAsyncThunk(
   "activeBoard/getDetailBoardReduxAPI",
   async ({ boardId, loading = true }, thunkAPI) => {
     const response = await InterceptorAxios.get(
-      `${apiBackend}/${apiVersion}/api/boards/${boardId}?loading=${loading}`
+      `${apiBackend}/${apiVersion}/api/boards/${boardId}?loading=${loading}`,
     );
     return response.data;
-  }
+  },
 );
 export const updateColumnOrderIdsRedux = createAsyncThunk(
   "activeBoard/updateColumnOrderIdsRedux",
   async ({ boardId, columnOrderIds }, thunkAPI) => {
     const response = await InterceptorAxios.put(
       `${apiBackend}/${apiVersion}/api/boards/${boardId}`,
-      { columnOrderIds }
+      { columnOrderIds },
     );
     return response.data;
-  }
+  },
 );
 export const updateCardOrderIdsRedux = createAsyncThunk(
   "activeBoard/updateCardOrderIdsRedux",
   async ({ columnIds, ArrayCards }, thunkAPI) => {
     const response = await InterceptorAxios.put(
       `${apiBackend}/${apiVersion}/api/columns/${columnIds}`,
-      { cardOrderIds: ArrayCards }
+      { cardOrderIds: ArrayCards },
     );
     return response.data;
-  }
+  },
 );
 export const updateMoveCardFromDifferentColumnRedux = createAsyncThunk(
   "activeBoard/updateMoveCardFromDifferentColumnRedux",
@@ -42,7 +42,7 @@ export const updateMoveCardFromDifferentColumnRedux = createAsyncThunk(
       preColumn, // cái cột cũ, cx sẽ thay đổi cardOrderIds
       preCardOrderIds,
     },
-    thunkAPI
+    thunkAPI,
   ) => {
     const response = await InterceptorAxios.put(
       `${apiBackend}/${apiVersion}/api/columns/move_card_different_column/${nextColumnId}`,
@@ -51,10 +51,10 @@ export const updateMoveCardFromDifferentColumnRedux = createAsyncThunk(
         nextCardOrderIds,
         preColumn,
         preCardOrderIds,
-      }
+      },
     );
     return response.data;
-  }
+  },
 );
 export const activeBoardSlice = createSlice({
   name: "activeBoard",
@@ -71,7 +71,7 @@ export const activeBoardSlice = createSlice({
     builder.addCase(getDetailBoardReduxAPI.fulfilled, (state, action) => {
       const res = action.payload.data;
       const newColumn = res.columns.filter((column) =>
-        isEmpty(column?.cardOrderIds)
+        isEmpty(column?.cardOrderIds),
       );
 
       if (newColumn) {
@@ -92,7 +92,7 @@ export const activeBoardSlice = createSlice({
       updateMoveCardFromDifferentColumnRedux.fulfilled,
       (state, action) => {
         //   state.activeBoardState = res;
-      }
+      },
     );
   },
 });

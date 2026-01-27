@@ -8,15 +8,21 @@ import { LuLightbulb } from "react-icons/lu";
 import { toast } from "react-toastify";
 import { createNewCard } from "~/apis";
 import { useDispatch, useSelector } from "react-redux";
-import { getDetailBoardReduxAPI } from "~/utils/Redux/ActiveBoardSlice";
+import {
+  getDetailBoardReduxAPI,
+  updateCurrentActiveBoard,
+} from "~/utils/Redux/ActiveBoardSlice";
 import { updateFooterColumn } from "~/utils/Redux/ActiveColumnSlice";
+import _ from "lodash";
 const FooterColumn = ({ columnID, boardId }) => {
   const [isCallApi, setIsCallApi] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
   const { openColumnFooter, columnId } = useSelector((state) => {
     return state.activeColumnReducer;
   });
-
+  const activeBoard = useSelector((state) => {
+    return state.activeBoardReducer.activeBoardState;
+  });
   const dispatch = useDispatch();
 
   const handleCreateCard = async () => {
@@ -25,6 +31,19 @@ const FooterColumn = ({ columnID, boardId }) => {
       return;
     }
     setIsCallApi(true);
+    let activeBoardClone = _.cloneDeep(activeBoard);
+    // tim cai column chua cai card sua doi
+    let currColumn = activeBoardClone.columns.find(
+      (column) => column?._id === columnID,
+    );
+    currColumn.cards.push({
+      title: cardTitle,
+      boardIds: boardId,
+      columnIds: columnID,
+      _id: "dasdasdadsada",
+    });
+    dispatch(updateCurrentActiveBoard(activeBoardClone));
+    setIsCallApi(false);
     await createNewCard({
       title: cardTitle,
       boardIds: boardId,
