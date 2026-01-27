@@ -20,6 +20,8 @@ import {
 import { useConfirm } from "material-ui-confirm";
 import { ArchiveColumn } from "~/apis";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateFooterColumn } from "~/utils/Redux/ActiveColumnSlice";
 
 const commonFontsize = "14px";
 const MenuHeaderColumn = ({
@@ -32,6 +34,11 @@ const MenuHeaderColumn = ({
   const { mode } = useColorScheme();
   let { boardId } = useParams();
   const confirm = useConfirm();
+  const activeFooterColumn = useSelector(
+    (state) => state.activeColumnReducer.activeFooterColumn,
+  );
+  const dispatch = useDispatch();
+
   const handleArchie = async () => {
     const { confirmed } = await confirm({
       description: `This will  delete ${columnId.title}.`,
@@ -111,7 +118,19 @@ const MenuHeaderColumn = ({
           </Box>
         </ListSubheader>
         <MenuItem onClick={handleClose}>
-          <Typography fontSize={commonFontsize}>Add card</Typography>
+          <Typography
+            fontSize={commonFontsize}
+            onClick={() => {
+              dispatch(
+                updateFooterColumn({
+                  columnId: columnId?._id,
+                  openColumnFooter: true,
+                }),
+              );
+            }}
+          >
+            Add card
+          </Typography>
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <Typography fontSize={commonFontsize}>Copy list</Typography>
