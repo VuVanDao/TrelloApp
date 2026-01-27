@@ -22,22 +22,27 @@ import { ArchiveColumn } from "~/apis";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateFooterColumn } from "~/utils/Redux/ActiveColumnSlice";
+import {
+  getDetailBoardReduxAPI,
+  updateCurrentActiveBoard,
+} from "~/utils/Redux/ActiveBoardSlice";
+import _ from "lodash";
 
 const commonFontsize = "14px";
 const MenuHeaderColumn = ({
   anchorEl,
   setAnchorEl,
   isDraggingColumn,
-  columnId,
+  columnId, // thuc ra day la thong tin cua 1 column
 }) => {
   const open = Boolean(anchorEl);
   const { mode } = useColorScheme();
   let { boardId } = useParams();
   const confirm = useConfirm();
-  const activeFooterColumn = useSelector(
-    (state) => state.activeColumnReducer.activeFooterColumn,
-  );
   const dispatch = useDispatch();
+  const activeBoard = useSelector((state) => {
+    return state.activeBoardReducer.activeBoardState;
+  });
 
   const handleArchie = async () => {
     const { confirmed } = await confirm({
@@ -47,8 +52,14 @@ const MenuHeaderColumn = ({
     });
 
     if (confirmed) {
+      const activeBoardClone = _.cloneDeep(activeBoard);
+      activeBoardClone.columns = activeBoardClone.columns?.filter(
+        (column) => column?._id !== columnId?._id,
+      );
+      dispatch(updateCurrentActiveBoard(activeBoardClone));
       await ArchiveColumn(columnId?._id, boardId)
         .then((res) => {
+          dispatch(getDetailBoardReduxAPI({ boardId, loading: false }));
           console.log("🚀 ~ handleArchie ~ res:", res);
         })
         .catch((error) => {

@@ -43,7 +43,6 @@ const ListBoard = () => {
   };
   const getAllRecentlyViewedBoard = async () => {
     await getRecentlyViewedBoardApi(currAccount?._id).then((res) => {
-      console.log("🚀 ~ getAllRecentlyViewedBoard ~ res:", res);
       setListRecentViewedBoard(res?.data?.RecentlyViewedBoard);
     });
   };
