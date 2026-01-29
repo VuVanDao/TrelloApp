@@ -43,7 +43,7 @@ const ListBoard = () => {
   };
   const getAllRecentlyViewedBoard = async () => {
     await getRecentlyViewedBoardApi(currAccount?._id).then((res) => {
-      setListRecentViewedBoard(res?.data?.RecentlyViewedBoard);
+      setListRecentViewedBoard(res?.data?.boards);
     });
   };
   const updateUIBoard = (boardId, statusPin) => {
@@ -88,10 +88,10 @@ const ListBoard = () => {
                 }}
               >
                 <BoardCard
-                  title={item.title}
-                  bg={item.bg}
-                  boardId={item?._id}
-                  pinned={item?.pinned}
+                  title={item.board.title}
+                  bg={item.board.bg}
+                  boardId={item?.board?._id}
+                  pinned={item?.board?.pinned}
                   handleGetAllBoard={getAllRecentlyViewedBoard}
                   updateUIBoard={updateUIBoard}
                 />
