@@ -48,12 +48,38 @@ const ListBoard = () => {
   };
   const updateUIBoard = (boardId, statusPin) => {
     let listPinnedBoardClone = _.cloneDeep(listPinnedBoard);
-    const currPinnedBoard = listPinnedBoardClone.filter(
-      (board) => board._id !== boardId,
-    );
-    setChangeUI(!changeUI);
-    // ham nay de update ui cua board, se doi mau ki hieu pin cua board
-    setListPinnedBoard(currPinnedBoard);
+    let listRecentViewClone = _.cloneDeep(listRecentViewedBoard);
+
+    if (statusPin) {
+      // truong hop an pin tren recent view ( chi co o recent view thi statusPin = true)
+      if (listPinnedBoardClone.length < 5) {
+        // pinned board
+        const currBoardPinned = listRecentViewClone.find((boards) => {
+          return boards?.board?._id === boardId;
+        });
+        currBoardPinned.board.pinned = !currBoardPinned.board.pinned;
+        listPinnedBoardClone.push(currBoardPinned.board);
+        setChangeUI(!changeUI);
+        // ham nay de update ui cua board, se doi mau ki hieu pin cua board
+        setListPinnedBoard(listPinnedBoardClone);
+        setListRecentViewedBoard(listRecentViewClone);
+      }
+    } else {
+      // pinned board
+      const currPinnedBoard = listPinnedBoardClone.filter(
+        (board) => board._id !== boardId,
+      );
+      // recent view
+      const currBoardPinned = listRecentViewClone.find((boards) => {
+        return boards?.board?._id === boardId;
+      });
+      if (currBoardPinned)
+        currBoardPinned.board.pinned = !currBoardPinned.board.pinned;
+      setChangeUI(!changeUI);
+      // ham nay de update ui cua board, se doi mau ki hieu pin cua board
+      setListPinnedBoard(currPinnedBoard);
+      setListRecentViewedBoard(listRecentViewClone);
+    }
   };
   useEffect(() => {
     getAllPinnedBoard();

@@ -34,7 +34,7 @@ const ModalAddBoard = ({ open, setOpen, handleGetAllBoard }) => {
     reset,
     formState: { errors },
   } = useForm();
-
+  const [callApi, setCallApi] = useState(false);
   const handleClose = () => {
     reset();
     setType("");
@@ -49,16 +49,25 @@ const ModalAddBoard = ({ open, setOpen, handleGetAllBoard }) => {
       toast.warn("Missing type of board");
       return;
     }
-    const formData = { type, title: data.title, description: data.description };
+    const formData = {
+      type,
+      title: data.title.trim(),
+      description: data.description.trim(),
+    };
+    setCallApi(true);
     createBoard(formData)
       .then((res) => {
         reset();
         setType("");
         handleClose();
         handleGetAllBoard();
+        toast.success("thành công");
       })
       .catch((err) => {
         console.log("🚀 ~ onSubmit ~ err:", err);
+      })
+      .finally(() => {
+        setCallApi(false);
       });
   };
   return (
@@ -127,7 +136,7 @@ const ModalAddBoard = ({ open, setOpen, handleGetAllBoard }) => {
             </FormControl>
 
             <TextField
-              placeholder="Board title"
+              placeholder="Board description"
               id="outlined-basic"
               variant="outlined"
               multiline
@@ -164,7 +173,9 @@ const ModalAddBoard = ({ open, setOpen, handleGetAllBoard }) => {
                   theme.palette.mode === "dark" ? "#dcdfe4" : "primary.main",
                 color: (theme) =>
                   theme.palette.mode === "dark" ? "black" : "white",
+                cursor: !callApi ? "pointer" : "not-allowed",
               }}
+              disabled={callApi}
             >
               Confirm
             </Button>
