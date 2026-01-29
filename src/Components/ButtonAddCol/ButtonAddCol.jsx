@@ -145,11 +145,15 @@ const ButtonAddCol = () => {
             Add from
           </Button>
           <BoxIconCover hoverColor={"#d1d3d4"}>
-            <MdOutlineClose
-              onClick={() => {
-                toggleSetOpenFormAddColumn();
-              }}
-            />
+            {callApi ? (
+              ""
+            ) : (
+              <MdOutlineClose
+                onClick={() => {
+                  toggleSetOpenFormAddColumn();
+                }}
+              />
+            )}
           </BoxIconCover>
         </Box>
       </Box>

@@ -37,7 +37,7 @@ const FooterColumn = ({ columnID, boardId }) => {
       (column) => column?._id === columnID,
     );
     currColumn.cards.push({
-      title: cardTitle,
+      title: cardTitle.trim(),
       boardIds: boardId,
       columnIds: columnID,
       _id: "dasdasdadsada",
@@ -166,16 +166,20 @@ const FooterColumn = ({ columnID, boardId }) => {
             Tips
           </Button>
           <BoxIconCover hoverColor={"#d1d3d4"}>
-            <MdOutlineClose
-              onClick={() => {
-                dispatch(
-                  updateFooterColumn({
-                    columnId: null,
-                    openColumnFooter: false,
-                  }),
-                );
-              }}
-            />
+            {isCallApi ? (
+              ""
+            ) : (
+              <MdOutlineClose
+                onClick={() => {
+                  dispatch(
+                    updateFooterColumn({
+                      columnId: null,
+                      openColumnFooter: false,
+                    }),
+                  );
+                }}
+              />
+            )}
           </BoxIconCover>
         </Box>
       </Box>
