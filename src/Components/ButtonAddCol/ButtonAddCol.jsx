@@ -13,8 +13,17 @@ import BoxIconCover from "../BoxIconCover";
 import { toast } from "react-toastify";
 import { createNewColumn } from "~/apis";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { getDetailBoardReduxAPI } from "~/utils/Redux/ActiveBoardSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getDetailBoardReduxAPI,
+  updateCurrentActiveBoard,
+} from "~/utils/Redux/ActiveBoardSlice";
+import _ from "lodash";
+import { generateFakeColumn } from "~/utils/constant";
+import {
+  updateCurrentCardDisable,
+  updateCurrentColumnDisable,
+} from "~/utils/Redux/CardAndColumnDisableSlice";
 
 const ButtonAddCol = () => {
   const { mode } = useColorScheme("light");
@@ -26,21 +35,32 @@ const ButtonAddCol = () => {
   const toggleSetOpenFormAddColumn = () => {
     SetOpenAddColumn(!openFormAddColumn);
   };
+  const activeBoard = useSelector((state) => {
+    return state.activeBoardReducer.activeBoardState;
+  });
   const handleCreateColumn = async () => {
     if (!columnTitle) {
       toast.warning("Missing data");
       return;
     }
     setCallApi(true);
+    const activeBoardClone = _.clone(activeBoard);
+    const activeBoardClone_column = _.clone(activeBoardClone.columns);
+    activeBoardClone_column.push(generateFakeColumn(boardId, columnTitle));
+    activeBoardClone.columns = activeBoardClone_column;
+    dispatch(updateCurrentCardDisable(true));
+    dispatch(updateCurrentColumnDisable(true));
+    dispatch(updateCurrentActiveBoard(activeBoardClone));
     await createNewColumn({ title: columnTitle, boardIds: boardId })
-      .then((res) => {
-        dispatch(getDetailBoardReduxAPI({ boardId, loading: false }));
-        toggleSetOpenFormAddColumn();
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log("🚀 ~ handleCreateColumn ~ err:", err);
       })
       .finally(() => {
+        dispatch(getDetailBoardReduxAPI({ boardId, loading: false }));
+        toggleSetOpenFormAddColumn();
+        dispatch(updateCurrentCardDisable(false));
+        dispatch(updateCurrentColumnDisable(false));
         setCallApi(false);
       });
   };
