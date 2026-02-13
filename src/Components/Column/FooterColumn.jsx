@@ -55,7 +55,10 @@ const FooterColumn = ({ columnID, boardId }) => {
       .catch((err) => {
         console.log("🚀 ~ handleCreateCard ~ err:", err);
       })
-      .finally(() => setIsCallApi(false));
+      .finally(() => {
+        setIsCallApi(false);
+        dispatch(getDetailBoardReduxAPI({ boardId, loading: false }));
+      });
   };
   if (!(openColumnFooter && columnID === columnId)) {
     return (

@@ -10,6 +10,22 @@ export const generatePlaceholderCard = (column) => {
     _id: `${column?._id}-placeholder-card`,
   };
 };
+export const generateFakeColumn = (boardId, title) => {
+  // hàm này để tạo ra 1 column fake ngay sau khi add 1 column, để tăng trải nghiệm người dùng
+  return {
+    _id: `${boardId}-fake-column`,
+    title: title,
+    boardIds: boardId,
+    cards: [
+      generatePlaceholderCard({
+        boardIds: boardId,
+        _id: `${boardId}-fake-column`,
+      }),
+    ],
+    _destroy: false,
+    cardOrderIds: [],
+  };
+};
 export const apiBackend = import.meta.env.VITE_API_URL;
 export const apiVersion = "v1";
 

@@ -14,11 +14,16 @@ import React, { lazy, Suspense, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { FiEdit } from "react-icons/fi";
+import { useSelector } from "react-redux";
 // import MenuTrelloCard from "./MenuTrelloCard";
 const MenuTrelloCard = lazy(() => import("./MenuTrelloCard"));
 const TrelloCard = ({ card }) => {
   const { mode } = useColorScheme();
   const [hoverCard, setHoverCard] = useState(false);
+  const CardDisable = useSelector((state) => {
+    return state.CardAndColumDisableReducer.CardDisable;
+  });
+
   const {
     attributes,
     listeners,
@@ -29,6 +34,7 @@ const TrelloCard = ({ card }) => {
   } = useSortable({
     id: card._id,
     data: { ...card },
+    disabled: CardDisable,
   });
   const style = {
     transform: CSS.Translate.toString(transform),
