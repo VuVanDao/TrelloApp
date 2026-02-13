@@ -53,11 +53,13 @@ const ListBoard = () => {
     if (statusPin) {
       // truong hop an pin tren recent view ( chi co o recent view thi statusPin = true)
       if (listPinnedBoardClone.length < 5) {
-        // pinned board
+        // tim cai recent board để thêm vào cái pinned board
         const currBoardPinned = listRecentViewClone.find((boards) => {
           return boards?.board?._id === boardId;
         });
+        // thay đổi trạng thái pin của board
         currBoardPinned.board.pinned = !currBoardPinned.board.pinned;
+        // thêm vào pinned board
         listPinnedBoardClone.push(currBoardPinned.board);
         setChangeUI(!changeUI);
         // ham nay de update ui cua board, se doi mau ki hieu pin cua board
@@ -66,10 +68,12 @@ const ListBoard = () => {
       }
     } else {
       // pinned board
+      // bỏ pin cái board được chọn đi
       const currPinnedBoard = listPinnedBoardClone.filter(
         (board) => board._id !== boardId,
       );
       // recent view
+      // trong trường hợp board này có trong viewed thì đổi trạng thái pin của nó
       const currBoardPinned = listRecentViewClone.find((boards) => {
         return boards?.board?._id === boardId;
       });

@@ -5,7 +5,11 @@ import FooterColumn from "./FooterColumn";
 import ListTrelloCards from "../ListTrelloCards/ListTrelloCards";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useSelector } from "react-redux";
 const Column = ({ column }) => {
+  const ColumnDisable = useSelector((state) => {
+    return state.CardAndColumDisableReducer.ColumnDisable;
+  });
   const {
     attributes,
     listeners,
@@ -16,6 +20,7 @@ const Column = ({ column }) => {
   } = useSortable({
     id: column._id,
     data: { ...column },
+    disabled: ColumnDisable,
   });
   const style = {
     transform: CSS.Translate.toString(transform),
