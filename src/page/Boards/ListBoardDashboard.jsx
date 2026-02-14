@@ -28,6 +28,7 @@ import {
 } from "~/apis/boardApi";
 import { TiPinOutline } from "react-icons/ti";
 import _ from "lodash";
+import GlobalLoading from "~/Components/LoadingPage/GlobalLoading";
 // path: /boards/board_dashboard
 const ListBoard = () => {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ const ListBoard = () => {
   const [listPinnedBoard, setListPinnedBoard] = useState([]);
   const [listRecentViewedBoard, setListRecentViewedBoard] = useState([]);
   const [changeUI, setChangeUI] = useState(false);
+  const [isCallApi, SetIsCallApi] = useState(false);
   const getAllPinnedBoard = async () => {
     await getAllPinnedBoardApi(currAccount?._id).then((res) => {
       setListPinnedBoard(res?.data?.pinnedBoards);
@@ -45,6 +47,16 @@ const ListBoard = () => {
     await getRecentlyViewedBoardApi(currAccount?._id).then((res) => {
       setListRecentViewedBoard(res?.data?.boards);
     });
+  };
+  const GetPinnedBoardAndRecentlyViewedBoard = async () => {
+    SetIsCallApi(true);
+    await getAllPinnedBoardApi(currAccount?._id).then((res) => {
+      setListPinnedBoard(res?.data?.pinnedBoards);
+    });
+    await getRecentlyViewedBoardApi(currAccount?._id).then((res) => {
+      setListRecentViewedBoard(res?.data?.boards);
+    });
+    SetIsCallApi(false);
   };
   const updateUIBoard = (boardId, statusPin) => {
     let listPinnedBoardClone = _.cloneDeep(listPinnedBoard);
@@ -86,10 +98,12 @@ const ListBoard = () => {
     }
   };
   useEffect(() => {
-    getAllPinnedBoard();
-    getAllRecentlyViewedBoard();
+    // getAllPinnedBoard();
+    // getAllRecentlyViewedBoard();
+    GetPinnedBoardAndRecentlyViewedBoard();
   }, []);
   useEffect(() => {}, [changeUI]);
+
   return (
     <>
       <Box
@@ -100,73 +114,82 @@ const ListBoard = () => {
         }}
       >
         {/* --- RECENTLY VIEWED BOARD --- */}
-        <Box sx={{ mb: 2 }}>
-          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-            <AccessTimeIcon sx={{ mr: 1, color: "text.secondary" }} />
-            <Typography fontWeight="bold">Recently viewed</Typography>
-          </Box>
+        {isCallApi ? (
+          <GlobalLoading
+            isLoading={isCallApi}
+            message="loading....."
+          ></GlobalLoading>
+        ) : (
+          <Box>
+            <Box sx={{ mb: 2 }}>
+              <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <AccessTimeIcon sx={{ mr: 1, color: "text.secondary" }} />
+                <Typography fontWeight="bold">Recently viewed</Typography>
+              </Box>
 
-          <Grid container spacing={2}>
-            {listRecentViewedBoard?.map((item, index) => (
-              <Grid
-                item
-                key={index}
-                size={{
-                  xs: 12,
-                  sm: 6,
-                  xl: 3,
-                }}
-              >
-                <BoardCard
-                  title={item.board.title}
-                  bg={item.board.bg}
-                  boardId={item?.board?._id}
-                  pinned={item?.board?.pinned}
-                  handleGetAllBoard={getAllRecentlyViewedBoard}
-                  updateUIBoard={updateUIBoard}
-                />
+              <Grid container spacing={2}>
+                {listRecentViewedBoard?.map((item, index) => (
+                  <Grid
+                    item
+                    key={index}
+                    size={{
+                      xs: 12,
+                      sm: 6,
+                      xl: 3,
+                    }}
+                  >
+                    <BoardCard
+                      title={item.board.title}
+                      bg={item.board.bg}
+                      boardId={item?.board?._id}
+                      pinned={item?.board?.pinned}
+                      handleGetAllBoard={getAllRecentlyViewedBoard}
+                      updateUIBoard={updateUIBoard}
+                    />
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
-        </Box>
-        {/* Pinned board */}
-        <Box sx={{ mb: 2 }}>
-          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-            <TiPinOutline
-              style={{
-                marginRight: 5,
-                color: "text.secondary",
-                fontSize: "20px",
-              }}
-            />
-            <Typography fontWeight="bold">Your pinned board</Typography>
+            </Box>
+            {/* Pinned board */}
+            <Box sx={{ mb: 2 }}>
+              <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <TiPinOutline
+                  style={{
+                    marginRight: 5,
+                    color: "text.secondary",
+                    fontSize: "20px",
+                  }}
+                />
+                <Typography fontWeight="bold">Your pinned board</Typography>
+              </Box>
+              <Grid container spacing={2}>
+                {listPinnedBoard?.length === 0 && (
+                  <Typography>You have not pinned any board</Typography>
+                )}
+                {listPinnedBoard?.map((item, index) => (
+                  <Grid
+                    item
+                    key={index}
+                    size={{
+                      xs: 12,
+                      sm: 6,
+                      xl: 3,
+                    }}
+                  >
+                    <BoardCard
+                      title={item.title}
+                      bg={item.bg}
+                      boardId={item?._id}
+                      pinned={item?.pinned}
+                      handleGetAllBoard={getAllPinnedBoard}
+                      updateUIBoard={updateUIBoard}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
           </Box>
-          <Grid container spacing={2}>
-            {listPinnedBoard?.length === 0 && (
-              <Typography>You have not pinned any board</Typography>
-            )}
-            {listPinnedBoard?.map((item, index) => (
-              <Grid
-                item
-                key={index}
-                size={{
-                  xs: 12,
-                  sm: 6,
-                  xl: 3,
-                }}
-              >
-                <BoardCard
-                  title={item.title}
-                  bg={item.bg}
-                  boardId={item?._id}
-                  pinned={item?.pinned}
-                  handleGetAllBoard={getAllPinnedBoard}
-                  updateUIBoard={updateUIBoard}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        </Box>
+        )}
 
         {/* --- YOUR WORKSPACES SECTION --- */}
         <Box>
