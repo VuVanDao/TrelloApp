@@ -102,12 +102,17 @@ const TrelloCard = ({ card }) => {
                     borderRadius: "5px",
                     "&:hover": {
                       backgroundColor: "#d1d3d4",
+                      color: "black",
                     },
                     textAlign: "center",
                   }}
                   onClick={handleClick}
                 >
-                  <FiEdit style={{ fontSize: "13px" }} />
+                  <FiEdit
+                    style={{
+                      fontSize: "13px",
+                    }}
+                  />
                 </Box>
               </Tooltip>
             )}
