@@ -16,6 +16,7 @@ import {
 } from "~/utils/Redux/ActiveBoardSlice";
 
 import GlobalLoading from "../LoadingPage/GlobalLoading";
+import { updateFooterColumn } from "~/utils/Redux/ActiveColumnSlice";
 
 const Board = () => {
   let { boardId } = useParams();
@@ -23,7 +24,9 @@ const Board = () => {
   const activeBoard = useSelector((state) => {
     return state.activeBoardReducer.activeBoardState;
   });
-
+  const openColumnFooter = useSelector((state) => {
+    return state.activeColumnReducer.openColumnFooter;
+  });
   const dispatch = useDispatch();
   // const location = useLocation();
   // let [searchParams] = useSearchParams();
@@ -45,7 +48,7 @@ const Board = () => {
     const boardClone = cloneDeep(activeBoard);
     // tìm column mà card đang kéo thả
     const targetColumn = boardClone.columns.find(
-      (column) => column._id === columnIds
+      (column) => column._id === columnIds,
     );
     targetColumn.cards = ArrayCards;
     targetColumn.cardOrderIds = ArrayCards.map((card) => card._id);
@@ -54,14 +57,14 @@ const Board = () => {
       updateCardOrderIdsRedux({
         columnIds,
         ArrayCards: targetColumn.cardOrderIds,
-      })
+      }),
     );
   };
   const moveCardDifferentColumnApi = async (
     nextOverColumn,
     ActiveDraggingCardId,
     OldColumnWhenDraggingCard,
-    nextColumn
+    nextColumn,
   ) => {
     const newBoard = cloneDeep(activeBoard);
     newBoard.columns = nextColumn;
@@ -70,12 +73,12 @@ const Board = () => {
 
     // tìm column active (column co card chuyển sang column khác) để lấy cardOrderIds
     const preCardOrderIds = nextColumn.find(
-      (column) => column._id === OldColumnWhenDraggingCard._id
+      (column) => column._id === OldColumnWhenDraggingCard._id,
     );
 
     // tìm column over (column co card chuyển đến từ column khác) để lấy cardOrderIds
     const nextCardOrderIds = nextColumn.find(
-      (column) => column._id === nextOverColumn._id
+      (column) => column._id === nextOverColumn._id,
     );
     // check xem column active có empty không
     const checkEmptyColumn =
@@ -88,7 +91,7 @@ const Board = () => {
         nextCardOrderIds: nextCardOrderIds.cardOrderIds,
         preColumn: OldColumnWhenDraggingCard._id,
         preCardOrderIds: checkEmptyColumn ? [] : preCardOrderIds.cardOrderIds,
-      })
+      }),
     );
   };
   const handleGetBoardDetail = async (loading = true) => {
@@ -96,9 +99,13 @@ const Board = () => {
       dispatch(getDetailBoardReduxAPI({ boardId, loading }));
     }
   };
+
   useEffect(() => {
     registerLoadingSetter(setIsCallingApi);
     handleGetBoardDetail();
+    if (openColumnFooter) {
+      dispatch(updateFooterColumn({ openColumnFooter: false, columnId: null }));
+    }
   }, []);
   return (
     <>
