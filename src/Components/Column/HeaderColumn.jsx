@@ -32,14 +32,16 @@ const HeaderColumn = ({ title, isDraggingColumn, columnId }) => {
             <HiDotsHorizontal style={{ fontSize: "15px" }} />
           </Tooltip>
         </BoxIconCover>
-        <Suspense>
-          <MenuHeaderColumn
-            anchorEl={anchorEl}
-            setAnchorEl={setAnchorEl}
-            isDraggingColumn={isDraggingColumn}
-            columnId={columnId}
-          ></MenuHeaderColumn>
-        </Suspense>
+        {anchorEl && (
+          <Suspense>
+            <MenuHeaderColumn
+              anchorEl={anchorEl}
+              setAnchorEl={setAnchorEl}
+              isDraggingColumn={isDraggingColumn}
+              columnId={columnId}
+            ></MenuHeaderColumn>
+          </Suspense>
+        )}
       </Box>
     </>
   );
