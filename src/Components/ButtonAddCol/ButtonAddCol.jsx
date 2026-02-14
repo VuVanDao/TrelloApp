@@ -44,6 +44,7 @@ const ButtonAddCol = () => {
       return;
     }
     setCallApi(true);
+    SetOpenAddColumn(false);
     const activeBoardClone = _.clone(activeBoard);
     const activeBoardClone_column = _.clone(activeBoardClone.columns);
     activeBoardClone_column.push(generateFakeColumn(boardId, columnTitle));
@@ -52,7 +53,9 @@ const ButtonAddCol = () => {
     dispatch(updateCurrentColumnDisable(true));
     dispatch(updateCurrentActiveBoard(activeBoardClone));
     await createNewColumn({ title: columnTitle, boardIds: boardId })
-      .then((res) => {})
+      .then((res) => {
+        console.log("🚀 ~ handleCreateColumn ~ res:", res);
+      })
       .catch((err) => {
         console.log("🚀 ~ handleCreateColumn ~ err:", err);
       })
