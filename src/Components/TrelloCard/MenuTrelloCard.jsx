@@ -12,13 +12,21 @@ import { MdContentCopy } from "react-icons/md";
 import React from "react";
 import { useConfirm } from "material-ui-confirm";
 import { ArchiveCard } from "~/apis";
-import { useDispatch } from "react-redux";
-import { getDetailBoardReduxAPI } from "~/utils/Redux/ActiveBoardSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getDetailBoardReduxAPI,
+  updateCurrentActiveBoard,
+} from "~/utils/Redux/ActiveBoardSlice";
+import { useParams } from "react-router-dom";
+import _ from "lodash";
 
 const MenuTrelloCard = ({ anchorEl, setAnchorEl, card }) => {
   const confirm = useConfirm();
   const dispatch = useDispatch();
-
+  let { boardId } = useParams();
+  const activeBoard = useSelector((state) => {
+    return state.activeBoardReducer.activeBoardState;
+  });
   const handleDelete = async () => {
     const { confirmed } = await confirm({
       description: `This will  delete ${card.title}.`,
@@ -27,12 +35,21 @@ const MenuTrelloCard = ({ anchorEl, setAnchorEl, card }) => {
     });
 
     if (confirmed) {
+      const activeBoardClone = _.cloneDeep(activeBoard);
+      let currColumn = activeBoardClone.columns.find(
+        (column) => column._id === card?.columnIds,
+      );
+      currColumn.cards = currColumn.cards.filter((c) => c._id !== card?._id);
+      dispatch(updateCurrentActiveBoard(activeBoardClone));
       await ArchiveCard(card?._id, card?.columnIds)
         .then((res) => {
-          dispatch(getDetailBoardReduxAPI({ boardId, loading: false }));
+          console.log("🚀 ~ handleDelete ~ res:", res);
         })
         .catch((error) => {
           console.log("🚀 ~ handleDelete ~ error:", error);
+        })
+        .finally(() => {
+          dispatch(getDetailBoardReduxAPI({ boardId, loading: false }));
         });
     }
   };
